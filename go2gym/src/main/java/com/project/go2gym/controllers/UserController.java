@@ -179,7 +179,7 @@ public class UserController {
     @GetMapping("/logout")
     public String destroySession(HttpServletRequest request) {
         request.getSession().invalidate();
-        return "/users/login";
+        return "redirect:/login";
     }
 
     @GetMapping("/login")
@@ -285,5 +285,4 @@ public class UserController {
         // end of db call
         return "redirect:/admin/admin_dashboard_protected";
     }
-
 }
