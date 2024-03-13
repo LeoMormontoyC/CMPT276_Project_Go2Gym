@@ -107,7 +107,7 @@
                                     <!-- Add ml-2 or ms-2 (for Bootstrap 5) to add spacing -->
                                     <!-- Use btn-success for the green color -->
                                     <form th:action="@{'/users/checkin/' + ${user.id}}" method="post" class="d-inline-block m1-2">
-                                        <input class="btn btn-success btn-sm" type="submit" value="CHECK-IN"/>
+                                        <input class="btn btn-success btn-sm" href = "redirect:/checkIn.html" type="submit" value="CHECK-IN"/>
                                     </form>  
                                 </td>
                             </tr>
