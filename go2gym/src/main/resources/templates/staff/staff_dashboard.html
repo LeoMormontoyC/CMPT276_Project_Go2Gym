@@ -95,11 +95,9 @@
                                 <td th:text="${user.membershipStatus}"></td>
                                 
                                 <td>
-                                    <form>
-                                        <input class="btn btn-primary btn-sm" type="submit" href = "redirect:/checkIn.html" value="CHECK-IN"/>
-                                    </form>
-
-            
+                                    <form th:action="@{'/users/checkin/' + ${user.id}}" method="post" class="d-inline-block m1-2">
+                                        <input class="btn btn-success btn-sm" href = "redirect:/checkIn.html" type="submit" value="CHECK-IN"/>
+                                    </form> 
                                     <br>
                                     <!-- <form th:action="@{'/users/delete/' + ${user.id}}" method="post">
                                         <input class="btn btn-danger btn-sm" type="submit" value="CHECK-OUT"/>
