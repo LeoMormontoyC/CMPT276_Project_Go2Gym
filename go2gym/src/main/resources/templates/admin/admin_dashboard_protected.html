@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GO GYM - Admin Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href ="/css/dashboard.css">
+    <!-- Include any other CSS files needed -->
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 sidebar">
+                <div class="profile">
+                    <!-- Admin dropdown area -->
+                    <div class="account-type">
+                        <div class="dropdown">
+                            <button class="dropbtn">ADMIN PORTAL</button>
+                            <div class="dropdown-content">
+                                <a href="/logout">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <!-- Placeholder for image, you might want to add an img tag here -->
+                    <div class="user-info">
+                        <h4>PROFILE</h4>
+                        <br>
+                        <div id="image">
+                            <!-- <input type="image" src="/images/profile.jpg" alt="A profile picture"> -->
+                        </div>
+                        <div id="info">
+                            <p>Name:</p>
+                            <p>ID:</p>
+                            <p>ACTIVE/INACTIVE:</p>
+                        </div>
+                        
+                    </div>
+                    <!-- <div class="notes">
+                        <p>NOTES</p>
+                    </div> -->
+                </div>
+                <!-- Search bar area -->
+                <!-- <br><br><br><br><br><br><br><br><br> -->
+                <div class="search-bar">
+                    <!-- Placeholder for search bar, you might want to add an input tag here -->
+                </div>
+                <br>
+                <!-- Navigation links area -->
+                <div class="navigation" id="home">
+                    <a href="#">HOME</a>
+                </div>
+                <div class="search-bar">
+                    <!-- Placeholder for search bar, you might want to add an input tag here -->
+                </div>
+                <br>
+                <div class="navigation" id="equipment">
+                    <a href="#">EQUIPMENT</a>
+                </div>
+                <div class="search-bar">
+                    <!-- Placeholder for search bar, you might want to add an input tag here -->
+                </div>
+                <br>
+                <div class="navigation" id="gc">
+                    <a href="#">GROUP CLASSES</a>
+                </div>
+            </div>
+            <div class="col-md-9 main-content">
+                <div class="sbox">
+                    <input type="text" class="form-control search-input" placeholder="Search for names" onkeyup="filterNames()" id="searchbar" >
+  
+                </div>
+                <!-- Dynamic table from the second code snippet -->
+                <div class="table-responsive scrollable-table-container">
+                    <table class="table table-bordered table-hover table-striped table-sm red-border">
+                        <thead class="thead-darkred">
+                            <tr>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>User Type</th>
+                                <th>Membership Status</th>
+                                <th>Actions</th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Loop through all students and display them -->
+                            <tr th:each="user : ${users}" th:fragment="user-table">
+                                <td th:text="${user.name}">Name</td>
+                                <td th:text="${user.username}">Username</td>
+                                <!-- <td th:text="${user.password}">Password</td> -->
+                                <td th:text="${user.email}">Email</td>
+                                <td th:text="${user.userType}">userType</td>
+                                <td th:text="${user.membershipStatus}"></td>
+                                <!-- <td> functionality to be added later
+                                    <button id="membershipStatusButton" th:data-status="${user.membershipStatus}" onclick="toggleMembershipStatus()"></button>
+                                </td> -->
+                                <td>
+                                    <form th:action="@{'/users/edit/' + ${user.id}}" method="get" class="d-inline-block me-1">
+                                        <input class="btn btn-primary btn-sm" type="submit" value="Edit"/>
+                                    </form>
+                                    <form th:action="@{'/users/delete/' + ${user.id}}" method="post" class="d-inline-block me-1">
+                                        <input class="btn btn-danger btn-sm" type="submit" value="Delete"/>
+                                    </form>  
+                                    <!-- Add ml-2 or ms-2 (for Bootstrap 5) to add spacing -->
+                                    <!-- Use btn-success for the green color -->
+                                    <form th:action="@{'/users/checkin/' + ${user.id}}" method="post" class="d-inline-block m1-2">
+                                        <input class="btn btn-success btn-sm" type="submit" value="CHECK-IN"/>
+                                    </form>  
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End of dynamic table -->
+
+                <!-- You can continue with your other content here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Include your scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.7.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function filterNames() {
+            const searchValue = document.querySelector('.search-input').value;
+            fetch(`/admin/filter?search=${searchValue}`)
+            .then(response => response.text())
+            .then(html => {
+                document.querySelector('.table-responsive table tbody').innerHTML = html; //document.querySelector('.table-responsive').innerHTML = html;
+            });
+        }
+    </script>
+    <script>
+        // Function to toggle membership status and update button
+        // Note: This will now purely work on the client side; to reflect changes server-side, you'd need to make an API call or form submission
+        function toggleMembershipStatus() {
+            const button = document.getElementById('membershipStatusButton');
+            const isActive = button.dataset.status === 'true';
+
+            // Toggle the data-status attribute
+            button.dataset.status = isActive ? 'false' : 'true';
+            
+            // Update button based on the new status
+            updateButtonAppearance(isActive ? false : true);
+        }
+
+        // Function to update button appearance
+        function updateButtonAppearance(isActive) {
+            const button = document.getElementById('membershipStatusButton');
+            if (isActive) {
+                button.style.backgroundColor = 'green';
+                button.innerText = 'Active Membership';
+            } else {
+                button.style.backgroundColor = 'red';
+                button.innerText = 'Inactive Membership';
+            }
+        }
+
+        // Run this function when the window loads to set the initial button state based on the data-status attribute
+        window.onload = function() {
+            const isActive = document.getElementById('membershipStatusButton').dataset.status === 'true';
+            updateButtonAppearance(isActive);
+        };
+    </script>
+</body>
+</html>

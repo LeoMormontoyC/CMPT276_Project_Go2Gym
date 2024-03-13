@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GoGym - Signup</title>
+    <link rel="stylesheet" href="/css/go2gym.css">
+
+    <style>
+        .signup-error {
+            color: red;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span>
+
+    <div class="signin">
+        <div class="content">
+            <h2>Join GoGym</h2>
+            <form th:action="@{'/users/edit/' + ${uid}}" method="post" id="signupForm">
+                <input type="hidden" name="userId" th:value="${uid}" />
+                <div th:if="${signupError}" th:text="${signupError}" class="signup-error"></div>
+
+                <div class="form">
+                    <div class="inputBox">
+                        <input type="text" name="newName" th:value="${user.name}">
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" name="newUsername" th:value="${user.username}" minlength="4" maxlength="12"> 
+                    </div>
+                    <div class="inputBox">
+                        <input type="password" name="newPassword" th:value="${user.password}" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}" title="Password must contain at least 8 characters, including UPPER/lowercase letters, numbers, and symbols." >
+                    </div>
+                    <div class="inputBox">
+                        <input type="email" name="newEmail" th:value="${user.email}">
+                    </div>
+                    <div class="inputBox">
+                        <input type="boolean" name="newMembershipStatus" th:value="${user.membershipStatus}">
+                    </div>
+                    <div class="inputBox">
+                        <input type="submit" value="Edit">
+                    </div>
+                </div>                
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.getElementById('signupForm').onsubmit = function(e) {
+        var password = document.getElementsByName('password')[0];
+        var pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}$/;
+        if (!pattern.test(password.value)) {
+            alert('Password must contain at least 8 characters, including UPPER/lowercase letters, numbers, and symbols.');
+            e.preventDefault(); // Prevent form submission
+        }
+    };
+</script>
+
+
+</body>
+</html>

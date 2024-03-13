@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GoGym - Signup</title>
+    <link rel="stylesheet" href="./css/go2gym.css">
+
+    <style>
+        .signup-error {
+            color: red;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span>
+
+    <div class="signin">
+        <div class="content">
+            <h2>Join GoGym</h2>
+            <form action="/users/add" method="post" id="signupForm">
+                <div th:if="${signupError}" th:text="${signupError}" class="signup-error"></div>
+
+                <div class="form">
+                    <div class="inputBox">
+                        <input type="text" name="name" required> <i>Full Name</i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" name="username" minlength="4" maxlength="12" required> <i>Username</i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}" title="Password must contain at least 8 characters, including UPPER/lowercase letters, numbers, and symbols." required> <i>Password</i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="email" name="email" required> <i>Email</i>
+                    </div>
+                    <!-- <div class="inputBox">
+                        <label for="membershipStatus">Membership Status:</label>
+                        <select name="membershipStatus" id="membershipStatus" required>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div> -->
+                    <div class="inputBox">
+                        <input type="submit" value="Sign Up">
+                    </div>
+                    <div class="links">
+                        <a href="/login">Already a member? Sign-in</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.getElementById('signupForm').onsubmit = function(e) {
+        var password = document.getElementsByName('password')[0];
+        var pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}$/;
+        if (!pattern.test(password.value)) {
+            alert('Password must contain at least 8 characters, including UPPER/lowercase letters, numbers, and symbols.');
+            e.preventDefault(); // Prevent form submission
+        }
+    };
+</script>
+
+
+</body>
+</html>
