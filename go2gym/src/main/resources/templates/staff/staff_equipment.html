@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GO GYM - Admin Dashboard</title>
+    <title>GO GYM - Staff Equipment</title>
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href ="/css/dashboard.css">
     <!-- Include any other CSS files needed -->
@@ -14,10 +14,10 @@
             <div class="column" id="profile">
                 <div class="col-md-3 sidebar">
                     <div class="profile">
-                        <!-- Admin dropdown area -->
+                        <!-- staff dropdown area -->
                         <div class="account-type">
                             <div class="dropdown">
-                                <button class="dropbtn">ADMIN PORTAL</button>
+                                <button class="dropbtn">STAFF PORTAL</button>
                                 <div class="dropdown-content">
                                     <a href="/logout">Logout</a>
                                     <!-- changed /logout -->
@@ -27,15 +27,12 @@
                         <br><br>
                         <!-- Placeholder for image, you might want to add an img tag here -->
                         <div class="user-info">
-                            <h4>PROFILE</h4>
+                            <h4>Equipment</h4>
                             <br>
-                            <div id="image">
-                                <!-- <input type="image" src="/images/profile.jpg" alt="A profile picture"> -->
-                            </div>
                             <div id="info">
                                 <p>Name:</p>
-                                <p>ID:</p>
-                                <p>ACTIVE/INACTIVE:</p>
+                                <p>Description:</p>
+                                <p>Occupied/unoccupied:</p>
                             </div>
                             
                         </div>
@@ -64,12 +61,12 @@
                         <table class="table table-bordered table-hover table-striped table-sm red-border">
                             <thead class="thead-darkred">
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>User Type</th>
-                                    <th>Membership Status</th>
-                                    <th>Actions</th> 
+                                    <th>equiment Type</th>
+                                    <th>describtion</th>
+                                    <th>total amount</th>
+                                    <th>borrowed</th>
+                                    <th>instock</th>
+                                    <!-- <th>Actions</th>  -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -125,7 +122,7 @@
                </div>
                <br>
                <div class="navigation" id="gc">
-                   <a href="#">Schedule</a>
+                   <a href="#">GROUP CLASSES</a>
                </div>
                 </div>
             </div>
