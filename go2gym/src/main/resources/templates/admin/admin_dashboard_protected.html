@@ -33,9 +33,8 @@
                                 <!-- <input type="image" src="/images/profile.jpg" alt="A profile picture"> -->
                             </div>
                             <div id="info">
-                                <p>Name:</p>
-                                <p>ID:</p>
-                                <p>ACTIVE/INACTIVE:</p>
+                                <p>NAME:</p>
+                                <p>MEMBERSHIP STATUS:</p>
                             </div>
                             
                         </div>
@@ -48,10 +47,8 @@
                     <div class="search-bar">
                         <!-- Placeholder for search bar, you might want to add an input tag here -->
                     </div>
-                    <br>
-                   
+                    <br>      
                 </div>
-
             </div>
             <div class="column" id="table">
                 <div class="col-md-9 main-content">
@@ -61,6 +58,7 @@
                     </div>
                     <!-- Dynamic table from the second code snippet -->
                     <div class="table-responsive scrollable-table-container">
+                        <!-- <br> -->
                         <table class="table table-bordered table-hover table-striped table-sm red-border">
                             <thead class="thead-darkred">
                                 <tr>
@@ -96,6 +94,9 @@
                                         <form th:action="@{'/users/checkin/' + ${user.id}}" method="post" class="d-inline-block m1-2">
                                             <input class="btn btn-success btn-sm" href = "redirect:/checkIn.html" type="submit" value="CHECK-IN"/>
                                         </form>  
+                                        <form th:action="@{'/users/checkin/' + ${user.id}}" method="post" class="d-inline-block m1-2">
+                                            <input class="btn btn-success btn-sm" href = "redirect:/checkIn.html" type="submit" value="Profile"/>
+                                        </form>  
                                     </td>
                                 </tr>
                             </tbody>
@@ -116,15 +117,15 @@
                <div class="search-bar">
                    <!-- Placeholder for search bar, you might want to add an input tag here -->
                </div>
-               <br>
+               
                <div class="navigation" id="equipment">
                    <a href="#">EQUIPMENT</a>
                </div>
                <div class="search-bar">
                    <!-- Placeholder for search bar, you might want to add an input tag here -->
                </div>
-               <br>
-               <div class="navigation" id="gc">
+               
+               <div class="navigation" id="schedule">
                    <a href="#">Schedule</a>
                </div>
                 </div>
