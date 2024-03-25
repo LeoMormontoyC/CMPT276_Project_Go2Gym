@@ -43,7 +43,6 @@
                     </div> -->
                 </div>
                 <!-- Search bar area -->
-                <!-- <br><br><br><br><br><br><br><br><br> -->
                 <div class="search-bar">
                     <!-- Placeholder for search bar, you might want to add an input tag here -->
                 </div>
@@ -94,9 +93,6 @@
                                 <td th:text="${user.email}">Email</td>
                                 <td th:text="${user.userType}">userType</td>
                                 <td th:text="${user.membershipStatus}"></td>
-                                <!-- <td> functionality to be added later
-                                    <button id="membershipStatusButton" th:data-status="${user.membershipStatus}" onclick="toggleMembershipStatus()"></button>
-                                </td> -->
                                 <td>
                                     <form th:action="@{'/users/edit/' + ${user.id}}" method="get" class="d-inline-block me-1">
                                         <input class="btn btn-primary btn-sm" type="submit" value="Edit"/>
@@ -104,8 +100,6 @@
                                     <form th:action="@{'/users/delete/' + ${user.id}}" method="post" class="d-inline-block me-1">
                                         <input class="btn btn-danger btn-sm" type="submit" value="Delete"/>
                                     </form>  
-                                    <!-- Add ml-2 or ms-2 (for Bootstrap 5) to add spacing -->
-                                    <!-- Use btn-success for the green color -->
                                     <form th:action="@{'/users/checkin/' + ${user.id}}" method="post" class="d-inline-block m1-2">
                                         <input class="btn btn-success btn-sm" href = "redirect:/checkIn.html" type="submit" value="CHECK-IN"/>
                                     </form>  

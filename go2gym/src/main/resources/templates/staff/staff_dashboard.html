@@ -37,12 +37,8 @@
                         </div>
                         
                     </div>
-                    <!-- <div class="notes">
-                        <p>NOTES</p>
-                    </div> -->
                 </div>
                 <!-- Search bar area -->
-                <!-- <br><br><br><br><br><br><br><br><br> -->
                 <div class="search-bar">
                     <!-- Placeholder for search bar, you might want to add an input tag here -->
                 </div>
@@ -70,7 +66,6 @@
                 <div class="sbox">
                     <input type="text" class="form-control search-input" placeholder="Search for names" onkeyup="filterNameStaff()">
                 </div>
-                
                 <!-- Dynamic table from the second code snippet -->
                 <div class="table-responsive scrollable-table-container">
                     <table class="table table-bordered table-hover table-striped table-sm red-border">
@@ -89,7 +84,6 @@
                             <tr th:each="user : ${users}" th:fragment="user-table">
                                 <td th:text="${user.name}">Name</td>
                                 <td th:text="${user.username}">Username</td>
-                                <!-- <td th:text="${user.password}">Password</td> -->
                                 <td th:text="${user.email}">Email</td>
                                 <td th:text="${user.userType}">userType</td>
                                 <td th:text="${user.membershipStatus}"></td>
@@ -99,9 +93,6 @@
                                         <input class="btn btn-success btn-sm" href = "redirect:/checkIn.html" type="submit" value="CHECK-IN"/>
                                     </form> 
                                     <br>
-                                    <!-- <form th:action="@{'/users/delete/' + ${user.id}}" method="post">
-                                        <input class="btn btn-danger btn-sm" type="submit" value="CHECK-OUT"/>
-                                    </form>-->
                                 </td>
                             </tr>
                         </tbody>
