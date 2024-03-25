@@ -6,6 +6,30 @@
     color: white;
     min-height: 100vh;
 }
+
+
+
+/* 3 column format */
+
+.column {
+    float: left;
+     
+}
+
+#profile {
+    width: 20%;
+}
+
+#table {
+    width: 70%;
+}
+
+#nav-bar {
+    
+    width: 10%;
+}
+
+
 .sidebar {
     background-color: #c00;
     color: white;
