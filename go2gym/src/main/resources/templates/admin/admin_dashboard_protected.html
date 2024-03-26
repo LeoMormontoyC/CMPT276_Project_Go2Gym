@@ -7,6 +7,7 @@
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href ="/css/dashboard.css">
     <!-- Include any other CSS files needed -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 </head>
 <body>
@@ -89,19 +90,33 @@
                                         <button id="membershipStatusButton" th:data-status="${user.membershipStatus}" onclick="toggleMembershipStatus()"></button>
                                     </td> -->
                                     <td>
-                                        <form th:action="@{'/users/edit/' + ${user.id}}" method="get" class="d-inline-block me-1">
-                                            <input class="btnEdit" type="submit" value="Edit"/>
-                                            <i class="fas fa-car"></i>
-                                        </form>
-                                        <form th:action="@{'/users/delete/' + ${user.id}}" method="post" class="d-inline-block me-1">
+                                        <!-- <form th:action="@{'/users/edit/' + ${user.id}}" method="get" class="d-inline-block me-1">
+                                           
+                                            <input class="btnEdit" type="submit" value="Edit"/>  
+                                            
+                                        </form> -->
+                                        <!-- <form th:action="@{'/users/delete/' + ${user.id}}" method="post" class="d-inline-block me-1">
                                             <input class="btnDelete" type="submit" value="Delete"/>
-                                        </form>  
+                                        </form>   -->
                                         <!-- Add ml-2 or ms-2 (for Bootstrap 5) to add spacing -->
                                         <!-- Use btn-success for the green color -->
                                         <form th:action="@{'/users/checkIn/' + ${user.id}}" method="post" class="d-inline-block m1-2">
                                             <input class="btnCheckIn" type="submit" value="CHECK-IN"/>
-                                        </form>  
-                                        <button th:onclick="'loadUserProfile(' + ${user.id} + ')'" class="btnCheckIn">profile</button>
+                                            
+                                        </form>
+                                        <div class="checker">
+                                            <label class="switch">
+                                                <input type="checkbox">
+                                                <span class="slider"></span>
+                                              </label>
+                                        </div> 
+                                
+                                        <div class = "actionbuttons">
+                                            <button th:onclick="'loadUserProfileEdit(' + ${user.id} + ')'" class="fa-solid fa-pen-to-square" ></button> 
+                                            <button th:onclick="'loadUserProfileDelete(' + ${user.id} + ')'" class="fa-solid fa-trash" ></button> 
+                                            <button th:onclick="'loadUserProfile(' + ${user.id} + ')'" class="fa-solid fa-user" > </button> 
+                                        </div>
+                                        
  
                                     </td>
                                 </tr>
@@ -196,6 +211,38 @@
             .then(html => {
                 // Update only the profile-container div
                 document.getElementById('profile-container').innerHTML = html;
+            });
+        }
+
+        function loadUserProfileEdit(userId){
+            fetch(`/users/edit/${userId}`)
+            window.location.href = '/users/edit/' + userId;
+        }
+
+        function loadUserProfileDelete(userId) {
+            fetch(`/users/delete/${userId}`, {
+                method: 'POST', // Specifying the method
+                headers: {
+                    'Content-Type': 'application/json', // If you are sending JSON, or adjust accordingly
+                    // Add any other necessary headers here
+                },
+                // If you need to send a request body, uncomment and adjust the following line:
+                // body: JSON.stringify({ key: 'value' }), // Example body, adjust as needed
+            })
+            .then(response => {
+                if (response.ok) {
+                    // If the server response is ok (status code in the range 200-299), redirect
+                    window.location.href = '/admin/admin_dashboard_protected'; // Adjust the redirect URL as needed
+                } else {
+                    // Handle server errors or invalid responses
+                    console.error('Deletion failed', response.statusText);
+                    // Optionally, provide user feedback that the operation failed
+                }
+            })
+            .catch(error => {
+                // Handle network errors
+                console.error('Network error:', error);
+                // Optionally, provide user feedback that the operation failed
             });
         }
 

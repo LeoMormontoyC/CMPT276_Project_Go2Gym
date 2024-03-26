@@ -268,12 +268,12 @@ h4 {
 .btnCheckIn{
     background-color: rgb(99, 149, 148);
     color: white;
-    /* padding: 15px 32px; */
+    padding-left: 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 12px;
-    margin: 4px 2px;
+    margin: 4px 70px;
     cursor: pointer;
     border-radius: 12px;
 }
@@ -345,3 +345,94 @@ h4 {
 .row{
     border-radius: 10px;
 }
+
+.actionbuttons {
+    outline: none;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding-left: 35px;
+    color: #0800ff;
+}
+
+.fa-pen-to-square, .fa-trash, .fa-user {
+    outline: none;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 10px;
+    padding-right: 10px;
+    height: 40px;
+    width: 50px;
+    color: #ffffff;
+    background-color: #c00;
+    justify-content: center;
+}
+
+.fa-pen-to-square {
+    background-color:rgb(0, 145, 255);
+}
+
+.fa-user {
+    background-color:rgb(3, 140, 71);
+    padding: 10px;
+
+}
+
+
+/* A switch for check in yay? */
+
+/* 
+
+.switch {
+     position: relative; 
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    height: 50px;
+    width: 100px;
+    background-color: #ccc;
+    -webkit-transition: 3.4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "Checked Out";
+    color: #ffffff;
+    height: 50px;
+    width: 100px;
+    left: 4px;
+    bottom: 4px;
+    background-color: rgba(12, 32, 18, 0.259);
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+    input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    content: "Checked in";
+  } */
+
+
