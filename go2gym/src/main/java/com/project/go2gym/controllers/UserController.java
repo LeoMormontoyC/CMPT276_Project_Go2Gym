@@ -239,6 +239,7 @@ public class UserController {
         return "staff/staff_dashboard :: user-table";
     }
 
+
     // EDIT & REMOVE FUNTIONALITY HERE
     // POST request to delete student
     @PostMapping("/users/delete/{uid}")
@@ -261,6 +262,7 @@ public class UserController {
         }
         return "redirect:/admin/admin_dashboard_protected";
     }
+
 
     // this get request redirects to edit.html page
     @GetMapping("/users/edit/{uid}")
