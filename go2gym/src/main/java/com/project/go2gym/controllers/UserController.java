@@ -1,9 +1,15 @@
 package com.project.go2gym.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 // import java.util.Arrays;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,12 +27,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.nio.file.Path;
+
+//import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.StringUtils;
+
+
+
 
 @Controller
 public class UserController {
@@ -60,7 +74,7 @@ public class UserController {
     }
 
     @PostMapping("/users/add")
-    public String addUser(@RequestParam Map<String, String> newuser, Model model,
+    public String addUser(@RequestParam Map<String, String> newuser, @RequestParam("image") MultipartFile image, Model model,
             RedirectAttributes redirectAttributes) {
         String username = newuser.get("username");
         String password = newuser.get("password");
@@ -89,7 +103,12 @@ public class UserController {
         String newUserType = "STUDENT"; // Assuming default user type is STUDENT
         boolean newMembershipStatus = false; // Assuming default membership status
 
-        User newUser = new User(newName, username, password, newEmail, newUserType, newMembershipStatus);
+        String imageUrl = saveImage(image); // Call the image saving method here
+
+        // boolean newCheckInStatus = false; // Assuming default check-in status is false
+
+        User newUser = new User(newName, username, password, newEmail, newUserType, newMembershipStatus, imageUrl);
+        //newUser.setImagePath(imageUrl); // Set the image path for the new user
         usersRepository.save(newUser);
 
         redirectAttributes.addFlashAttribute("successMessage", "Successfully signed up! Welcome to GoGym :)");
@@ -109,6 +128,11 @@ public class UserController {
         } else {
             return "redirect:/login";
         }
+    }
+
+    @GetMapping("/admin_dashboard_protected")
+    public String adminDash() {
+        return "admin/admin_dashboard_protected"; // This should match the name of your HTML file inside resources/templates (if using Thymeleaf) or your JSP file location.
     }
 
     @GetMapping("/staff/staff_dashboard")
@@ -258,7 +282,7 @@ public class UserController {
         return "users/edit";
     }
 
-    // this endpoint is for submitting an edit and redirects to showAll page
+    // this endpoint is for submitting an edit and redirects to showAll pagenmnm
     @PostMapping("/users/edit/{uid}")
     public String editUser(
             @PathVariable(value = "uid") int uid,
@@ -285,4 +309,121 @@ public class UserController {
         // end of db call
         return "redirect:/admin/admin_dashboard_protected";
     }
+
+    @GetMapping("/users/profile/{uid}")
+    public String viewUserProfile(@PathVariable("uid") int uid, Model model) {
+        Optional<User> userOptional = usersRepository.findById(uid);
+        if(userOptional.isPresent()) {
+            User user = userOptional.get();
+            model.addAttribute("profileUser", user);
+        } else {
+            // Handle the case where user is not found
+        }
+        return "admin/admin_dashboard_protected"; // Return the dashboard view so the profile info can be updated on the sidebar
+    }
+
+    @GetMapping("/users/fragment/profile/{uid}")
+    public String getUserProfileFragment(@PathVariable("uid") Integer userId, Model model) {
+        Optional<User> userOpt = usersRepository.findById(userId);
+        if (userOpt.isPresent()) {
+            model.addAttribute("profileUser", userOpt.get());
+        } else {
+            // handle user not found situation
+        }
+        return "admin/admin_dashboard_protected :: profile-fragment"; // Replace 'profile-fragment' with the actual fragment identifier
+    }
+
+
+
+
+
+    //helper method for saveImage method
+    //helper method for saveImage method
+    private String saveImage(MultipartFile image) {
+        // The directory to upload to
+        String uploadDirPath = "uploads"; // This is the directory name where files will be saved
+        Path uploadDirectory = Paths.get(uploadDirPath);
+
+        // Check if the directory exists, if not, attempt to create it
+        if (Files.notExists(uploadDirectory)) {
+            try {
+                Files.createDirectories(uploadDirectory);
+            } catch (IOException e) {
+                // Handle the error accordingly (log it, notify the user, etc.)
+                e.printStackTrace();
+                return "default.jpg"; // Assuming you have a default image in your static images folder
+            }
+        }
+
+        if (image.isEmpty()) {
+            // Handle the case where no image is uploaded, perhaps setting a default image
+            return "profile.jpg"; // Again, assuming a default image
+        }
+
+        try {
+            String fileName = StringUtils.cleanPath(image.getOriginalFilename());
+            Path filePath = uploadDirectory.resolve(fileName);
+            if (!filePath.getParent().equals(uploadDirectory)) {
+                // This is a security check to prevent path traversal attacks
+                throw new StorageException("Cannot store file outside of the current directory.");
+            }
+
+            // Get the file bytes and write it to the resolved file path
+            byte[] bytes = image.getBytes();
+            Files.write(filePath, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+
+            // Return only the file name, not the full path
+            return fileName;
+        } catch (IOException e) {
+            // Handle the error accordingly
+            e.printStackTrace();
+            return "profile.jpg"; // Fallback to default image on error
+        }
+    }
+
+
+    public class StorageException extends RuntimeException {
+    
+        public StorageException(String message) {
+            super(message);
+        }
+    
+        public StorageException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
+    
+
+    // @GetMapping("/users/checkIn/{uid}")
+    // public String gotocheckInUser(@PathVariable(value = "uid") int uid, Model model, HttpServletResponse response)
+    //     {return "users/checkIn";}
+    
+
+    // // this endpoint is for submitting an edit and redirects to showAll page
+    // @PostMapping("/users/checkIn/{uid}")
+    // public String checkInUser(
+    //         @PathVariable(value = "uid") int uid,
+    //         @RequestParam Map<String, String> newUser,
+    //         HttpServletResponse response) {
+    //     try {
+    //         System.out.println("CHECKIN user uid:");
+    //         System.out.println(uid);
+    //         boolean newCheckInStatus = Boolean.parseBoolean(newUser.get("newCheckInStatus"));
+    //         User user = usersRepository.findById(uid).orElseThrow(() -> (new Exception("null")));
+    //         if (newCheckInStatus == true) {
+    //             user.setCheckInStatus(false);
+    //         } else {
+    //             user.setCheckInStatus(true);
+    //         }
+    //         usersRepository.save(user);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    //     // end of db call
+    //     if (newUser.get("newUserType").equals("ADMIN")) {
+    //         return "redirect:/admin/admin_dashboard_protected";
+    //     } else {
+    //         return "redirect:/staff/staff_dashboard";
+    //     }
+    // }
 }

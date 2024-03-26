@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GO GYM - Admin equipment</title>
+    <title>GO GYM - Admin Equipment</title>
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href ="/css/dashboard.css">
     <!-- Include any other CSS files needed -->
@@ -54,23 +54,23 @@
                         <table class="table table-bordered table-hover table-striped table-sm red-border">
                             <thead class="thead-darkred">
                                 <tr>
-                                    <th>equiment Type</th>
-                                    <th>describtion</th>
-                                    <th>total amount</th>
-                                    <th>borrowed</th>
-                                    <th>instock</th>
+                                    <th>Equipment Type</th>
+                                    <th>Description</th>
+                                    <th>Total Amount</th>
+                                    <th>Borrowed</th>
+                                    <th>In Stock</th>
                                     <!-- <th>Actions</th>  -->
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Loop through all students and display them -->
-                                <tr th:each="user : ${users}" th:fragment="user-table">
-                                    <td th:text="${user.name}">Name</td>
-                                    <td th:text="${user.username}">Username</td>
+                                <!-- Loop through all equipment and display them -->
+                                <tr th:each="equipment : ${equipments}" th:fragment="user-table">
+                                    <td th:text="${equipment.equimentType}">equimentType</td>
+                                    <td th:text="${equipment.description}">description</td>
                                     <!-- <td th:text="${user.password}">Password</td> -->
-                                    <td th:text="${user.email}">Email</td>
-                                    <td th:text="${user.userType}">userType</td>
-                                    <td th:text="${user.membershipStatus}"></td>
+                                    <td th:text="${equipment.totalAmount}">totalAmount</td>
+                                    <td th:text="${equipment.borrowed}">borrowed</td>
+                                    <td th:text="${equipment.inStock}">inStock</td>
                                     <!-- <td> functionality to be added later
                                         <button id="membershipStatusButton" th:data-status="${user.membershipStatus}" onclick="toggleMembershipStatus()"></button>
                                     </td> -->
@@ -100,9 +100,9 @@
                 <!-- navbar -->
                <div class="nav_container">
                 <!-- Navigation links area -->
-               <div class="navigation" id="home">
-                   <a href="#">HOME</a>
-               </div>
+                <div class="navigation" id="home">
+                    <a href="/admin_dashboard_protected">HOME</a>
+                </div>
                <div class="search-bar">
                    <!-- Placeholder for search bar, you might want to add an input tag here -->
                </div>

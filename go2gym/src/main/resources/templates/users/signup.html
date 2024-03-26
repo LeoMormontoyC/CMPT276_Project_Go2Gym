@@ -51,7 +51,7 @@
     <div class="signin">
         <div class="content">
             <h2>Join GoGym</h2>
-            <form action="/users/add" method="post" id="signupForm">
+            <form action="/users/add" method="post" id="signupForm" enctype="multipart/form-data">
                 <div th:if="${signupError}" th:text="${signupError}" class="signup-error"></div>
 
                 <div class="form">
@@ -66,6 +66,9 @@
                     </div>
                     <div class="inputBox">
                         <input type="email" name="email" required> <i>Email</i>
+                    </div>                                     
+                    <div class="inputBox">
+                        <input type="file" name="image" accept="image/*" title="Image must be 500 x 500 pixels maximum" required> <i>Profile Picture</i>
                     </div>
                     <!-- <div class="inputBox">
                         <label for="membershipStatus">Membership Status:</label>
