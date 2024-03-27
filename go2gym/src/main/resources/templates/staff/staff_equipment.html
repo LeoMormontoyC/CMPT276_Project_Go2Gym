@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GO GYM - Staff Equipment</title>
+    <title>GO GYM - Admin Equipment</title>
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href ="/css/dashboard.css">
     <!-- Include any other CSS files needed -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <div class="container-fluid">
+
         <div class="row">
+            
             <div class="column" id="profile">
                 <div class="col-md-3 sidebar">
                     <div class="profile">
-                        <!-- staff dropdown area -->
+                        <!-- Admin dropdown area -->
                         <div class="account-type">
                             <div class="dropdown">
                                 <button class="dropbtn">STAFF PORTAL</button>
@@ -24,18 +27,11 @@
                                 </div>
                             </div>
                         </div>
-                        <br><br>
+                        
                         <!-- Placeholder for image, you might want to add an img tag here -->
-                        <div class="user-info">
-                            <h4>Equipment</h4>
-                            <br>
-                            <div id="info">
-                                <p>Name:</p>
-                                <p>Description:</p>
-                                <p>Occupied/unoccupied:</p>
-                            </div>
+                       
                             
-                        </div>
+                        
                         <!-- <div class="notes">
                             <p>NOTES</p>
                         </div> -->
@@ -50,10 +46,21 @@
                 </div>
 
             </div>
+
             <div class="column" id="table">
+                <div class="nav-container" id="smalnav">
+                    <nav>
+                        <!-- navbar -->
+                        <ul>
+                            <li class="navigation" id="home"><a href="/staff/staff_dashboard">MEMBERS</a></li>
+                            <li class="navigation" id="equipment"><a href="/staff/staff_equipment">EQUIPMENT</a></li>
+                            <li class="navigation" id="schedule"><a href="#">SCHEDULE</a></li>
+                        </ul>
+                    </nav>
+                </div>
                 <div class="col-md-9 main-content">
                     <div class="sbox">
-                        <input type="text" class="form-control search-input" placeholder="Search for names" onkeyup="filterNames()" id="searchbar" >
+                        <input type="text" class="form-control search-input" placeholder="Search for names" onkeyup="filterNameStaff()" id="searchbar" >
       
                     </div>
                     <!-- Dynamic table from the second code snippet -->
@@ -103,29 +110,26 @@
                  
                 </div>
             </div>
-            <div class="column" id="nav-bar">
-                <!-- navbar -->
+
+            <!-- <div class="column" id="nav-bar">
                <div class="nav_container">
-                <!-- Navigation links area -->
-               <div class="navigation" id="home">
-                   <a href="#">HOME</a>
-               </div>
+                <div class="navigation" id="home">
+                    <a href="/admin_dashboard_protected">HOME</a>
+                </div>
                <div class="search-bar">
-                   <!-- Placeholder for search bar, you might want to add an input tag here -->
                </div>
                <br>
                <div class="navigation" id="equipment">
                    <a href="#">EQUIPMENT</a>
                </div>
                <div class="search-bar">
-                   <!-- Placeholder for search bar, you might want to add an input tag here -->
                </div>
                <br>
                <div class="navigation" id="gc">
                    <a href="#">GROUP CLASSES</a>
                </div>
                 </div>
-            </div>
+            </div> -->
             
            
                
@@ -137,12 +141,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.7.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        function filterNames() {
-            const searchValue = document.querySelector('.search-input').value;
-            fetch(`/admin/filter?search=${searchValue}`)
+        function filterNameStaff() {
+        const searchValue = document.querySelector('.search-input').value;
+            fetch(`/staff/filter?search=${searchValue}`)
             .then(response => response.text())
             .then(html => {
-                document.querySelector('.table-responsive table tbody').innerHTML = html; //document.querySelector('.table-responsive').innerHTML = html;
+                document.querySelector('.table-responsive table tbody').innerHTML = html;
             });
         }
     </script>

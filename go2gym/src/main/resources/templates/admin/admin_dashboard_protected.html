@@ -12,6 +12,7 @@
 </head>
 <body>
     <div class="container-fluid">
+        
         <div class="row">
             <div class="column" id="profile">
                 <div class="col-md-3 sidebar">
@@ -26,6 +27,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <!-- <br><br> -->
 
                         <!-- Placeholder for image, you might want to add an img tag here -->
@@ -68,10 +70,20 @@
                 </div>
             </div>
             <div class="column" id="table">
+                <div class="nav-container">
+                    <nav>
+                        
+                        <!-- navbar -->
+                        <ul>
+                            <li class="navigation" id="home"><a href="/admin/admin_dashboard_protected">MEMBERS</a></li>
+                            <li class="navigation" id="equipment"><a href="/admin/admin_equipment">EQUIPMENT</a></li>
+                            <li class="navigation" id="schedule"><a href="#">SCHEDULE</a></li>
+                        </ul>
+                    </nav>
+                </div>
                 <div class="col-md-9 main-content">
                     <div class="sbox">
-                        <input type="text" class="form-control search-input" placeholder="Search for names" onkeyup="filterNames()" id="searchbar" >
-      
+                        <input type="text" class="form-control search-input" placeholder="Search for names" onkeyup="filterNames()" id="searchbar" >   
                     </div>
                     <!-- Dynamic table from the second code snippet -->
                     <div class="table-responsive scrollable-table-container">
@@ -95,7 +107,8 @@
                                     <!-- <td th:text="${user.password}">Password</td> -->
                                     <td th:text="${user.email}">Email</td>
                                     <td th:text="${user.userType}">userType</td>
-                                    <td th:text="${user.membershipStatus}"></td>
+                                    <td th:text="${user.membershipStatus} ? 'Active' : 'Inactive'"></td>
+                                    <!-- <p th:text="${profileUser.membershipStatus} ? 'Membership Status: Active' : 'Membership Status: Inactive'">Membership Status:</p> -->
                                     <!-- <td> functionality to be added later
                                         <button id="membershipStatusButton" th:data-status="${user.membershipStatus}" onclick="toggleMembershipStatus()"></button>
                                     </td> -->
@@ -140,12 +153,11 @@
                  
                 </div>
             </div>
-            <div class="column" id="nav-bar">
-                <!-- navbar -->
+
+            <!-- <div class="column" id="nav-bar">
                <div class="nav_container">
-                <!-- Navigation links area -->
                     <div class="navigation" id="home">
-                        <a href="#">HOME</a>
+                        <a href="#">MEMBERS</a>
                     </div>
                     
                     <div class="navigation" id="equipment">
@@ -156,7 +168,7 @@
                         <a href="#">Schedule</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
             
            
                
@@ -224,33 +236,33 @@
         }
 
         function loadUserProfileDelete(userId) {
+        if (confirm('Are you sure you want to delete the user?')) {
             fetch(`/users/delete/${userId}`, {
-                method: 'POST', // Specifying the method
+                method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json', // If you are sending JSON, or adjust accordingly
-                    // Add any other necessary headers here
+                    'Content-Type': 'application/json',
+                    // Add CSRF token header if needed for security
                 },
-                // If you need to send a request body, uncomment and adjust the following line:
-                // body: JSON.stringify({ key: 'value' }), // Example body, adjust as needed
+                // Include credentials if your endpoint requires authentication
+                credentials: 'same-origin',
             })
             .then(response => {
                 if (response.ok) {
-                    // If the server response is ok (status code in the range 200-299), redirect
-                    window.location.href = '/admin/admin_dashboard_protected'; // Adjust the redirect URL as needed
+                    window.location.href = '/admin/admin_dashboard_protected';
                 } else {
-                    // Handle server errors or invalid responses
                     console.error('Deletion failed', response.statusText);
-                    // Optionally, provide user feedback that the operation failed
+                    // Optionally, alert the user that the deletion failed
+                    alert('Failed to delete the user. Please try again.');
                 }
             })
             .catch(error => {
-                // Handle network errors
                 console.error('Network error:', error);
-                // Optionally, provide user feedback that the operation failed
+                // Optionally, alert the user that there was a network error
+                alert('Network error. Please try again.');
             });
         }
-
-        
+    }
+    
     </script>
 </body>
 </html>
