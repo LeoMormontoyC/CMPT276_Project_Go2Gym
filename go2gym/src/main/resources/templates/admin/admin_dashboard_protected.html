@@ -43,15 +43,15 @@
                                     <p th:text="'Name: ' + ${profileUser.name}">Name:</p>
                                     <p th:text="${profileUser.membershipStatus} ? 'Membership Status: Active' : 'Membership Status: Inactive'">Membership Status:</p>
                                     <div class="notes">
-                                        <h4>Notes</h4>
+                                        <!-- <h4>Notes</h4> -->
                                         <!-- Placeholder for notes content -->
                                         <div id="notes-content">
                                             <!-- Add your notes content here -->
                                         </div>
                                         <!-- Buttons for add, edit, and delete -->
-                                        <button class="noteedit" id="add-note-btn">Add Note</button>
+                                        <!-- <button class="noteedit" id="add-note-btn">Add Note</button>
                                         <button class="noteedit" id="edit-note-btn">Edit Note</button>
-                                        <button class="noteedit" id="delete-note-btn">Delete Note</button>
+                                        <button class="noteedit" id="delete-note-btn">Delete Note</button> -->
                                     </div>
                                 </div>
                             </div>
@@ -62,10 +62,6 @@
                             <p>NOTES</p>
                         </div> -->
                     </div>
-                    <!-- Search bar area -->
-                    <!-- <br><br><br><br><br><br><br><br><br> -->
-                    <!-- <div class="search-bar">
-                    </div> -->
                     <br>      
                 </div>
             </div>
@@ -104,30 +100,10 @@
                                 <tr th:each="user : ${users}" th:fragment="user-table">
                                     <td th:text="${user.name}">Name</td>
                                     <td th:text="${user.username}">Username</td>
-                                    <!-- <td th:text="${user.password}">Password</td> -->
                                     <td th:text="${user.email}">Email</td>
                                     <td th:text="${user.userType}">userType</td>
                                     <td th:text="${user.membershipStatus} ? 'Active' : 'Inactive'"></td>
-                                    <!-- <p th:text="${profileUser.membershipStatus} ? 'Membership Status: Active' : 'Membership Status: Inactive'">Membership Status:</p> -->
-                                    <!-- <td> functionality to be added later
-                                        <button id="membershipStatusButton" th:data-status="${user.membershipStatus}" onclick="toggleMembershipStatus()"></button>
-                                    </td> -->
                                     <td class="actiony">
-                                        <!-- <form th:action="@{'/users/edit/' + ${user.id}}" method="get" class="d-inline-block me-1">
-                                           
-                                            <input class="btnEdit" type="submit" value="Edit"/>  
-                                            
-                                        </form> -->
-                                        <!-- <form th:action="@{'/users/delete/' + ${user.id}}" method="post" class="d-inline-block me-1">
-                                            <input class="btnDelete" type="submit" value="Delete"/>
-                                        </form>   -->
-                                        <!-- Add ml-2 or ms-2 (for Bootstrap 5) to add spacing -->
-                                        <!-- Use btn-success for the green color -->
-                                        <!-- <form th:action="@{'/users/checkIn/' + ${user.id}}" method="post" class="d-inline-block m1-2">
-                                            <input class="btnCheckIn" type="submit" value="CHECK-IN"/>
-                                            
-                                        </form> -->
-
                                         <!-- check in switch -->
                                         <div class="checker">
                                             <label class="switch">
