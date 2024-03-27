@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Optional;
 // import java.util.Arrays;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -38,9 +37,6 @@ import java.nio.file.Path;
 
 //import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.StringUtils;
-
-
-
 
 @Controller
 public class UserController {
@@ -74,7 +70,8 @@ public class UserController {
     }
 
     @PostMapping("/users/add")
-    public String addUser(@RequestParam Map<String, String> newuser, @RequestParam("image") MultipartFile image, Model model,
+    public String addUser(@RequestParam Map<String, String> newuser, @RequestParam("image") MultipartFile image,
+            Model model,
             RedirectAttributes redirectAttributes) {
         String username = newuser.get("username");
         String password = newuser.get("password");
@@ -105,10 +102,11 @@ public class UserController {
 
         String imageUrl = saveImage(image); // Call the image saving method here
 
-        // boolean newCheckInStatus = false; // Assuming default check-in status is false
+        // boolean newCheckInStatus = false; // Assuming default check-in status is
+        // false
 
         User newUser = new User(newName, username, password, newEmail, newUserType, newMembershipStatus, imageUrl);
-        //newUser.setImagePath(imageUrl); // Set the image path for the new user
+        // newUser.setImagePath(imageUrl); // Set the image path for the new user
         usersRepository.save(newUser);
 
         redirectAttributes.addFlashAttribute("successMessage", "Successfully signed up! Welcome to GoGym :)");
@@ -132,7 +130,8 @@ public class UserController {
 
     @GetMapping("/admin_dashboard_protected")
     public String adminDash() {
-        return "admin/admin_dashboard_protected"; // This should match the name of your HTML file inside resources/templates (if using Thymeleaf) or your JSP file location.
+        return "admin/admin_dashboard_protected"; // This should match the name of your HTML file inside
+                                                  // resources/templates (if using Thymeleaf) or your JSP file location.
     }
 
     @GetMapping("/staff/staff_dashboard")
@@ -239,7 +238,6 @@ public class UserController {
         return "staff/staff_dashboard :: user-table";
     }
 
-
     // EDIT & REMOVE FUNTIONALITY HERE
     // POST request to delete student
     @PostMapping("/users/delete/{uid}")
@@ -262,7 +260,6 @@ public class UserController {
         }
         return "redirect:/admin/admin_dashboard_protected";
     }
-
 
     // this get request redirects to edit.html page
     @GetMapping("/users/edit/{uid}")
@@ -288,40 +285,52 @@ public class UserController {
     @PostMapping("/users/edit/{uid}")
     public String editUser(
             @PathVariable(value = "uid") int uid,
-            @RequestParam Map<String, String> newUser,
-            HttpServletResponse response) {
+            @RequestParam("newName") String newName,
+            @RequestParam("newUsername") String newUsername,
+            @RequestParam("newPassword") String newPassword,
+            @RequestParam("newEmail") String newEmail,
+            @RequestParam("newMembershipStatus") String newMembershipStatus,
+            @RequestParam("image") MultipartFile image, // To handle image file
+            RedirectAttributes redirectAttributes) {
         try {
-            System.out.println("EDIT user uid:");
-            System.out.println(uid);
-            String newName = newUser.get("newName");
-            String newUsername = newUser.get("newUsername");
-            String newPassword = newUser.get("newPassword");
-            String newEmail = newUser.get("newEmail");
-            boolean newMembershipStatus = Boolean.parseBoolean(newUser.get("newMembershipStatus"));
-            User user = usersRepository.findById(uid).orElseThrow(() -> (new Exception("null")));
+            User user = usersRepository.findById(uid).orElseThrow(() -> new Exception("User not found"));
+
+            // Update user details
             user.setName(newName);
             user.setUsername(newUsername);
-            user.setPassword(newPassword);
+            user.setPassword(newPassword); // Consider encrypting the password before saving
             user.setEmail(newEmail);
-            user.setMembershipStatus(newMembershipStatus);
+            user.setMembershipStatus(Boolean.parseBoolean(newMembershipStatus));
+
+            // Handle image upload
+            if (!image.isEmpty()) {
+                String imagePath = saveImage(image); // Call your image saving method
+                if (imagePath != null && !imagePath.isEmpty()) {
+                    user.setImagePath(imagePath); // Set the new image path
+                }
+            }
+
+            // Save the updated user
             usersRepository.save(user);
+            redirectAttributes.addFlashAttribute("successMessage", "Profile updated successfully!");
         } catch (Exception e) {
             e.printStackTrace();
+            redirectAttributes.addFlashAttribute("errorMessage", "Error updating profile: " + e.getMessage());
         }
-        // end of db call
         return "redirect:/admin/admin_dashboard_protected";
     }
 
     @GetMapping("/users/profile/{uid}")
     public String viewUserProfile(@PathVariable("uid") int uid, Model model) {
         Optional<User> userOptional = usersRepository.findById(uid);
-        if(userOptional.isPresent()) {
+        if (userOptional.isPresent()) {
             User user = userOptional.get();
             model.addAttribute("profileUser", user);
         } else {
             // Handle the case where user is not found
         }
-        return "admin/admin_dashboard_protected"; // Return the dashboard view so the profile info can be updated on the sidebar
+        return "admin/admin_dashboard_protected"; // Return the dashboard view so the profile info can be updated on the
+                                                  // sidebar
     }
 
     @GetMapping("/users/fragment/profile/{uid}")
@@ -332,15 +341,12 @@ public class UserController {
         } else {
             // handle user not found situation
         }
-        return "admin/admin_dashboard_protected :: profile-fragment"; // Replace 'profile-fragment' with the actual fragment identifier
+        return "admin/admin_dashboard_protected :: profile-fragment"; // Replace 'profile-fragment' with the actual
+                                                                      // fragment identifier
     }
 
-
-
-
-
-    //helper method for saveImage method
-    //helper method for saveImage method
+    // helper method for saveImage method
+    // helper method for saveImage method
     private String saveImage(MultipartFile image) {
         // The directory to upload to
         String uploadDirPath = "uploads"; // This is the directory name where files will be saved
@@ -372,7 +378,8 @@ public class UserController {
 
             // Get the file bytes and write it to the resolved file path
             byte[] bytes = image.getBytes();
-            Files.write(filePath, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+            Files.write(filePath, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE,
+                    StandardOpenOption.TRUNCATE_EXISTING);
 
             // Return only the file name, not the full path
             return fileName;
@@ -383,49 +390,49 @@ public class UserController {
         }
     }
 
-
     public class StorageException extends RuntimeException {
-    
+
         public StorageException(String message) {
             super(message);
         }
-    
+
         public StorageException(String message, Throwable cause) {
             super(message, cause);
         }
     }
-    
 
     // @GetMapping("/users/checkIn/{uid}")
-    // public String gotocheckInUser(@PathVariable(value = "uid") int uid, Model model, HttpServletResponse response)
-    //     {return "users/checkIn";}
-    
+    // public String gotocheckInUser(@PathVariable(value = "uid") int uid, Model
+    // model, HttpServletResponse response)
+    // {return "users/checkIn";}
 
     // // this endpoint is for submitting an edit and redirects to showAll page
     // @PostMapping("/users/checkIn/{uid}")
     // public String checkInUser(
-    //         @PathVariable(value = "uid") int uid,
-    //         @RequestParam Map<String, String> newUser,
-    //         HttpServletResponse response) {
-    //     try {
-    //         System.out.println("CHECKIN user uid:");
-    //         System.out.println(uid);
-    //         boolean newCheckInStatus = Boolean.parseBoolean(newUser.get("newCheckInStatus"));
-    //         User user = usersRepository.findById(uid).orElseThrow(() -> (new Exception("null")));
-    //         if (newCheckInStatus == true) {
-    //             user.setCheckInStatus(false);
-    //         } else {
-    //             user.setCheckInStatus(true);
-    //         }
-    //         usersRepository.save(user);
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-    //     // end of db call
-    //     if (newUser.get("newUserType").equals("ADMIN")) {
-    //         return "redirect:/admin/admin_dashboard_protected";
-    //     } else {
-    //         return "redirect:/staff/staff_dashboard";
-    //     }
+    // @PathVariable(value = "uid") int uid,
+    // @RequestParam Map<String, String> newUser,
+    // HttpServletResponse response) {
+    // try {
+    // System.out.println("CHECKIN user uid:");
+    // System.out.println(uid);
+    // boolean newCheckInStatus =
+    // Boolean.parseBoolean(newUser.get("newCheckInStatus"));
+    // User user = usersRepository.findById(uid).orElseThrow(() -> (new
+    // Exception("null")));
+    // if (newCheckInStatus == true) {
+    // user.setCheckInStatus(false);
+    // } else {
+    // user.setCheckInStatus(true);
+    // }
+    // usersRepository.save(user);
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // }
+    // // end of db call
+    // if (newUser.get("newUserType").equals("ADMIN")) {
+    // return "redirect:/admin/admin_dashboard_protected";
+    // } else {
+    // return "redirect:/staff/staff_dashboard";
+    // }
     // }
 }
