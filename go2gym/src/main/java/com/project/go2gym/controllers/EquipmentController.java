@@ -56,4 +56,11 @@ public class EquipmentController {
         return "admin/admin_equipment"; // This should match the name of your HTML file inside resources/templates (if using Thymeleaf) or your JSP file location.
     }
 
+    @GetMapping("/staff/staff_equipment")
+    public String staffEquipment() {
+        // The name of the view to be returned (e.g., a Thymeleaf template name)
+        // Make sure you have a template or page named "admin_equipment.html" in your resources
+        return "staff/staff_equipment"; // This should match the name of your HTML file inside resources/templates (if using Thymeleaf) or your JSP file location.
+    }
+
 }

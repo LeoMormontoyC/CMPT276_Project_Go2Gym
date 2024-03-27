@@ -7,10 +7,13 @@
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href ="/css/dashboard.css">
     <!-- Include any other CSS files needed -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <div class="container-fluid">
+
         <div class="row">
+            
             <div class="column" id="profile">
                 <div class="col-md-3 sidebar">
                     <div class="profile">
@@ -43,7 +46,18 @@
                 </div>
 
             </div>
+
             <div class="column" id="table">
+                <div class="nav-container" id="smalnav">
+                    <nav>
+                        <!-- navbar -->
+                        <ul>
+                            <li class="navigation" id="home"><a href="/admin/admin_dashboard_protected">MEMBERS</a></li>
+                            <li class="navigation" id="equipment"><a href="/admin/admin_equipment">EQUIPMENT</a></li>
+                            <li class="navigation" id="schedule"><a href="#">SCHEDULE</a></li>
+                        </ul>
+                    </nav>
+                </div>
                 <div class="col-md-9 main-content">
                     <div class="sbox">
                         <input type="text" class="form-control search-input" placeholder="Search for names" onkeyup="filterNames()" id="searchbar" >
@@ -96,29 +110,26 @@
                  
                 </div>
             </div>
-            <div class="column" id="nav-bar">
-                <!-- navbar -->
+
+            <!-- <div class="column" id="nav-bar">
                <div class="nav_container">
-                <!-- Navigation links area -->
                 <div class="navigation" id="home">
                     <a href="/admin_dashboard_protected">HOME</a>
                 </div>
                <div class="search-bar">
-                   <!-- Placeholder for search bar, you might want to add an input tag here -->
                </div>
                <br>
                <div class="navigation" id="equipment">
                    <a href="#">EQUIPMENT</a>
                </div>
                <div class="search-bar">
-                   <!-- Placeholder for search bar, you might want to add an input tag here -->
                </div>
                <br>
                <div class="navigation" id="gc">
                    <a href="#">GROUP CLASSES</a>
                </div>
                 </div>
-            </div>
+            </div> -->
             
            
                
