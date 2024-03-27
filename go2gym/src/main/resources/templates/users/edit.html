@@ -72,7 +72,8 @@
                         <input type="boolean" name="newMembershipStatus" th:value="${user.membershipStatus}">
                     </div>
                     <div class="inputBox">
-                        <input type="file" name="image" accept="image/*" required> <i>Profile Picture</i>
+                        <input type="file" name="image" accept="image/jpeg, image/png" onchange="validateImage()">
+                        <i>Profile Picture</i>
                     </div>
                     <div class="inputBox">
                         <input type="submit" value="Edit">
@@ -96,7 +97,47 @@
         }
     };
 </script>
-
+<script>
+    function validateImage() {
+        const fileInput = document.querySelector('input[type="file"]');
+        const file = fileInput.files[0];
+    
+        // Check if any file is selected.
+        if (file) {
+            // Check the file size (500 KB)
+            if (file.size > 500 * 1024) {
+                alert('The file size must be under 500 KB.');
+                fileInput.value = ''; // Clear the file input
+                return false;
+            }
+    
+            // Check the file type
+            if (!['image/jpeg', 'image/png'].includes(file.type)) {
+                alert('Only JPG and PNG formats are allowed.');
+                fileInput.value = ''; // Clear the file input
+                return false;
+            }
+    
+            // Check the image dimensions
+            // const img = new Image();
+            // img.src = URL.createObjectURL(file);
+            // img.onload = function() {
+            //     const width = img.naturalWidth;
+            //     const height = img.naturalHeight;
+    
+            //     URL.revokeObjectURL(img.src);
+    
+            //     if (width > 500 || height > 500) {
+            //         alert('The image dimensions must be within 500 x 500 pixels.');
+            //         fileInput.value = ''; // Clear the file input
+            //     }
+            // };
+        }
+    }
+    
+    // Attach the validation function to the file input 'change' event
+    document.querySelector('input[type="file"]').addEventListener('change', validateImage);
+</script>
 
 </body>
 </html>

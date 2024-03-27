@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GO GYM - Admin Equipment</title>
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href ="/css/dashboard.css">
     <!-- Include any other CSS files needed -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
 </head>
 <body>
     <div class="container-fluid">
-
         <div class="row">
-            
             <div class="column" id="profile">
                 <div class="col-md-3 sidebar">
                     <div class="profile">
@@ -28,20 +27,28 @@
                             </div>
                         </div>
                         
-                        <!-- Placeholder for image, you might want to add an img tag here -->
-                       
-                            
-                        
-                        <!-- <div class="notes">
-                            <p>NOTES</p>
-                        </div> -->
+                        <!-- HERE COMES THE PROFILE FOR EQUIPMENT -->
+                        <div id="profile-container" th:fragment="profile-fragment">
+                            <div th:if="${profileUser}" class="user-info">
+                                <h4>EQUIPMENT PROFILE</h4>
+                                <!-- <br> -->
+                                <div id="image">
+                                    <img th:src="@{'/uploads/' + ${profileUser.imagePath}}" alt="User Profile Image" class="profile-image">
+                                </div>
+
+                                <div id="info">
+                                    <p th:text="'Name: ' + ${profileUser.equipmentType}">Equipment Type:</p>
+                                    <p th:text="'Total Stock: ' + ${profileUser.totalAmount}">Total Amount:</p>
+                                    <p th:text="'Borrowed: ' + ${profileUser.borrowed}">Borrowed:</p>
+                                    <p th:text="'Current Stock: ' + ${profileUser.inStock}">In Stock:</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
-                    <!-- Search bar area -->
-                    <!-- <br><br><br><br><br><br><br><br><br> -->
-                    <div class="search-bar">
-                        <!-- Placeholder for search bar, you might want to add an input tag here -->
-                    </div>
-                    <br>
                    
                 </div>
 
@@ -58,10 +65,18 @@
                         </ul>
                     </nav>
                 </div>
+
+                <!-- ADD BUTTON HERE -->
+                <div class="d-flex justify-content-center">
+                    <!-- Anchor tag to redirect to add.html when the + button is clicked -->
+                    <a href="/equipment.html" class="btn btn-success btn-lg">
+                        <button id="AddE" >Add Equipment</button>
+                    </a>
+                </div>
+
                 <div class="col-md-9 main-content">
                     <div class="sbox">
-                        <input type="text" class="form-control search-input" placeholder="Search for names" onkeyup="filterNames()" id="searchbar" >
-      
+                        <input type="text" class="form-control search-input" placeholder="Search for names" onkeyup="filterNamesEquipment()" id="searchbar" >
                     </div>
                     <!-- Dynamic table from the second code snippet -->
                     <div class="table-responsive scrollable-table-container">
@@ -73,41 +88,30 @@
                                     <th>Total Amount</th>
                                     <th>Borrowed</th>
                                     <th>In Stock</th>
-                                    <!-- <th>Actions</th>  -->
+                                    <th>Actions</th> 
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Loop through all equipment and display them -->
+                                <!-- Loop through all students and display them -->
                                 <tr th:each="equipment : ${equipments}" th:fragment="user-table">
-                                    <td th:text="${equipment.equimentType}">equimentType</td>
+                                    <td th:text="${equipment.equipmentType}">equipmentType</td>
                                     <td th:text="${equipment.description}">description</td>
-                                    <!-- <td th:text="${user.password}">Password</td> -->
                                     <td th:text="${equipment.totalAmount}">totalAmount</td>
                                     <td th:text="${equipment.borrowed}">borrowed</td>
                                     <td th:text="${equipment.inStock}">inStock</td>
-                                    <!-- <td> functionality to be added later
-                                        <button id="membershipStatusButton" th:data-status="${user.membershipStatus}" onclick="toggleMembershipStatus()"></button>
-                                    </td> -->
-                                    <td>
-                                        <form th:action="@{'/users/edit/' + ${user.id}}" method="get" class="d-inline-block me-1">
-                                            <input class="btn btn-primary btn-sm" type="submit" value="Edit"/>
-                                        </form>
-                                        <form th:action="@{'/users/delete/' + ${user.id}}" method="post" class="d-inline-block me-1">
-                                            <input class="btn btn-danger btn-sm" type="submit" value="Delete"/>
-                                        </form>  
-                                        <!-- Add ml-2 or ms-2 (for Bootstrap 5) to add spacing -->
-                                        <!-- Use btn-success for the green color -->
-                                        <form th:action="@{'/users/checkin/' + ${user.id}}" method="post" class="d-inline-block m1-2">
-                                            <input class="btn btn-success btn-sm" href = "redirect:/checkIn.html" type="submit" value="CHECK-IN"/>
-                                        </form>  
+                        
+                                    <td class="actiony">
+                                        <div class = "actionbuttons"> 
+                                            <button th:onclick="'loadEquipmentProfileEdit(' + ${equipment.uid} + ')'" class="fa-solid fa-pen-to-square" ></button> 
+                                            <button th:onclick="'loadEquipmentProfileDelete(' + ${equipment.uid} + ')'" class="fa-solid fa-trash" ></button> 
+                                            <button th:onclick="'loadEquipmentProfile(' + ${equipment.uid} + ')'" class="fa-solid fa-user" > </button> 
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <!-- End of dynamic table -->
-    
-                 
                 </div>
             </div>
 
@@ -141,15 +145,16 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.7.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        function filterNames() {
+        function filterNamesEquipment() {
             const searchValue = document.querySelector('.search-input').value;
-            fetch(`/admin/filter?search=${searchValue}`)
+            fetch(`/equipment/filter?search=${searchValue}`)
             .then(response => response.text())
             .then(html => {
                 document.querySelector('.table-responsive table tbody').innerHTML = html; //document.querySelector('.table-responsive').innerHTML = html;
             });
         }
     </script>
+
     <script>
         // Function to toggle membership status and update button
         // Note: This will now purely work on the client side; to reflect changes server-side, you'd need to make an API call or form submission
@@ -181,6 +186,51 @@
             const isActive = document.getElementById('membershipStatusButton').dataset.status === 'true';
             updateButtonAppearance(isActive);
         };
+        
+        function loadEquipmentProfileDelete(equipmentId) {
+            if (confirm('Are you sure you want to delete the equipment?')) {
+                fetch(`/equipments/delete/${equipmentId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Add CSRF token header if needed for security
+                    },
+                    // Include credentials if your endpoint requires authentication
+                    credentials: 'same-origin',
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/admin/admin_equipment';
+                    } else {
+                        console.error('Deletion failed', response.statusText);
+                        // Optionally, alert the user that the deletion failed
+                        alert('Failed to delete the user. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Network error:', error);
+                    // Optionally, alert the user that there was a network error
+                    alert('Network error. Please try again.');
+                });
+            }
+        }
+
+
+        function loadEquipmentProfileEdit(userId){
+            fetch(`/equipments/edit/${userId}`)
+            window.location.href = '/equipments/edit/' + userId;
+        }
+
+        function loadEquipmentProfile(userId) {
+        fetch(`/equipments/fragment/profile/${userId}`)
+            .then(response => response.text())
+            .then(html => {
+                // Update only the profile-container div
+                document.getElementById('profile-container').innerHTML = html;
+            });
+        }
+        
+
     </script>
 </body>
 </html>
