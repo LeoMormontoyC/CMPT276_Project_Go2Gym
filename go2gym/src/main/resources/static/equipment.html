@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Equipment</title>
+    <link rel="stylesheet" href="./css/go2gym.css">
+
+    <style>
+        .signup-error {
+            color: red;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span>
+
+    <div class="signin">
+        <div class="content">
+            <h2>Add Equipment</h2>
+            <form action="/equipments/add" method="post" id="signupForm" enctype="multipart/form-data">
+                <div th:if="${signupError}" th:text="${signupError}" class="signup-error"></div>
+
+                <div class="form">
+                    <div class="inputBox">
+                        <input type="text" name="equimentType" required> <i>Equiment Type</i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" name="description" required> <i>Description</i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" name="totalAmount" required> <i>#Total Amount</i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" name="borrowed" required> <i>#Borrowed</i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" name="inStock" required> <i>#In Stock</i>
+                    </div>                             
+                    <div class="inputBox">
+                        <input type="file" name="image" accept="image/jpeg, image/png" onchange="validateImage()">
+                        <i>Equipment Image</i>
+                    </div>
+                    <!-- <div class="inputBox">
+                        <label for="membershipStatus">Membership Status:</label>
+                        <select name="membershipStatus" id="membershipStatus" required>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div> -->
+                    <div class="inputBox">
+                        <input type="submit" value="Add Equipment">
+                    </div>
+                    <div class="inputBox">
+                        <input type="submit" value="Back" onclick="window.location.href='/admin/admin_equipment'">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.getElementById('signupForm').onsubmit = function(e) {
+        var password = document.getElementsByName('password')[0];
+        var pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}$/;
+        if (!pattern.test(password.value)) {
+            alert('Password must contain at least 8 characters, including UPPER/lowercase letters, numbers, and symbols.');
+            e.preventDefault(); // Prevent form submission
+        }
+    };
+</script>
+
+<script>
+    function validateImage() {
+        const fileInput = document.querySelector('input[type="file"]');
+        const file = fileInput.files[0];
+    
+        // Check if any file is selected.
+        if (file) {
+            // Check the file size (500 KB)
+            if (file.size > 500 * 1024) {
+                alert('The file size must be under 500 KB.');
+                fileInput.value = ''; // Clear the file input
+                return false;
+            }
+    
+            // Check the file type
+            if (!['image/jpeg', 'image/png'].includes(file.type)) {
+                alert('Only JPG and PNG formats are allowed.');
+                fileInput.value = ''; // Clear the file input
+                return false;
+            }
+    
+            // Check the image dimensions
+            // const img = new Image();
+            // img.src = URL.createObjectURL(file);
+            // img.onload = function() {
+            //     const width = img.naturalWidth;
+            //     const height = img.naturalHeight;
+    
+            //     URL.revokeObjectURL(img.src);
+    
+            //     if (width > 500 || height > 500) {
+            //         alert('The image dimensions must be within 500 x 500 pixels.');
+            //         fileInput.value = ''; // Clear the file input
+            //     }
+            // };
+        }
+    }
+    
+    // Attach the validation function to the file input 'change' event js work 
+    document.querySelector('input[type="file"]').addEventListener('change', validateImage);
+</script>
+    
+    
+
+
+</body>
+</html>

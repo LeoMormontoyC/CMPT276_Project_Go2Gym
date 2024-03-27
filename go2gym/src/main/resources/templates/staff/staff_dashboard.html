@@ -8,11 +8,9 @@
     <link rel="stylesheet" href ="/css/dashboard.css">
     <!-- Include any other CSS files needed -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
 </head>
 <body>
     <div class="container-fluid">
-        
         <div class="row">
             <div class="column" id="profile">
                 <div class="col-md-3 sidebar">
@@ -20,7 +18,7 @@
                         <!-- Admin dropdown area -->
                         <div class="account-type">
                             <div class="dropdown">
-                                <button class="dropbtn">ADMIN PORTAL</button>
+                                <button class="dropbtn">STAFF PORTAL</button>
                                 <div class="dropdown-content">
                                     <a href="/logout">Logout</a>
                                     <!-- changed /logout -->
@@ -137,8 +135,8 @@
                                         </div> 
                                 
                                         <div class = "actionbuttons"> 
-                                            <button th:onclick="'loadUserProfileEdit(' + ${user.id} + ')'" class="fa-solid fa-pen-to-square" ></button> 
-                                            <button th:onclick="'loadUserProfileDelete(' + ${user.id} + ')'" class="fa-solid fa-trash" ></button> 
+                                            <!-- <button th:onclick="'loadUserProfileEdit(' + ${user.id} + ')'" class="fa-solid fa-pen-to-square" ></button>  -->
+                                            <!-- <button th:onclick="'loadUserProfileDelete(' + ${user.id} + ')'" class="fa-solid fa-trash" ></button>  -->
                                             <button th:onclick="'loadUserProfile(' + ${user.id} + ')'" class="fa-solid fa-user" > </button> 
                                         </div>
                                         
@@ -179,7 +177,32 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.7.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        
     <script>
+        // Function to toggle membership status and update button
+        // Note: This will now purely work on the client side; to reflect changes server-side, you'd need to make an API call or form submission
+        
+        document.addEventListener('DOMContentLoaded', (event) => {
+        // Check if page was reloaded and redirect to logout
+            if (window.performance && performance.getEntriesByType("navigation")[0].type === 'reload') {
+                window.location.href = "/logout";
+            }
+        // Set the initial button state based on the data-status attribute
+            const membershipStatusButton = document.getElementById('membershipStatusButton');
+            if (membershipStatusButton) {
+                const isActive = membershipStatusButton.dataset.status === 'true';
+                updateButtonAppearance(isActive);
+            }
+        });
+
+        // window.onload = function() {
+        //     if (window.performance) {
+        //         if (performance.navigation.type === 1) { // 1 means the page is reloaded
+        //             window.location.href = "/logout"; // Redirect to the logout endpoint
+        //         }
+        //     }
+        // };
+
         function filterNameStaff() {
             const searchValue = document.querySelector('.search-input').value;
             fetch(`/staff/filter?search=${searchValue}`)
@@ -188,10 +211,7 @@
                 document.querySelector('.table-responsive table tbody').innerHTML = html;
             });
         }
-    </script>
-    <script>
-        // Function to toggle membership status and update button
-        // Note: This will now purely work on the client side; to reflect changes server-side, you'd need to make an API call or form submission
+
         function toggleMembershipStatus() {
             const button = document.getElementById('membershipStatusButton');
             const isActive = button.dataset.status === 'true';
@@ -216,10 +236,10 @@
         }
 
         // Run this function when the window loads to set the initial button state based on the data-status attribute
-        window.onload = function() {
-            const isActive = document.getElementById('membershipStatusButton').dataset.status === 'true';
-            updateButtonAppearance(isActive);
-        };
+        // window.onload = function() {
+        //     const isActive = document.getElementById('membershipStatusButton').dataset.status === 'true';
+        //     updateButtonAppearance(isActive);
+        // };
         
         function loadUserProfile(userId) {
         fetch(`/users/fragment/profile/${userId}`)

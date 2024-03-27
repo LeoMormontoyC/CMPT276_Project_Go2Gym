@@ -11,7 +11,7 @@ public class Equipment {
     private int uid;
 
     // we have 6 attributes
-    private String equimentType; // type of equipment what is it? dumbell etc
+    private String equipmentType; // type of equipment what is it? dumbell etc
     private String description; // what is a dumbell used for? etc
     private double totalAmount; // total amount of equipment stock including borrowed + inStock
     private double borrowed; // # of equipments that are lended to students
@@ -22,9 +22,9 @@ public class Equipment {
         // empty default constructor
     }
 
-    public Equipment(String equimentType, String description, double totalAmount, double borrowed, double inStock,
+    public Equipment(String equipmentType, String description, double totalAmount, double borrowed, double inStock,
             String imagePath) {
-        this.equimentType = equimentType;
+        this.equipmentType = equipmentType;
         this.description = description;
         this.totalAmount = totalAmount;
         this.borrowed = borrowed;
@@ -37,8 +37,8 @@ public class Equipment {
         return uid;
     }
 
-    public String getEquimentType() {
-        return equimentType;
+    public String getEquipmentType() {
+        return equipmentType;
     }
 
     public String getDescription() {
@@ -66,8 +66,8 @@ public class Equipment {
         this.uid = uid;
     }
 
-    public void setEquimentType(String equimentType) {
-        this.equimentType = equimentType;
+    public void setEquipmentType(String equipmentType) {
+        this.equipmentType = equipmentType;
     }
 
     public void setDescription(String description) {
