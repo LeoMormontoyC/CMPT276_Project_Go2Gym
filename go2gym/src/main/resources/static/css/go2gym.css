@@ -273,6 +273,6 @@ input[type="submit"]:active {
     width: 100%;
     display: flex;
     justify-content: center; /* use 'center' if you want the content centered */
-    text-align: center;
+    text-align: center; 
 }
 
