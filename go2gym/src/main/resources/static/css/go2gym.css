@@ -134,6 +134,7 @@ section .signin .content .form .inputBox input {
     color: #fff;
     font-weight: 500;
     font-size: 1em;
+    /* height: 30vh; */
 }
 
 section .signin .content .form .inputBox i {
@@ -211,10 +212,6 @@ section .signin .content .form .inputBox i {
 }
 
 
-
-
-
-
 .signin .content .form .inputBox input[type="submit"] {
     padding: 10px;
     background: #FF0000;
@@ -235,6 +232,8 @@ section .signin .content .form .inputBox i {
 input[type="submit"]:active {
     opacity: 0.6;
 }
+
+
 
 @media (max-width: 900px) {
     section span {
@@ -276,3 +275,4 @@ input[type="submit"]:active {
     justify-content: center; /* use 'center' if you want the content centered */
     text-align: center;
 }
+

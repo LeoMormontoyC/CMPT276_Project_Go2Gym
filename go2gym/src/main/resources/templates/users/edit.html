@@ -51,7 +51,7 @@
     <div class="signin">
         <div class="content">
             <h2>Join GoGym</h2>
-            <form th:action="@{'/users/edit/' + ${uid}}" method="post" id="signupForm">
+            <form th:action="@{'/users/edit/' + ${uid}}" method="post" id="signupForm" enctype="multipart/form-data">
                 <input type="hidden" name="userId" th:value="${uid}" />
                 <div th:if="${signupError}" th:text="${signupError}" class="signup-error"></div>
 
@@ -72,13 +72,13 @@
                         <input type="boolean" name="newMembershipStatus" th:value="${user.membershipStatus}">
                     </div>
                     <div class="inputBox">
-                        <input type="file" name="image" accept="image/*"> <i>Profile Picture</i>
+                        <input type="file" name="image" accept="image/*" required> <i>Profile Picture</i>
                     </div>
                     <div class="inputBox">
                         <input type="submit" value="Edit">
                     </div>
                     <div class="inputBox">
-                        <input type="submit" value="Back">
+                        <input type="submit" value="Back" onclick="window.location.href='/admin/admin_dashboard_protected'">
                     </div>
                 </div>                
             </form>

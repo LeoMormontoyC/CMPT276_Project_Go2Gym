@@ -34,6 +34,7 @@
 }
 
 
+
 .sidebar {
     background-color: #c00;
     color: white;
@@ -46,6 +47,13 @@
 .search-bar, .account-type, .profile {
     padding: 20px;
     border-bottom: 1px solid white;
+}
+
+/* nav bars */
+.nav_container{
+    margin-top: 30vh;
+    margin-left: 10px;
+
 }
 .navigation {
     /* padding: 1px; */
@@ -379,16 +387,26 @@ h4 {
 
 }
 
+.actiony {
+    text-align: center;
+}
 
 /* A switch for check in yay? */
 
-/* 
+ .checker {
+    padding: 10px;
+   
+   
+   
+ }
 
 .switch {
      position: relative; 
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 120px;
+    height: 20px;
+    left: -65px;
+    right: 100px;
   }
   
   .switch input { 
@@ -400,28 +418,30 @@ h4 {
   .slider {
     position: absolute;
     cursor: pointer;
-    height: 50px;
-    width: 100px;
-    background-color: #ccc;
+    height: 20px;
+    width: 160px;
+    background-color: #820000;
     -webkit-transition: 3.4s;
     transition: .4s;
+    border-radius: 12px;
   }
   
   .slider:before {
     position: absolute;
     content: "Checked Out";
     color: #ffffff;
-    height: 50px;
-    width: 100px;
-    left: 4px;
-    bottom: 4px;
-    background-color: rgba(12, 32, 18, 0.259);
+    height: 20px;
+    width: 90px;
+    left: 0px;
+    bottom: 0px;
+    background-color:    #820000;
     -webkit-transition: .4s;
     transition: .4s;
+    border-radius: 12px;
   }
   
   input:checked + .slider {
-    background-color: #2196F3;
+    background-color: rgb(99, 149, 148);
   }
   
     input:focus + .slider {
@@ -431,8 +451,12 @@ h4 {
   input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
-    transform: translateX(26px);
-    content: "Checked in";
-  } */
+    transform: translateX(70px);
+    content: "Checked In";
+    background-color:  rgb(99, 149, 148);
+    
+  } 
+
+ 
 
 

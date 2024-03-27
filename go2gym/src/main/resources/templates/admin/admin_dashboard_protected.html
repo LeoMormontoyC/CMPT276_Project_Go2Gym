@@ -40,7 +40,17 @@
                                 <div id="info">
                                     <p th:text="'Name: ' + ${profileUser.name}">Name:</p>
                                     <p th:text="${profileUser.membershipStatus} ? 'Membership Status: Active' : 'Membership Status: Inactive'">Membership Status:</p>
-                                    <p>Notes:</p>
+                                    <div class="notes">
+                                        <h4>Notes</h4>
+                                        <!-- Placeholder for notes content -->
+                                        <div id="notes-content">
+                                            <!-- Add your notes content here -->
+                                        </div>
+                                        <!-- Buttons for add, edit, and delete -->
+                                        <button class="noteedit" id="add-note-btn">Add Note</button>
+                                        <button class="noteedit" id="edit-note-btn">Edit Note</button>
+                                        <button class="noteedit" id="delete-note-btn">Delete Note</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +99,7 @@
                                     <!-- <td> functionality to be added later
                                         <button id="membershipStatusButton" th:data-status="${user.membershipStatus}" onclick="toggleMembershipStatus()"></button>
                                     </td> -->
-                                    <td>
+                                    <td class="actiony">
                                         <!-- <form th:action="@{'/users/edit/' + ${user.id}}" method="get" class="d-inline-block me-1">
                                            
                                             <input class="btnEdit" type="submit" value="Edit"/>  
@@ -100,18 +110,20 @@
                                         </form>   -->
                                         <!-- Add ml-2 or ms-2 (for Bootstrap 5) to add spacing -->
                                         <!-- Use btn-success for the green color -->
-                                        <form th:action="@{'/users/checkIn/' + ${user.id}}" method="post" class="d-inline-block m1-2">
+                                        <!-- <form th:action="@{'/users/checkIn/' + ${user.id}}" method="post" class="d-inline-block m1-2">
                                             <input class="btnCheckIn" type="submit" value="CHECK-IN"/>
                                             
-                                        </form>
+                                        </form> -->
+
+                                        <!-- check in switch -->
                                         <div class="checker">
                                             <label class="switch">
                                                 <input type="checkbox">
                                                 <span class="slider"></span>
-                                              </label>
+                                            </label>
                                         </div> 
                                 
-                                        <div class = "actionbuttons">
+                                        <div class = "actionbuttons"> 
                                             <button th:onclick="'loadUserProfileEdit(' + ${user.id} + ')'" class="fa-solid fa-pen-to-square" ></button> 
                                             <button th:onclick="'loadUserProfileDelete(' + ${user.id} + ')'" class="fa-solid fa-trash" ></button> 
                                             <button th:onclick="'loadUserProfile(' + ${user.id} + ')'" class="fa-solid fa-user" > </button> 
@@ -132,25 +144,17 @@
                 <!-- navbar -->
                <div class="nav_container">
                 <!-- Navigation links area -->
-               <div class="navigation" id="home">
-                   <a href="#">HOME</a>
-               </div>
-               <div class="search-bar">
-                   <!-- Placeholder for search bar, you might want to add an input tag here -->
-               </div>
-               
-               <div class="navigation" id="equipment">
-                    <a href="/admin/admin_equipment">EQUIPMENT</a>
-                </div>
+                    <div class="navigation" id="home">
+                        <a href="#">HOME</a>
+                    </div>
+                    
+                    <div class="navigation" id="equipment">
+                            <a href="/admin/admin_equipment">EQUIPMENT</a>
+                        </div>
 
-
-               <div class="search-bar">
-                   <!-- Placeholder for search bar, you might want to add an input tag here -->
-               </div>
-               
-               <div class="navigation" id="schedule">
-                   <a href="#">Schedule</a>
-               </div>
+                    <div class="navigation" id="schedule">
+                        <a href="#">Schedule</a>
+                    </div>
                 </div>
             </div>
             
