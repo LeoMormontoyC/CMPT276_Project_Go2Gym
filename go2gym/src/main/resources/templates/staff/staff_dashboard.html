@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GO GYM - Staff Dashboard</title>
+    <title>GO GYM - Admin Dashboard</title>
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href ="/css/dashboard.css">
     <!-- Include any other CSS files needed -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 </head>
 <body>
     <div class="container-fluid">
+        
         <div class="row">
             <div class="column" id="profile">
                 <div class="col-md-3 sidebar">
@@ -17,44 +20,74 @@
                         <!-- Admin dropdown area -->
                         <div class="account-type">
                             <div class="dropdown">
-                                <button class="dropbtn">STAFF PORTAL</button>
+                                <button class="dropbtn">ADMIN PORTAL</button>
                                 <div class="dropdown-content">
                                     <a href="/logout">Logout</a>
+                                    <!-- changed /logout -->
                                 </div>
                             </div>
                         </div>
+                        
                         <!-- <br><br> -->
-                        <!-- Placeholder for image, you might want to add an img tag here -->
-                        <div class="user-info">
-                            <h4>PROFILE</h4>
-                            <br>
-                            <div id="image">
-                                <!-- <input type="image" src="/images/profile.jpg" alt="A profile picture"> -->
-                            </div>
-                            <div id="info">
-                                <p>Name:</p>
-                                <p>ID:</p>
-                                <p>ACTIVE/INACTIVE:</p>
-                            </div>
 
+                        <!-- Placeholder for image, you might want to add an img tag here -->
+                        <div id="profile-container" th:fragment="profile-fragment">
+                            <div th:if="${profileUser}" class="user-info">
+                                <h4>PROFILE</h4>
+                                <!-- <br> -->
+                                <div id="image">
+                                    <img th:src="@{'/uploads/' + ${profileUser.imagePath}}" alt="User Profile Image" class="profile-image">
+                                </div>
+
+                                <div id="info">
+                                    <p th:text="'Name: ' + ${profileUser.name}">Name:</p>
+                                    <p th:text="${profileUser.membershipStatus} ? 'Membership Status: Active' : 'Membership Status: Inactive'">Membership Status:</p>
+                                    <div class="notes">
+                                        <h4>Notes</h4>
+                                        <!-- Placeholder for notes content -->
+                                        <div id="notes-content">
+                                            <!-- Add your notes content here -->
+                                        </div>
+                                        <!-- Buttons for add, edit, and delete -->
+                                        <button class="noteedit" id="add-note-btn">Add Note</button>
+                                        <button class="noteedit" id="edit-note-btn">Edit Note</button>
+                                        <button class="noteedit" id="delete-note-btn">Delete Note</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+                    
                         <!-- <div class="notes">
                             <p>NOTES</p>
                         </div> -->
                     </div>
-
-                    <!-- <br> -->
-                   
+                    <!-- Search bar area -->
+                    <!-- <br><br><br><br><br><br><br><br><br> -->
+                    <!-- <div class="search-bar">
+                    </div> -->
+                    <br>      
                 </div>
             </div>
             <div class="column" id="table">
+                <div class="nav-container">
+                    <nav>
+                        
+                        <!-- navbar -->
+                        <ul>
+                            <li class="navigation" id="home"><a href="/staff/staff_dashboard">MEMBERS</a></li>
+                            <li class="navigation" id="equipment"><a href="/staff/staff_equipment">EQUIPMENT</a></li>
+                            <li class="navigation" id="schedule"><a href="#">SCHEDULE</a></li>
+                        </ul>
+                    </nav>
+                </div>
                 <div class="col-md-9 main-content">
                     <div class="sbox">
-                        <input type="text" class="form-control search-input" placeholder="Search for names" onkeyup="filterNameStaff()">
+                        <input type="text" class="form-control search-input" placeholder="Search for names" onkeyup="filterNameStaff()" id="searchbar" >   
                     </div>
-    
                     <!-- Dynamic table from the second code snippet -->
                     <div class="table-responsive scrollable-table-container">
+                        <!-- <br> -->
                         <table class="table table-bordered table-hover table-striped table-sm red-border">
                             <thead class="thead-darkred">
                                 <tr>
@@ -63,7 +96,7 @@
                                     <th>Email</th>
                                     <th>User Type</th>
                                     <th>Membership Status</th>
-                                    <th>Actions</th>
+                                    <th>Actions</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,16 +107,42 @@
                                     <!-- <td th:text="${user.password}">Password</td> -->
                                     <td th:text="${user.email}">Email</td>
                                     <td th:text="${user.userType}">userType</td>
-                                    <td th:text="${user.membershipStatus}"></td>
-    
-                                    <td>
-                                        <form th:action="@{'/users/checkin/' + ${user.id}}" method="post" class="d-inline-block m1-2">
-                                            <input class="btn btn-success btn-sm" href = "redirect:/checkIn.html" type="submit" value="CHECK-IN"/>
-                                        </form>
-                                        <br>
-                                        <!-- <form th:action="@{'/users/delete/' + ${user.id}}" method="post">
-                                            <input class="btn btn-danger btn-sm" type="submit" value="CHECK-OUT"/>
-                                        </form>-->
+                                    <td th:text="${user.membershipStatus} ? 'Active' : 'Inactive'"></td>
+                                    <!-- <p th:text="${profileUser.membershipStatus} ? 'Membership Status: Active' : 'Membership Status: Inactive'">Membership Status:</p> -->
+                                    <!-- <td> functionality to be added later
+                                        <button id="membershipStatusButton" th:data-status="${user.membershipStatus}" onclick="toggleMembershipStatus()"></button>
+                                    </td> -->
+                                    <td class="actiony">
+                                        <!-- <form th:action="@{'/users/edit/' + ${user.id}}" method="get" class="d-inline-block me-1">
+                                           
+                                            <input class="btnEdit" type="submit" value="Edit"/>  
+                                            
+                                        </form> -->
+                                        <!-- <form th:action="@{'/users/delete/' + ${user.id}}" method="post" class="d-inline-block me-1">
+                                            <input class="btnDelete" type="submit" value="Delete"/>
+                                        </form>   -->
+                                        <!-- Add ml-2 or ms-2 (for Bootstrap 5) to add spacing -->
+                                        <!-- Use btn-success for the green color -->
+                                        <!-- <form th:action="@{'/users/checkIn/' + ${user.id}}" method="post" class="d-inline-block m1-2">
+                                            <input class="btnCheckIn" type="submit" value="CHECK-IN"/>
+                                            
+                                        </form> -->
+
+                                        <!-- check in switch -->
+                                        <div class="checker">
+                                            <label class="switch">
+                                                <input type="checkbox">
+                                                <span class="slider"></span>
+                                            </label>
+                                        </div> 
+                                
+                                        <div class = "actionbuttons"> 
+                                            <button th:onclick="'loadUserProfileEdit(' + ${user.id} + ')'" class="fa-solid fa-pen-to-square" ></button> 
+                                            <button th:onclick="'loadUserProfileDelete(' + ${user.id} + ')'" class="fa-solid fa-trash" ></button> 
+                                            <button th:onclick="'loadUserProfile(' + ${user.id} + ')'" class="fa-solid fa-user" > </button> 
+                                        </div>
+                                        
+ 
                                     </td>
                                 </tr>
                             </tbody>
@@ -91,31 +150,28 @@
                     </div>
                     <!-- End of dynamic table -->
     
-                    <!-- You can continue with your other content here -->
-                </div>   
-            </div>
-            <div class="column" id="nav-bar">
-                 <!-- Navigation links area -->
-                 <div class="navigation" id="home">
-                    <a href="#">HOME</a>
-                </div>
-                <div class="search-bar">
-                    <!-- Placeholder for search bar, you might want to add an input tag here -->
-                </div>
-                <br>
-                <div class="navigation" id="equipment">
-                    <a href="#">EQUIPMENT</a>
-                </div>
-                <div class="search-bar">
-                    <!-- Placeholder for search bar, you might want to add an input tag here -->
-                </div>
-                <br>
-                <div class="navigation" id="gc">
-                    <a href="#">GROUP CLASSES</a>
+                 
                 </div>
             </div>
+
+            <!-- <div class="column" id="nav-bar">
+               <div class="nav_container">
+                    <div class="navigation" id="home">
+                        <a href="#">MEMBERS</a>
+                    </div>
+                    
+                    <div class="navigation" id="equipment">
+                            <a href="/admin/admin_equipment">EQUIPMENT</a>
+                        </div>
+
+                    <div class="navigation" id="schedule">
+                        <a href="#">Schedule</a>
+                    </div>
+                </div>
+            </div> -->
             
-            
+           
+               
         </div>
     </div>
 
@@ -129,9 +185,85 @@
             fetch(`/staff/filter?search=${searchValue}`)
             .then(response => response.text())
             .then(html => {
-              document.querySelector('.table-responsive table tbody').innerHTML = html;
+                document.querySelector('.table-responsive table tbody').innerHTML = html;
             });
         }
     </script>
+    <script>
+        // Function to toggle membership status and update button
+        // Note: This will now purely work on the client side; to reflect changes server-side, you'd need to make an API call or form submission
+        function toggleMembershipStatus() {
+            const button = document.getElementById('membershipStatusButton');
+            const isActive = button.dataset.status === 'true';
+
+            // Toggle the data-status attribute
+            button.dataset.status = isActive ? 'false' : 'true';
+            
+            // Update button based on the new status
+            updateButtonAppearance(isActive ? false : true);
+        }
+
+        // Function to update button appearance
+        function updateButtonAppearance(isActive) {
+            const button = document.getElementById('membershipStatusButton');
+            if (isActive) {
+                button.style.backgroundColor = 'green';
+                button.innerText = 'Active Membership';
+            } else {
+                button.style.backgroundColor = 'red';
+                button.innerText = 'Inactive Membership';
+            }
+        }
+
+        // Run this function when the window loads to set the initial button state based on the data-status attribute
+        window.onload = function() {
+            const isActive = document.getElementById('membershipStatusButton').dataset.status === 'true';
+            updateButtonAppearance(isActive);
+        };
+        
+        function loadUserProfile(userId) {
+        fetch(`/users/fragment/profile/${userId}`)
+            .then(response => response.text())
+            .then(html => {
+                // Update only the profile-container div
+                document.getElementById('profile-container').innerHTML = html;
+            });
+        }
+
+        function loadUserProfileEdit(userId){
+            fetch(`/users/edit/${userId}`)
+            window.location.href = '/users/edit/' + userId;
+        }
+
+        function loadUserProfileDelete(userId) {
+        if (confirm('Are you sure you want to delete the user?')) {
+            fetch(`/users/delete/${userId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Add CSRF token header if needed for security
+                },
+                // Include credentials if your endpoint requires authentication
+                credentials: 'same-origin',
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/admin/admin_dashboard_protected';
+                } else {
+                    console.error('Deletion failed', response.statusText);
+                    // Optionally, alert the user that the deletion failed
+                    alert('Failed to delete the user. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Network error:', error);
+                // Optionally, alert the user that there was a network error
+                alert('Network error. Please try again.');
+            });
+        }
+    }
+    
+    </script>
 </body>
 </html>
+

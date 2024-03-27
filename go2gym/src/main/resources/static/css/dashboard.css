@@ -15,15 +15,19 @@
     /* border-radius: 12px; */
 }
 
+
+
 #profile {
     width: 20%;
-    padding-right: 10px;
+    padding-right: 25px;
+    padding-top: 20px;
     border-radius:  12px;/*Leo made*/
 }
 
 #table {
-    width: 65%;
-    
+    width: 70%;
+    padding-top: 20px;
+    /* box-shadow: 0 10px 25px; */
 }
 
 #nav-bar {
@@ -33,6 +37,18 @@
 
 }
 
+/* THIS IS DAIWIKS VERSION OF THE NAVBAR */
+.nav-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 60px; 
+    background-color: #c00;
+    border-bottom: 2px solid var(--ut-orange);
+    margin: 0px 0px 10px 0px;
+    border-radius: 10px;
+    /* width: 100%; */
+}
 
 
 .sidebar {
@@ -171,6 +187,7 @@
     max-height: 100vh; 
     overflow-y: auto;
     margin-bottom: 20px;
+    box-shadow: 10px 10px 25px;
 }
 h4 {
     text-decoration: underline;
@@ -182,11 +199,12 @@ h4 {
     background-color: #c00; 
     border: solid;
     color: white;
-    padding: 15px 32px;
+    padding: 5px 32px;
     text-align: center;
     text-decoration: none;
     /* float: right; */
     display: inline-block;
+    
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -258,8 +276,14 @@ h4 {
     justify-content: center;
     align-items: center;
     background-color: #c00;
-    box-shadow: 0 10px 25px;
+    box-shadow: 10px 20px 10px rgb(9, 9, 9);
+    
 }
+
+/* tbody{
+    box-shadow: 0 10px 25px;
+} */
+
 
 .btnEdit{
     background-color: rgb(26, 100, 98);
@@ -377,6 +401,10 @@ h4 {
     justify-content: center;
 }
 
+td {
+    text-align: center;
+}
+
 .fa-pen-to-square {
     background-color:rgb(0, 145, 255);
 }
@@ -395,9 +423,6 @@ h4 {
 
  .checker {
     padding: 10px;
-   
-   
-   
  }
 
 .switch {
@@ -458,5 +483,53 @@ h4 {
   } 
 
  
+/* DAIWIKS VERSION OF THE CODE FOR SEARCH BAR */
+input, textarea, .sbox{
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    color: black;
+    font-family: 'Quicksand', sans-serif;
+    border: 2px solid #c00;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.search-input{
+    width: 100%;
+    height: 30px;
+    /* border: none; */
+    background-color: white;
+    /* border-bottom: 2px solid red; */
+}
 
 
+/* DAIWIKS ANIMATION */
+@media (max-width: 900px) {
+    section span {
+        width: calc(10vw - 2px);
+        height: calc(10vw - 2px);
+    }
+}
+
+@media (max-width: 600px) {
+    section span {
+        width: calc(20vw - 2px);
+        height: calc(20vw - 2px);
+    }
+}
+
+section span {
+    position: relative;
+    display: block;
+    width: calc(6.25vw - 2px);
+    height: calc(6.25vw - 2px);
+    background: #181818;
+    z-index: 2;
+    transition: 1.5s;
+}
+
+section span:hover {
+    background: #FF0000;
+    transition: 0s;
+}
