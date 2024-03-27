@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>GoGym - Signup</title>
-    <link rel="stylesheet" href="/css/go2gym.css">
+    <title>Add Equipment</title>
+    <link rel="stylesheet" href="./css/go2gym.css">
 
     <style>
         .signup-error {
@@ -50,38 +50,41 @@
 
     <div class="signin">
         <div class="content">
-            <h2>Join GoGym</h2>
-            <form th:action="@{'/users/edit/' + ${uid}}" method="post" id="signupForm" enctype="multipart/form-data">
-                <input type="hidden" name="userId" th:value="${uid}" />
+            <h2>Add Equipment</h2>
+            <form action="/equipments/add" method="post" id="signupForm" enctype="multipart/form-data">
                 <div th:if="${signupError}" th:text="${signupError}" class="signup-error"></div>
 
                 <div class="form">
                     <div class="inputBox">
-                        <input type="text" name="newName" th:value="${user.name}">
+                        <input type="text" name="equimentType" required> <i>Equiment Type</i>
                     </div>
                     <div class="inputBox">
-                        <input type="text" name="newUsername" th:value="${user.username}" minlength="4" maxlength="12"> 
+                        <input type="text" name="description" required> <i>Description</i>
                     </div>
                     <div class="inputBox">
-                        <input type="password" name="newPassword" th:value="${user.password}" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}" title="Password must contain at least 8 characters, including UPPER/lowercase letters, numbers, and symbols." >
+                        <input type="text" name="totalAmount" required> <i>#Total Amount</i>
                     </div>
                     <div class="inputBox">
-                        <input type="email" name="newEmail" th:value="${user.email}">
+                        <input type="text" name="borrowed" required> <i>#Borrowed</i>
                     </div>
                     <div class="inputBox">
-                        <input type="boolean" name="newMembershipStatus" th:value="${user.membershipStatus}">
-                    </div>
+                        <input type="text" name="inStock" required> <i>#In Stock</i>
+                    </div>                             
                     <div class="inputBox">
                         <input type="file" name="image" accept="image/jpeg, image/png" onchange="validateImage()">
-                        <i>Profile Picture</i>
+                        <i>Equipment Image</i>
                     </div>
+                    <!-- <div class="inputBox">
+                        <label for="membershipStatus">Membership Status:</label>
+                        <select name="membershipStatus" id="membershipStatus" required>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div> -->
                     <div class="inputBox">
-                        <input type="submit" value="Edit">
+                        <input type="submit" value="Add Equipment">
                     </div>
-                    <div class="inputBox">
-                        <input type="submit" value="Back" onclick="window.location.href='/admin/admin_dashboard_protected'">
-                    </div>
-                </div>                
+                </div>
             </form>
         </div>
     </div>
@@ -97,6 +100,7 @@
         }
     };
 </script>
+
 <script>
     function validateImage() {
         const fileInput = document.querySelector('input[type="file"]');
@@ -135,9 +139,12 @@
         }
     }
     
-    // Attach the validation function to the file input 'change' event
+    // Attach the validation function to the file input 'change' event js work 
     document.querySelector('input[type="file"]').addEventListener('change', validateImage);
 </script>
+    
+    
+
 
 </body>
 </html>

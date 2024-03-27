@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>GoGym - Signup</title>
+    <title>Edit Equipment</title>
     <link rel="stylesheet" href="/css/go2gym.css">
 
     <style>
@@ -50,38 +50,45 @@
 
     <div class="signin">
         <div class="content">
-            <h2>Join GoGym</h2>
-            <form th:action="@{'/users/edit/' + ${uid}}" method="post" id="signupForm" enctype="multipart/form-data">
+            <h2>Edit Equipment</h2>
+            <form th:action="@{'/equipments/edit/' + ${uid}}" method="post" id="signupForm" enctype="multipart/form-data">
                 <input type="hidden" name="userId" th:value="${uid}" />
                 <div th:if="${signupError}" th:text="${signupError}" class="signup-error"></div>
 
                 <div class="form">
                     <div class="inputBox">
-                        <input type="text" name="newName" th:value="${user.name}">
+                        <input type="text" name="newequimentType" th:value="${equipment.equipmentType}">
                     </div>
                     <div class="inputBox">
-                        <input type="text" name="newUsername" th:value="${user.username}" minlength="4" maxlength="12"> 
+                        <input type="text" name="newdescription" th:value="${equipment.description}">
                     </div>
                     <div class="inputBox">
-                        <input type="password" name="newPassword" th:value="${user.password}" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}" title="Password must contain at least 8 characters, including UPPER/lowercase letters, numbers, and symbols." >
+                        <input type="text" name="newtotalAmount" th:value="${equipment.totalAmount}">
                     </div>
                     <div class="inputBox">
-                        <input type="email" name="newEmail" th:value="${user.email}">
+                        <input type="text" name="newborrowed" th:value="${equipment.borrowed}">
                     </div>
                     <div class="inputBox">
-                        <input type="boolean" name="newMembershipStatus" th:value="${user.membershipStatus}">
-                    </div>
+                        <input type="text" name="newinStock" th:value="${equipment.inStock}">
+                    </div>                             
                     <div class="inputBox">
                         <input type="file" name="image" accept="image/jpeg, image/png" onchange="validateImage()">
-                        <i>Profile Picture</i>
+                        <i>Equipment Image</i>
+                    </div>
+                    <!-- <div class="inputBox">
+                        <label for="membershipStatus">Membership Status:</label>
+                        <select name="membershipStatus" id="membershipStatus" required>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div> -->
+                    <div class="inputBox">
+                        <input type="submit" value="Edit Equipment">
                     </div>
                     <div class="inputBox">
-                        <input type="submit" value="Edit">
+                        <input type="submit" value="Back" onclick="window.location.href='/admin/admin_equipment'">
                     </div>
-                    <div class="inputBox">
-                        <input type="submit" value="Back" onclick="window.location.href='/admin/admin_dashboard_protected'">
-                    </div>
-                </div>                
+                </div>
             </form>
         </div>
     </div>
@@ -97,6 +104,7 @@
         }
     };
 </script>
+
 <script>
     function validateImage() {
         const fileInput = document.querySelector('input[type="file"]');
@@ -135,9 +143,12 @@
         }
     }
     
-    // Attach the validation function to the file input 'change' event
+    // Attach the validation function to the file input 'change' event js work 
     document.querySelector('input[type="file"]').addEventListener('change', validateImage);
 </script>
+    
+    
+
 
 </body>
 </html>

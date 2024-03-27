@@ -200,10 +200,30 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    public String destroySession(HttpServletRequest request) {
-        request.getSession().invalidate();
-        return "redirect:/login";
+    // public String destroySession(HttpServletRequest request) {
+    //     request.getSession().invalidate();
+    //     return "redirect:/login";
+    // }
+
+    public String logout(HttpServletRequest request) {
+    HttpSession session = request.getSession(false); // false means: don't create if it doesn't exist
+    if (session != null) {
+        session.invalidate(); // Invalidate session
     }
+    return "redirect:/login"; // Redirect to login page
+}
+
+
+    // @GetMapping("/logout")
+    // public String logout(HttpSession session) {
+    //     // Invalidating the session
+    //     session.invalidate();
+        
+    //     // Redirect to login page or home page after logout
+    //     return "redirect:/login";
+    // }
+
+
 
     @GetMapping("/login")
     public String showLoginForm(Model model, HttpSession session) {

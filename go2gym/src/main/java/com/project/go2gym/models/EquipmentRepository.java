@@ -8,26 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EquipmentRepository extends JpaRepository<User, Integer> {
-    List<User> findByUid(int userId);
-
-    // List<User> findByEmail(String email);
-
-    // List<User> findByUsernameAndPassword(String username, String password);
-
-    // List<User> findByUsername(String username);
-    // Optional<User> findByUsernameAndPassword(String username, String password);
-
-    // List<User> findByNameStartingWithAndUserTypeIn(String name, Collection<String> userType);
-
-    // List<User> findByNameStartingWithAndUserTypeNot(String name, String userType);
-
-    // List<User> findByUserTypeNot(String userType);
-
-    // List<User> findByNameStartingWith(String name);
-
-    // boolean existsByUsername(String username);
-
-    // boolean existsByEmail(String email);
+public interface EquipmentRepository extends JpaRepository<Equipment, Integer> {
+    List<Equipment> findByUid(int userId);
+    List<Equipment> findByEquipmentTypeStartingWith(String equipmentType);
 
 }

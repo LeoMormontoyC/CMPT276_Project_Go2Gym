@@ -1,0 +1,86 @@
+package com.project.go2gym.controllers;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.web.servlet.MockMvc;
+
+import javax.servlet.http.HttpSession;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+
+
+@WebMvcTest(UserController.class)
+public class UserControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private UserRepository usersRepository; // Mock the UserRepository
+
+    @Test
+    public void testLogout() throws Exception {
+        HttpSession session = new MockHttpSession();
+        session.setAttribute("session_user", new User()); // Assume User class is properly constructed
+
+        mockMvc.perform(get("/logout").session((MockHttpSession) session))
+                .andExpect(redirectedUrl("/login"));
+    }
+
+    @Test
+    public void testAddUser() throws Exception {
+        Map<String, String> newUser = Map.of(
+            "username", "testUser",
+            "password", "Test@1234",
+            "email", "test@example.com"
+            // Add other fields as necessary
+        );
+
+        // Mock the behavior of your repository
+        Mockito.when(usersRepository.existsByUsername(anyString())).thenReturn(false);
+        Mockito.when(usersRepository.existsByEmail(anyString())).thenReturn(false);
+        // Mock more interactions as necessary
+
+        // Perform the post request
+        mockMvc.perform(post("/users/add")
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .param("username", newUser.get("username"))
+                .param("password", newUser.get("password"))
+                .param("email", newUser.get("email"))
+                // Add other parameters as necessary
+                // For file uploads, you'll use .file(...)
+            )
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/login")); // Or wherever you redirect upon successful addition
+
+        // Verify interactions with the mock
+        Mockito.verify(usersRepository).save(any(User.class));
+    }
+
+    @Test
+    public void testAddUserWithExistingUsername() throws Exception {
+        // Mock repository behavior for an existing username
+        Mockito.when(usersRepository.existsByUsername(anyString())).thenReturn(true);
+
+        mockMvc.perform(post("/users/add")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("username", "existingUser")
+                .param("password", "Passw0rd!")
+                .param("email", "newuser@example.com")
+                // Include other necessary parameters
+            )
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/signup"));
+
+        // Verify the user was not saved
+        Mockito.verify(usersRepository, Mockito.never()).save(any(User.class));
+    }
+
+}

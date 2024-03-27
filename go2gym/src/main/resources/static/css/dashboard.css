@@ -204,7 +204,7 @@ h4 {
     text-decoration: none;
     /* float: right; */
     display: inline-block;
-    
+    border-radius: 10px;
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -378,13 +378,9 @@ h4 {
     border-radius: 10px;
 }
 
-.actionbuttons {
-    outline: none;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    padding-left: 35px;
-    color: #0800ff;
+.actionbuttons button:hover{
+     transform: scale(1.1); 
+
 }
 
 .fa-pen-to-square, .fa-trash, .fa-user {
@@ -400,6 +396,8 @@ h4 {
     background-color: #c00;
     justify-content: center;
 }
+
+
 
 td {
     text-align: center;
@@ -430,8 +428,12 @@ td {
     display: inline-block;
     width: 120px;
     height: 20px;
-    left: -65px;
+    left: -80px;
     right: 100px;
+  }
+
+  .switch:hover {
+    transform: scale(1.1);
   }
   
   .switch input { 
@@ -533,3 +535,20 @@ section span:hover {
     background: #FF0000;
     transition: 0s;
 }
+
+
+/* add equipment */
+#AddE{
+    border-radius: 10px;
+    background-color: #c00;
+    color: #ffffff;
+    padding: 10px;
+    text-align: center;
+     margin-left: 65vh; 
+     margin-bottom: 1vh;
+}
+
+#AddE:hover {
+    transform: scale(1.1);
+}
+
