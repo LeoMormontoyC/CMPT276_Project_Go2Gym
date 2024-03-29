@@ -18,22 +18,22 @@ public class User {
     private String userType; // userType whether the user is an admin, staff or a student
     private boolean membershipStatus; // if the status is "yes", then green color strip
     private String imagePath; // New field for image path
-    // private boolean checkInStatus; // New field for check in status
+    private boolean role; //basically check in status
 
 
     public User() {
         // empty default constructor
     }
 
-    public User(String name, String username, String password, String email, String userType, boolean membershipStatus, String imagePath) {
+    public User(String name, String username, String password, String email, String userType, boolean membershipStatus, String imagePath, boolean role) {
         this.name = name;
         this.username = username;
         this.password = password;
         this.email = email;
         this.userType = userType;
         this.membershipStatus = membershipStatus;
-        this.imagePath = imagePath; // Include this new field
-        // this.checkInStatus = checkInStatus; // Include this new field
+        this.imagePath = imagePath; // Include this new field        
+        this.role = role; //remember this is the check in status ok :)
     }
 
     public int getId() {
@@ -100,11 +100,11 @@ public class User {
         this.membershipStatus = membershipStatus;
     }
 
-    // public boolean isCheckInStatus() {
-    //     return checkInStatus;
-    // }
+    public boolean getRole() {
+        return role;
+    }
 
-    // public void setCheckInStatus(boolean checkInStatus) {
-    //     this.checkInStatus = checkInStatus;
-    // }
+    public void setRole(boolean role) {
+        this.role = role;
+    }
 }

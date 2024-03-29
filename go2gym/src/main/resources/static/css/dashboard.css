@@ -424,7 +424,7 @@ td {
  }
 
 .switch {
-     position: relative; 
+    position: relative; 
     display: inline-block;
     width: 120px;
     height: 20px;
@@ -437,6 +437,26 @@ td {
   }
   
   .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* SWITCH2 HERE PLEASE IGNORE THIS WAS FOR THE SHOWALL HTML TO ADJUST PADDING? */
+  .switch2 {
+    position: relative; 
+    display: inline-block;
+    width: 120px;
+    height: 20px;
+    left: 50px;
+    right: 100px;
+  }
+
+  .switch2:hover {
+    transform: scale(1.1);
+  }
+  
+  .switch2 input { 
     opacity: 0;
     width: 0;
     height: 0;

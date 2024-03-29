@@ -11,6 +11,8 @@ import java.util.Optional;
 // import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import com.project.go2gym.models.User;
@@ -18,7 +20,7 @@ import com.project.go2gym.models.UserRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import  jakarta.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -99,13 +102,14 @@ public class UserController {
         String newEmail = newuser.get("email");
         String newUserType = "STUDENT"; // Assuming default user type is STUDENT
         boolean newMembershipStatus = false; // Assuming default membership status
+        boolean newRole = false;
 
         String imageUrl = saveImage(image); // Call the image saving method here
 
         // boolean newCheckInStatus = false; // Assuming default check-in status is
         // false
 
-        User newUser = new User(newName, username, password, newEmail, newUserType, newMembershipStatus, imageUrl);
+        User newUser = new User(newName, username, password, newEmail, newUserType, newMembershipStatus, imageUrl, newRole);
         // newUser.setImagePath(imageUrl); // Set the image path for the new user
         usersRepository.save(newUser);
 
@@ -150,19 +154,20 @@ public class UserController {
         }
     }
 
+
     @GetMapping("/users/showAll")
-    public String usersShowAll(Model model, HttpSession session) {
-        // You might want to limit this to admins or staff
+    public String memberCheckIn(Model model, HttpSession session) {
         User sessionUser = (User) session.getAttribute("session_user");
-        if (sessionUser != null && "STUDENT".equals(sessionUser.getUserType())) {
-            List<User> users = usersRepository.findAll();
-            model.addAttribute("student", users);
-            return "users/showAll";
+        if (sessionUser != null) {
+            // No need to find all users, just add the logged-in user to the model
+            model.addAttribute("user", sessionUser);
+            return "users/showAll"; // This should be the path to your Thymeleaf template
         } else {
-            // Redirect to login if the user is not allowed to view all users
+            // Redirect to login if the user is not logged in
             return "redirect:/login";
         }
     }
+
 
     @PostMapping("/login")
     public String login(@RequestParam("username") String username,
@@ -200,19 +205,19 @@ public class UserController {
     }
 
     @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false); // false means: don't create if it doesn't exist
+        if (session != null) {
+            session.removeAttribute("session_user"); // Explicitly remove the user attribute
+            session.invalidate(); // Invalidate session
+        }
+        return "redirect:/login"; // Redirect to login page
+    }
+
     // public String destroySession(HttpServletRequest request) {
     //     request.getSession().invalidate();
     //     return "redirect:/login";
     // }
-
-    public String logout(HttpServletRequest request) {
-    HttpSession session = request.getSession(false); // false means: don't create if it doesn't exist
-    if (session != null) {
-        session.invalidate(); // Invalidate session
-    }
-    return "redirect:/login"; // Redirect to login page
-}
-
 
     // @GetMapping("/logout")
     // public String logout(HttpSession session) {
@@ -311,6 +316,7 @@ public class UserController {
             @RequestParam("newEmail") String newEmail,
             @RequestParam("newMembershipStatus") String newMembershipStatus,
             @RequestParam("image") MultipartFile image, // To handle image file
+            @RequestParam("role") String newRole, 
             RedirectAttributes redirectAttributes) {
         try {
             User user = usersRepository.findById(uid).orElseThrow(() -> new Exception("User not found"));
@@ -321,6 +327,8 @@ public class UserController {
             user.setPassword(newPassword); // Consider encrypting the password before saving
             user.setEmail(newEmail);
             user.setMembershipStatus(Boolean.parseBoolean(newMembershipStatus));
+            user.setRole(Boolean.parseBoolean(newRole));
+
 
             // Handle image upload
             if (!image.isEmpty()) {
@@ -455,4 +463,26 @@ public class UserController {
     // return "redirect:/staff/staff_dashboard";
     // }
     // }
+
+    
+    @PostMapping("/users/updateRole")
+    public ResponseEntity<String> updateRole(@RequestParam("userId") Integer userId, @RequestParam("role") Boolean role) {
+        Optional<User> userOptional = usersRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setRole(role);
+            usersRepository.save(user);
+            return ResponseEntity.ok("Role updated successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    }
+
+
+    @GetMapping("/users/checkedInCount")
+    @ResponseBody
+    public Long getCheckedInCount() {
+        return usersRepository.countByRoleAsBoolean();
+    }
+    
 }

@@ -1,31 +1,176 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users Database</title>
+
+    <title>GoGym Portal </title>
+
+    <link rel="stylesheet" href="/css/go2gym.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <style>
+        .crowd-meter-container {
+            display:contents;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .crowd-meter-bar {
+            width: 20px;
+            height: 50px;
+            margin-right: 4px;
+            background-color: #fff; /* White color for an unfilled bar */
+            border: 1px solid #000; /* Black border for visibility */
+        }
+        .crowd-meter-bar-filled {
+            background-color: #ff0000; /* Red color for a filled bar */
+        }
+    </style>
+
 </head>
-<body>
-    <h1>HELLO STUDENT DASHBOARD HERE</h1>
-    <a href="/logout">Logout</a>
-    <!-- <table style="border: 1px;">
-        <tr>
-            <th>Name</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Email</th>
-            <th>userType</th>
-            <th>membershipStatus</th>
+
+<body> <!-- partial:index.partial.html -->
+
+    <section> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span>
+        <!-- <form action="/users/login" method="post"> -->
+            <div class="signin">
+                <div class="content">
+                    <h2>
+                        Welcome 
+                        <label th:text="${user.name}">Member Name</label>
+                    </h2>
+                    <!-- <div class="center-panel"> -->
+                        <!-- check in switch -->
+                            <div class="members-check-in">
+                                <h2>Check-In Status</h2>
+                                <!-- Single check-in switch for the logged-in member -->
+                                <div>
+                                    <label class="switch2">
+                                        <input type="checkbox" th:checked="${user.role}" th:attr="data-user-id=${user.id}" class="role-switch">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                        <!-- Crowd Meter Section -->
+                        <div class="crowd-meter-container">
+                            <h3>Crowd Meter:</h3>
+                            <div id="crowdMeter">
+                                <div class="crowd-meter-bar"></div>
+                                <div class="crowd-meter-bar"></div>
+                                <div class="crowd-meter-bar"></div>
+                                <div class="crowd-meter-bar"></div>
+                                <div class="crowd-meter-bar"></div>
+                                <div class="crowd-meter-bar"></div>
+                                <div class="crowd-meter-bar"></div>
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="inputBox"> 
+                            <a href="/logout">Log out</a>
+                        </div>                  
+                    <!-- </div> -->
+                </div>
+            </div>
+        <!-- </form> -->
+    </section> <!-- partial -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".role-switch").forEach(item => {
+                item.addEventListener('change', function() {
+                    const userId = this.getAttribute("data-user-id");
+                    const isCheckedIn = this.checked;
+                    // Construct the URL for updating the user's role/check-in status
+                    const url = `/users/updateRole?userId=${userId}&role=${isCheckedIn}`;
     
-        </tr>
-        <tr th:each="user : ${usrs}">
-            <td th:text="${user.name}"></td>
-            <td th:text="${user.username}"></td>
-            <td th:text="${user.password}"></td>
-            <td th:text="${user.email}"></td>
-            <td th:text="${user.userType}"></td>
-            <td th:text="${user.membershipStatus}"></td>
-        </tr>
-    </table> -->
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        credentials: 'same-origin' // Necessary for including session cookies with the request
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Check-in status updated successfully');
+                        } else {
+                            alert('Failed to update check-in status');
+                            console.error('Failed to update', response);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+            });
+        });
+    </script> 
+    
+    <script>
+        // Function to update the crowd meter bars
+        function updateCrowdMeter(checkedInCount) {
+            console.log("Updating crowd meter with count: ", checkedInCount); // For debugging
+            var barsToFill = Math.floor(checkedInCount / 4);
+            var bars = document.querySelectorAll('.crowd-meter-bar');
+            var totalBars = bars.length;
+
+            // Reset all bars to unfilled state
+            bars.forEach(bar => {
+                bar.classList.remove('crowd-meter-bar-filled');
+            });
+
+            // Fill the bars from the end according to the number of checked-in users
+            bars.forEach((bar, index) => {
+                if (index >= totalBars - barsToFill) {
+                    bar.classList.add('crowd-meter-bar-filled');
+                }
+            });
+        }
+        
+        // Fetch the actual count of checked-in users from the server when the page loads
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('/users/checkedInCount')
+                .then(response => response.json()) // Parse the JSON response
+                .then(checkedInCount => {
+                    updateCrowdMeter(checkedInCount);
+                })
+                .catch(error => console.error('Error fetching checked-in count:', error));
+        });
+    </script>
+    
 </body>
 </html>
+
