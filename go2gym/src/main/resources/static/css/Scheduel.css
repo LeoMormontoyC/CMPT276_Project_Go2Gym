@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.class-box {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.class-box:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.class-header {
+    background-color: #ccc;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.class-header h2 {
+    margin: 0;
+}
+
+.class-details {
+    padding: 10px;
+    display: none;
+}
+
+.class-details p {
+    margin: 0 0 5px;
+}
+
+.fa-chevron-down {
+    transition: transform 0.3s ease;
+}
+
+.class-box.active .fa-chevron-down {
+    transform: rotate(180deg);
+}

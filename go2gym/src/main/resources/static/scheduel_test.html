@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Fitness Classes</title>
+    <link rel="stylesheet" href ="/css/Scheduel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <h1>Group Fitness Classes</h1>
+        </div>
+        <div class="class-box" id="class1">
+            <div class="class-header">
+                <h2>Class 1</h2>
+                <i class="class 1"></i>
+            </div>
+            <div class="class-details">
+                <p><strong>Timing:</strong> Monday, Wednesday, Friday 9:00 AM - 10:00 AM</p>
+                <p><strong>Instructor:</strong> Daiwik Marrott</p>
+                <p><strong>Description:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+        </div>
+        <div class="class-box" id="class2">
+            <div class="class-header">
+                <h2>Class 2</h2>
+                <i class="class 2"></i>
+            </div>
+            <div class="class-details">
+                <p><strong>Timing:</strong> Tuesday, Thursday 6:00 PM - 7:00 PM</p>
+                <p><strong>Instructor:</strong> Shiv</p>
+                <p><strong>Description:</strong> Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+        </div>
+        <div class="class-box" id="class3">
+            <div class="class-header">
+                <h2>Class 3</h2>
+                <i class="class 3"></i>
+            </div>
+            <div class="class-details">
+                <p><strong>Timing:</strong> Wednesday, Friday 6:00 PM - 7:00 PM</p>
+                <p><strong>Instructor:</strong> Leo</p>
+                <p><strong>Description:</strong> Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+        </div>    
+        <div class="class-box" id="class4">
+            <div class ="class-header">
+                <h2>Class 4</h2>
+                <i class ="class 4"></i>
+            </div>
+            <div class="class-details">
+                <p><strong>Timing:</strong> Monday, Tuesday 6:00 PM - 7:00 PM</p>
+                <p><strong>Instructor:</strong> Touhed sir</p>
+                <p><strong>Description:</strong> Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+        </div>
+        <div class="class-box" id="class5">
+            <div class ="class-header">
+                <h2>Class 5</h2>
+                <i class ="class 5"></i>
+            </div>
+            <div class="class-details">
+                <p><strong>Timing:</strong> Monday, Friday 6:00 PM - 7:00 PM</p>
+                <p><strong>Instructor:</strong> Nicole madam</p>
+                <p><strong>Description:</strong> Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+        </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".class-box").click(function(){
+                $(this).find(".class-details").slideToggle();
+            });
+        });
+    </script>
+</body>
+</html>

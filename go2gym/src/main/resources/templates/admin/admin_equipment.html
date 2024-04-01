@@ -11,226 +11,228 @@
     
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="column" id="profile">
-                <div class="col-md-3 sidebar">
-                    <div class="profile">
-                        <!-- Admin dropdown area -->
-                        <div class="account-type">
-                            <div class="dropdown">
-                                <button class="dropbtn">ADMIN PORTAL</button>
-                                <div class="dropdown-content">
-                                    <a href="/logout">Logout</a>
-                                    <!-- changed /logout -->
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- HERE COMES THE PROFILE FOR EQUIPMENT -->
-                        <div id="profile-container" th:fragment="profile-fragment">
-                            <div th:if="${profileUser}" class="user-info">
-                                <h4>EQUIPMENT PROFILE</h4>
-                                <!-- <br> -->
-                                <div id="image">
-                                    <img th:src="@{'/uploads/' + ${profileUser.imagePath}}" alt="User Profile Image" class="profile-image">
-                                </div>
 
-                                <div id="info">
-                                    <p th:text="'Name: ' + ${profileUser.equipmentType}">Equipment Type:</p>
-                                    <p th:text="'Total Stock: ' + ${profileUser.totalAmount}">Total Amount:</p>
-                                    <p th:text="'Borrowed: ' + ${profileUser.borrowed}">Borrowed:</p>
-                                    <p th:text="'Current Stock: ' + ${profileUser.inStock}">In Stock:</p>
-
+        <!-- This is the end of the background of the annmimation -->
+        <div class="equipment-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="column" id="profile">
+                        <div class="col-md-3 sidebar">
+                            <div class="profile">
+                                <!-- Admin dropdown area -->
+                                <div class="account-type">
+                                    <div class="dropdown">
+                                        <button class="dropbtn">ADMIN PORTAL</button>
+                                        <div class="dropdown-content">
+                                            <a href="/logout">Logout</a>
+                                            <!-- changed /logout -->
+                                        </div>
                                     </div>
                                 </div>
+                                
+                                <!-- HERE COMES THE PROFILE FOR EQUIPMENT -->
+                                <div id="profile-container" th:fragment="profile-fragment">
+                                    <div th:if="${profileUser}" class="user-info">
+                                        <h4>EQUIPMENT PROFILE</h4>
+                                        <!-- <br> -->
+                                        <div id="image">
+                                            <img th:src="@{'/uploads/' + ${profileUser.imagePath}}" alt="User Profile Image" class="profile-image">
+                                        </div>
+
+                                        <div id="info">
+                                            <p th:text="'Name: ' + ${profileUser.equipmentType}">Equipment Type:</p>
+                                            <p th:text="'Total Stock: ' + ${profileUser.totalAmount}">Total Amount:</p>
+                                            <p th:text="'Borrowed: ' + ${profileUser.borrowed}">Borrowed:</p>
+                                            <p th:text="'Current Stock: ' + ${profileUser.inStock}">In Stock:</p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                             </div>
+                        
                         </div>
 
-
                     </div>
-                   
-                </div>
 
+                    <div class="column" id="table">
+                        <div class="nav-container" id="smalnav">
+                            <nav>
+                                <!-- navbar -->
+                                <ul>
+                                    <li class="navigation" id="home"><a href="/admin/admin_dashboard_protected">MEMBERS</a></li>
+                                    <li class="navigation" id="equipment"><a href="/admin/admin_equipment">EQUIPMENT</a></li>
+                                    <li class="navigation" id="schedule"><a href="#">SCHEDULE</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                        <!-- ADD BUTTON HERE -->
+                        <div class="d-flex justify-content-center">
+                            <!-- Anchor tag to redirect to add.html when the + button is clicked -->
+                            <a href="/equipment.html" class="btn btn-success btn-lg">
+                                <button id="AddE" >Add Equipment</button>
+                            </a>
+                        </div>
+
+                        <div class="col-md-9 main-content">
+                            <div class="sbox">
+                                <input type="text" class="form-control search-input" placeholder="Search for names" onkeyup="filterNamesEquipment()" id="searchbar" >
+                            </div>
+                            <!-- Dynamic table from the second code snippet -->
+                            <div class="table-responsive scrollable-table-container">
+                                <table class="table table-bordered table-hover table-striped table-sm red-border">
+                                    <thead class="thead-darkred">
+                                        <tr>
+                                            <th>Equipment Type</th>
+                                            <th>Description</th>
+                                            <th>Total Amount</th>
+                                            <th>Borrowed</th>
+                                            <th>In Stock</th>
+                                            <th>Actions</th> 
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Loop through all students and display them -->
+                                        <tr th:each="equipment : ${equipments}" th:fragment="user-table">
+                                            <td th:text="${equipment.equipmentType}">equipmentType</td>
+                                            <td th:text="${equipment.description}">description</td>
+                                            <td th:text="${equipment.totalAmount}">totalAmount</td>
+                                            <td th:text="${equipment.borrowed}">borrowed</td>
+                                            <td th:text="${equipment.inStock}">inStock</td>
+                                
+                                            <td class="actiony">
+                                                <div class = "actionbuttons"> 
+                                                    <button th:onclick="'loadEquipmentProfileEdit(' + ${equipment.uid} + ')'" class="fa-solid fa-pen-to-square" ></button> 
+                                                    <button th:onclick="'loadEquipmentProfileDelete(' + ${equipment.uid} + ')'" class="fa-solid fa-trash" ></button> 
+                                                    <button th:onclick="'loadEquipmentProfile(' + ${equipment.uid} + ')'" class="fa-solid fa-user" > </button> 
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- End of dynamic table -->
+                        </div>
+                    </div>
+
+                    <!-- <div class="column" id="nav-bar">
+                    <div class="nav_container">
+                        <div class="navigation" id="home">
+                            <a href="/admin_dashboard_protected">HOME</a>
+                        </div>
+                    <div class="search-bar">
+                    </div>
+                    <br>
+                    <div class="navigation" id="equipment">
+                        <a href="#">EQUIPMENT</a>
+                    </div>
+                    <div class="search-bar">
+                    </div>
+                    <br>
+                    <div class="navigation" id="gc">
+                        <a href="#">GROUP CLASSES</a>
+                    </div>
+                        </div>
+                    </div> -->
+                    
+                
+                    
+                </div>
             </div>
 
-            <div class="column" id="table">
-                <div class="nav-container" id="smalnav">
-                    <nav>
-                        <!-- navbar -->
-                        <ul>
-                            <li class="navigation" id="home"><a href="/admin/admin_dashboard_protected">MEMBERS</a></li>
-                            <li class="navigation" id="equipment"><a href="/admin/admin_equipment">EQUIPMENT</a></li>
-                            <li class="navigation" id="schedule"><a href="#">SCHEDULE</a></li>
-                        </ul>
-                    </nav>
-                </div>
+            <!-- Include your scripts -->
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.7.0/dist/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <script>
+                function filterNamesEquipment() {
+                    const searchValue = document.querySelector('.search-input').value;
+                    fetch(`/equipment/filter?search=${searchValue}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.querySelector('.table-responsive table tbody').innerHTML = html; //document.querySelector('.table-responsive').innerHTML = html;
+                    });
+                }
+            </script>
 
-                <!-- ADD BUTTON HERE -->
-                <div class="d-flex justify-content-center">
-                    <!-- Anchor tag to redirect to add.html when the + button is clicked -->
-                    <a href="/equipment.html" class="btn btn-success btn-lg">
-                        <button id="AddE" >Add Equipment</button>
-                    </a>
-                </div>
+            <script>
+                // Function to toggle membership status and update button
+                // Note: This will now purely work on the client side; to reflect changes server-side, you'd need to make an API call or form submission
+                function toggleMembershipStatus() {
+                    const button = document.getElementById('membershipStatusButton');
+                    const isActive = button.dataset.status === 'true';
 
-                <div class="col-md-9 main-content">
-                    <div class="sbox">
-                        <input type="text" class="form-control search-input" placeholder="Search for names" onkeyup="filterNamesEquipment()" id="searchbar" >
-                    </div>
-                    <!-- Dynamic table from the second code snippet -->
-                    <div class="table-responsive scrollable-table-container">
-                        <table class="table table-bordered table-hover table-striped table-sm red-border">
-                            <thead class="thead-darkred">
-                                <tr>
-                                    <th>Equipment Type</th>
-                                    <th>Description</th>
-                                    <th>Total Amount</th>
-                                    <th>Borrowed</th>
-                                    <th>In Stock</th>
-                                    <th>Actions</th> 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Loop through all students and display them -->
-                                <tr th:each="equipment : ${equipments}" th:fragment="user-table">
-                                    <td th:text="${equipment.equipmentType}">equipmentType</td>
-                                    <td th:text="${equipment.description}">description</td>
-                                    <td th:text="${equipment.totalAmount}">totalAmount</td>
-                                    <td th:text="${equipment.borrowed}">borrowed</td>
-                                    <td th:text="${equipment.inStock}">inStock</td>
-                        
-                                    <td class="actiony">
-                                        <div class = "actionbuttons"> 
-                                            <button th:onclick="'loadEquipmentProfileEdit(' + ${equipment.uid} + ')'" class="fa-solid fa-pen-to-square" ></button> 
-                                            <button th:onclick="'loadEquipmentProfileDelete(' + ${equipment.uid} + ')'" class="fa-solid fa-trash" ></button> 
-                                            <button th:onclick="'loadEquipmentProfile(' + ${equipment.uid} + ')'" class="fa-solid fa-user" > </button> 
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- End of dynamic table -->
-                </div>
-            </div>
+                    // Toggle the data-status attribute
+                    button.dataset.status = isActive ? 'false' : 'true';
+                    
+                    // Update button based on the new status
+                    updateButtonAppearance(isActive ? false : true);
+                }
 
-            <!-- <div class="column" id="nav-bar">
-               <div class="nav_container">
-                <div class="navigation" id="home">
-                    <a href="/admin_dashboard_protected">HOME</a>
-                </div>
-               <div class="search-bar">
-               </div>
-               <br>
-               <div class="navigation" id="equipment">
-                   <a href="#">EQUIPMENT</a>
-               </div>
-               <div class="search-bar">
-               </div>
-               <br>
-               <div class="navigation" id="gc">
-                   <a href="#">GROUP CLASSES</a>
-               </div>
-                </div>
-            </div> -->
-            
-           
-               
-        </div>
-    </div>
-
-    <!-- Include your scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.7.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        function filterNamesEquipment() {
-            const searchValue = document.querySelector('.search-input').value;
-            fetch(`/equipment/filter?search=${searchValue}`)
-            .then(response => response.text())
-            .then(html => {
-                document.querySelector('.table-responsive table tbody').innerHTML = html; //document.querySelector('.table-responsive').innerHTML = html;
-            });
-        }
-    </script>
-
-    <script>
-        // Function to toggle membership status and update button
-        // Note: This will now purely work on the client side; to reflect changes server-side, you'd need to make an API call or form submission
-        function toggleMembershipStatus() {
-            const button = document.getElementById('membershipStatusButton');
-            const isActive = button.dataset.status === 'true';
-
-            // Toggle the data-status attribute
-            button.dataset.status = isActive ? 'false' : 'true';
-            
-            // Update button based on the new status
-            updateButtonAppearance(isActive ? false : true);
-        }
-
-        // Function to update button appearance
-        function updateButtonAppearance(isActive) {
-            const button = document.getElementById('membershipStatusButton');
-            if (isActive) {
-                button.style.backgroundColor = 'green';
-                button.innerText = 'Active Membership';
-            } else {
-                button.style.backgroundColor = 'red';
-                button.innerText = 'Inactive Membership';
-            }
-        }
-
-        // Run this function when the window loads to set the initial button state based on the data-status attribute
-        window.onload = function() {
-            const isActive = document.getElementById('membershipStatusButton').dataset.status === 'true';
-            updateButtonAppearance(isActive);
-        };
-        
-        function loadEquipmentProfileDelete(equipmentId) {
-            if (confirm('Are you sure you want to delete the equipment?')) {
-                fetch(`/equipments/delete/${equipmentId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        // Add CSRF token header if needed for security
-                    },
-                    // Include credentials if your endpoint requires authentication
-                    credentials: 'same-origin',
-                })
-                .then(response => {
-                    if (response.ok) {
-                        window.location.href = '/admin/admin_equipment';
+                // Function to update button appearance
+                function updateButtonAppearance(isActive) {
+                    const button = document.getElementById('membershipStatusButton');
+                    if (isActive) {
+                        button.style.backgroundColor = 'green';
+                        button.innerText = 'Active Membership';
                     } else {
-                        console.error('Deletion failed', response.statusText);
-                        // Optionally, alert the user that the deletion failed
-                        alert('Failed to delete the user. Please try again.');
+                        button.style.backgroundColor = 'red';
+                        button.innerText = 'Inactive Membership';
                     }
-                })
-                .catch(error => {
-                    console.error('Network error:', error);
-                    // Optionally, alert the user that there was a network error
-                    alert('Network error. Please try again.');
-                });
-            }
-        }
+                }
+
+                // Run this function when the window loads to set the initial button state based on the data-status attribute
+                window.onload = function() {
+                    const isActive = document.getElementById('membershipStatusButton').dataset.status === 'true';
+                    updateButtonAppearance(isActive);
+                };
+                
+                function loadEquipmentProfileDelete(equipmentId) {
+                    if (confirm('Are you sure you want to delete the equipment?')) {
+                        fetch(`/equipments/delete/${equipmentId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                // Add CSRF token header if needed for security
+                            },
+                            // Include credentials if your endpoint requires authentication
+                            credentials: 'same-origin',
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                window.location.href = '/admin/admin_equipment';
+                            } else {
+                                console.error('Deletion failed', response.statusText);
+                                // Optionally, alert the user that the deletion failed
+                                alert('Failed to delete the user. Please try again.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Network error:', error);
+                            // Optionally, alert the user that there was a network error
+                            alert('Network error. Please try again.');
+                        });
+                    }
+                }
 
 
-        function loadEquipmentProfileEdit(userId){
-            fetch(`/equipments/edit/${userId}`)
-            window.location.href = '/equipments/edit/' + userId;
-        }
+                function loadEquipmentProfileEdit(userId){
+                    fetch(`/equipments/edit/${userId}`)
+                    window.location.href = '/equipments/edit/' + userId;
+                }
 
-        function loadEquipmentProfile(userId) {
-        fetch(`/equipments/fragment/profile/${userId}`)
-            .then(response => response.text())
-            .then(html => {
-                // Update only the profile-container div
-                document.getElementById('profile-container').innerHTML = html;
-            });
-        }
-        
-
-    </script>
+                function loadEquipmentProfile(userId) {
+                fetch(`/equipments/fragment/profile/${userId}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        // Update only the profile-container div
+                        document.getElementById('profile-container').innerHTML = html;
+                    });
+                }
+            </script>
+        </div>
 </body>
 </html>
