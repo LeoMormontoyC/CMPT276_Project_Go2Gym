@@ -494,7 +494,7 @@
                                 </thead>
                                 <tbody>
                                     <!-- Loop through all students and display them -->
-                                    <tr th:each="user : ${users}" th:fragment="user-table">
+                                    <tr th:each="user : ${users}" th:fragment="user-table" >
                                         <td th:text="${user.name}">Name</td>
                                         <td th:text="${user.username}">Username</td>
                                         <td th:text="${user.email}">Email</td>
