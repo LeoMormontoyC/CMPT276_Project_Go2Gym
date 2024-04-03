@@ -10,6 +10,26 @@
     <!-- Include any other CSS files needed -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+         .addequp {
+            /* margin-top: 4.2em; */
+            margin: auto;
+            /* padding: 17px; */
+            /* margin-left: 29rem; */
+            height: 1rem;
+            width: 0rem;
+        }
+
+        .addequp:hover {
+            transform: scale(1.1);
+        }
+
+        .add-button {
+            width: 10rem;
+        }
+
+        /* #addequp {
+            width: 200px;
+        }  */
         .search-box {
             position: relative;
             width: 100%;
@@ -177,81 +197,90 @@
             margin: 0px;
             margin-bottom: 15px;
         }
-    </style>
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var searchInput = document.getElementById('search');
-            var searchBox = document.querySelector('.search-box');
-            var searchIcon = document.querySelector('.search-icon');
-            var goIcon = document.querySelector('.go-icon');
-            var searchForm = document.querySelector('.search-form');
 
-            searchInput.addEventListener('focus', function () {
-                searchBox.classList.add('border-searching');
-                searchIcon.classList.add('si-rotate');
-            });
 
-            searchInput.addEventListener('blur', function () {
-                searchBox.classList.remove('border-searching');
-                searchIcon.classList.remove('si-rotate');
-            });
 
-            searchInput.addEventListener('keyup', function () {
-                if (this.value.length > 0) {
-                    goIcon.classList.add('go-in');
-                } else {
-                    goIcon.classList.remove('go-in');
-                }
-            });
 
-            // goIcon.addEventListener('click', function () {
-            //     searchForm.submit();
-            // });
-        });
-
-    </script> -->
-
-    <!-- <style>
-        .search-box {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            height: 60px;
-            border-radius: 120px;
-            margin: 0 auto;
-        }
-    
-        .search-form {
-            flex: 1; /* This will make the input take up remaining space */
-            position: relative;
-        }
-    
-        .search-icon,
-        .go-icon {
-            height: 60px;
-            width: 86px;
-            line-height: 61px;
-            text-align: center;
-        }
-    
-        #search {
-            font-family: 'Montserrat Alternates', sans-serif;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 120px;
+        .add-button {
+            background-color: #007bff;
+            /* Blue color */
+            color: white;
+            /* Text color */
             border: none;
-            background: rgba(255, 255, 255, 0);
-            padding: 0 68px 0 68px;
-            color: #FFFFFF;
-            font-size: 1.32em;
-            font-weight: 400;
-            letter-spacing: -0.015em;
-            outline: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px 20px;
+            /* Padding for better visual appearance */
+            border-radius: 5px;
+            /* Rounded corners */
         }
-    </style> -->
+
+        /* Style for the icon */
+        .add-button i {
+            margin-right: 5px;
+            /* Adjust the spacing between text and icon */
+        }
+        /* this is the schedule page css that is added not to the main dashboard css to make it more manageable */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .class-box {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .class-box:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .class-header {
+            background-color: #ccc;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .class-header h2 {
+            margin: 0;
+        }
+
+        .class-details {
+            padding: 10px;
+            display: none;
+        }
+
+        .class-details p {
+            margin: 0 0 5px;
+        }
+
+        .fa-chevron-down {
+            transition: transform 0.3s ease;
+        }
+
+        .class-box.active .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+    </style>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var searchInput = document.getElementById('search');
@@ -277,21 +306,7 @@
                     goIcon.classList.remove('go-in');
                 }
             });
-
-            // goIcon.addEventListener('click', function () {
-            //     searchForm.submit();
-            // });
         });
-        // notes edit button
-        // textarea.addEventListener('focus', function () {
-        //     // Change border color when focused
-        //     this.style.borderColor = 'red';
-        // });
-
-        // textarea.addEventListener('blur', function () {
-        //     // Restore border color when focus is lost
-        //     this.style.borderColor = 'red';
-        // });
         function makenoteseditable(e) {
             console.log(e);
             let textarea = document.querySelector('#notes-content')
@@ -445,7 +460,7 @@
 
                             <!-- navbar -->
                             <ul>
-                                <li class="navigation" id="home"><a href="/admin/admin_dashboard_protected">MEMBERS</a>
+                                <li class="navigation" id="home"><a href="/admin/admin_dashboard_protected">DASHBOARD</a>
                                 </li>
                                 <li class="navigation" id="equipment"><a href="/admin/admin_equipment">EQUIPMENT</a>
                                 </li>
@@ -455,6 +470,7 @@
                     </div>
                     <div class="col-md-9 main-content">
                         <div class="sbox">
+                            <!-- THE ORIGINAL SEARCH BAR THAT WE CREATED -->
                             <!-- <input type="text" class="form-control search-input" placeholder="Search for names"
                                 onkeyup="filterNames()" id="searchbar"> -->
                             <div class="search-box">
@@ -476,29 +492,53 @@
                                         d="M335.5,108.5h280c29.3,0,53-23.7,53-53v0c0-29.3-23.7-53-53-53h-280"></path>
                                 </svg>
                             </div>
-                            
+                            <div class="addequp">
+
+                                <button onclick="loadEquipmentProfileEdit(4)" class="add-button">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
+                        <!--  -->
+                        <div class="container">
+                            <div class="title">
+                                <h1>Group Fitness Class Schedule</h1>
+                            </div>
+                            <div class="class-box" id="class1">
+                                <div class="class-header">
+                                    <h2>Introduction to Muscles</h2>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="class-details">
+                                    <p><strong>Timings:</strong> Monday, Wednesday, Friday 9:00 AM - 10:00 AM</p>
+                                    <p><strong>Instructor:</strong> Daiwik Marrott</p>
+                                    <p><strong>Description:</strong> An introduction to the ways of working out in the Gym with Strength or Endurance training </p>
+                                </div>
+                            </div>
+                            <div class="class-box" id="class2">
+                                <div class="class-header">
+                                    <h2>Meditation 101</h2>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="class-details">
+                                    <p><strong>Timing:</strong> Tuesday, Thursday 6:00 PM - 7:00 PM</p>
+                                    <p><strong>Instructor:</strong> Bliss </p>
+                                    <p><strong>Description:</strong> Learning the art of connecting the mind to the nature</p>
+                                </div>
+                            </div>
+                            <!-- I can add classes here by hardcoding the classes here manually if neeeded, or we can make a database and bank end for this with a add buton -->
+                        </div>
+
+                        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                        <script>
+                            $(document).ready(function () {
+                                $(".class-box").click(function () {
+                                    $(this).find(".class-details").slideToggle();
+                                });
+                            });
+                        </script>
                     </div>
                 </div>
-
-                <!-- <div class="column" id="nav-bar">
-                   <div class="nav_container">
-                        <div class="navigation" id="home">
-                            <a href="#">MEMBERS</a>
-                        </div>
-                        
-                        <div class="navigation" id="equipment">
-                                <a href="/admin/admin_equipment">EQUIPMENT</a>
-                            </div>
-    
-                        <div class="navigation" id="schedule">
-                            <a href="#">Schedule</a>
-                        </div>
-                    </div>
-                </div> -->
-
-
-
             </div>
         </div>
     </div>
