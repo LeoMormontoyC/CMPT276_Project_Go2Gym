@@ -99,7 +99,7 @@
    
 }
 .navigation a:hover {
-    text-decoration: underline; 
+    text-decoration: none; 
 }
 
 .navigation2 a {
@@ -109,7 +109,7 @@
     padding: 10px 0;
 }
 .navigation2 a:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 .navigation3 a {
@@ -119,13 +119,17 @@
     padding: 10px 0;
 }
 .navigation3 a:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
 .main-content {
     /* background-color: #f8f9fa; */
     padding: 20px;
     background-color: #c00;
     border-radius: 10px;
+
+}
+.user-info {
+    max-width: 100%;
 }
 .user-card {
     border: 1px solid #ddd;
@@ -182,12 +186,14 @@
     font-size: 24px;
     border: none;
     cursor: pointer;
+    margin: 0 auto;
+    max-width: 100%;
 }
 .scrollable-table-container {
     max-height: 100vh; 
     overflow-y: auto;
     margin-bottom: 20px;
-    box-shadow: 10px 10px 25px;
+    /* box-shadow: 10px 10px 25px; */
 }
 h4 {
     text-decoration: underline;
@@ -199,12 +205,13 @@ h4 {
     background-color: #c00; 
     border: solid;
     color: white;
-    padding: 5px 32px;
+    /* padding: 5px 32px; */
     text-align: center;
     text-decoration: none;
     /* float: right; */
     display: inline-block;
     border-radius: 10px;
+    max-width: 100%;
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -212,7 +219,7 @@ h4 {
     display: none;
     position: relative;
     background-color: #f1f1f1;
-    min-width: 160px;
+    /* min-width: 160px; */
     /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
     z-index: 1;
 }
@@ -268,7 +275,7 @@ h4 {
 
 .sbox {
     height: 70px;
-    
+    margin: 0px;
     display: flex;
     cursor: pointer;
     padding: 10px 10px;
@@ -276,7 +283,7 @@ h4 {
     justify-content: center;
     align-items: center;
     background-color: #c00;
-    box-shadow: 10px 20px 10px rgb(9, 9, 9);
+    /* box-shadow: 10px 20px 10px rgb(9, 9, 9); */
     
 }
 
@@ -363,6 +370,11 @@ h4 {
     color: white;
     border-radius: 10px;
     min-height: fit-content;
+    max-width: 100%;
+}
+textarea {
+    max-width: 100%;
+    resize:none;
 }
 
 /* button {
@@ -517,17 +529,17 @@ input, textarea, .sbox{
     margin-bottom: 0;
 }
 
-.search-input{
+.search-box {
     width: 100%;
     height: 30px;
     /* border: none; */
-    background-color: white;
+    /* background-color: white; */
     /* border-bottom: 2px solid red; */
 }
 
 
 /* DAIWIKS ANIMATION */
-@media (max-width: 900px) {
+/* @media (max-width: 900px) {
     section span {
         width: calc(10vw - 2px);
         height: calc(10vw - 2px);
@@ -554,7 +566,7 @@ section span {
 section span:hover {
     background: #FF0000;
     transition: 0s;
-}
+} */
 
 
 /* add equipment */
@@ -572,3 +584,376 @@ section span:hover {
     transform: scale(1.1);
 }
 
+/* This is the background annimation */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Quicksand', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #000;
+}
+
+section {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+section::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#000, #FF0000, #000);
+    animation: animate 5s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes animate {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+section span {
+    position: relative;
+    display: block;
+    width: calc(6.25vw - 2px);
+    height: calc(6.25vw - 2px);
+    background: #181818;
+    z-index: 2;
+    transition: 1.5s;
+}
+
+section span:hover {
+    background: #FF0000;
+    transition: 0s;
+}
+
+section .signin {
+    position: absolute;
+    width: 400px;
+    background: #222;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 9);
+}
+
+section .signin .content {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 40px;
+}
+
+section .signin .content h2 {
+    font-size: 2em;
+    color: #FF0000;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+section .signin .content h3 {
+    font-size: 1em;
+    color: #FF0000;
+    text-transform: uppercase;
+}
+section .signin .content h4 {
+    font-size: 0.25em;
+    color: #FF0000;
+    text-transform: uppercase;
+}
+section .signin .content .form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+section .signin .content .form .inputBox {
+    position: relative;
+    width: 100%;
+}
+
+section .signin .content .form .inputBox input {
+    position: relative;
+    width: 100%;
+    background: #333;
+    border: none;
+    outline: none;
+    padding: 25px 10px 7.5px;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 1em;
+    /* height: 30vh; */
+}
+
+section .signin .content .form .inputBox i {
+    position: absolute;
+    left: 0;
+    padding: 15px 10px;
+    font-style: normal;
+    color: #aaa;
+    transition: 0.5s;
+    pointer-events: none;
+}
+
+.signin .content .form .inputBox input:focus~i,
+.signin .content .form .inputBox input:valid~i {
+    transform: translateY(-7.5px);
+    font-size: 0.8em;
+    color: #fff;
+}
+
+.signin .content .form .links {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    display: inline-block; /* To allow transform */
+    transition: transform 0.3s ease; /* Smooth transition */
+    font: bold;
+    font-size: large;
+}
+
+.signin .content .form .links:hover {
+    transform: scale(1.1); /* Slightly increase the size */
+}
+
+
+.signin .content .form .links a {
+    color: #FF0000;
+    text-decoration: none;
+    font: bold;
+    font-size: large;
+}
+
+.signin .content .form .links a:nth-child(2) {
+    color: #FF0000;
+    font-weight: 600;
+    font: bold;
+    font-size: large;
+}
+
+
+.signin .content .form .linkss {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    display: inline-block; /* To allow transform */
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+.signin .content .form .linkss:hover {
+    transform: scale(1.1); /* Slightly increase the size */
+}
+
+
+.signin .content .form .linkss a {
+    color: #FF0000;
+    text-decoration: none;
+}
+
+.signin .content .form .linkss a:nth-child(2) {
+    color: #FF0000;
+    font-weight: 600;
+}
+
+
+.signin .content .form .inputBox input[type="submit"] {
+    padding: 10px;
+    background: #FF0000;
+    color: #000;
+    font-weight: 600;
+    font-size: 1.35em;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    display: inline-block; /* To allow transform */
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+.signin .content .form .inputBox:hover input[type="submit"] {
+    transform: scale(1.1); /* Slightly increase the size */
+}
+
+
+input[type="submit"]:active {
+    opacity: 0.6;
+}
+
+
+
+@media (max-width: 900px) {
+    section span {
+        width: calc(10vw - 2px);
+        height: calc(10vw - 2px);
+    }
+}
+
+@media (max-width: 600px) {
+    section span {
+        width: calc(20vw - 2px);
+        height: calc(20vw - 2px);
+    }
+}
+
+.back-to-login {
+    padding: 10px;
+    background: #FF0000;
+    color: #000;
+    font-weight: 600;
+    font-size: 1.35em;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    display: inline-block; /* To allow transform */
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+.back-to-login:hover {
+    transform: scale(1.1); /* Slightly increase the size */
+}
+
+.successMessageStyle {
+    color: #FF0000;
+    font-weight: 600;
+    font-size: large;
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center; /* use 'center' if you want the content centered */
+    text-align: center; 
+}
+
+.background-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Ensure it stays in the background */
+}
+
+
+
+
+/* NVMNVMVNMVNVNVN */
+.center-panel {
+    position: absolute;
+    width: 300px; /* Adjust as needed */
+    padding: 20px;
+    background: #fff; /* Change to match the image */
+    border-radius: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    z-index: 10; /* Make sure it's above the background */
+}
+
+.center-panel .location {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.center-panel .crowd-meter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.center-panel .crowd-meter span {
+    display: block;
+    width: 10px; /* Adjust as needed */
+    height: 10px; /* Adjust as needed */
+    margin: 0 2px;
+    background-color: #ccc; /* Starting color */
+    border-radius: 50%;
+}
+
+.center-panel .crowd-meter span.active {
+    background-color: #7c4dff; /* Active color */
+}
+
+.center-panel .check-in {
+    display: block;
+    width: 100%;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #7c4dff;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Adjustments for the meter based on your crowd level */
+.center-panel .crowd-meter .low {
+    background-color: #4caf50; /* Green for low crowd */
+}
+
+.center-panel .crowd-meter .medium {
+    background-color: #ffeb3b; /* Yellow for medium crowd */
+}
+
+.center-panel .crowd-meter .high {
+    background-color: #f44336; /* Red for high crowd */
+}
+
+.Wrapper1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Ensure it stays in the background */
+    overflow: hidden;
+}
+.Wrapper2 {
+    z-index: 1;
+    max-height: 55rem;
+    overflow: hidden;
+    width: 100%;
+    padding-left: 7rem;
+    margin-bottom: 2%;
+}
