@@ -1,289 +1,562 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GO GYM - Admin Dashboard</title>
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" href ="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
     <!-- Include any other CSS files needed -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .search-box {
+            position: relative;
+            width: 100%;
+            max-width: 360px;
+            height: 30px;
+            border-radius: 120px;
+            margin: 0 auto;
+            margin-bottom: 1rem;
+        }
+
+        .search-icon,
+        .go-icon {
+            position: absolute;
+            top: 0;
+            height: 60px;
+            width: 86px;
+            line-height: 61px;
+            text-align: center;
+        }
+
+        .search-icon {
+            left: 0;
+            pointer-events: none;
+            font-size: 1.22em;
+            will-change: transform;
+            transform: rotate(-45deg);
+            -webkit-transform: rotate(-45deg);
+            -moz-transform: rotate(-45deg);
+            -o-transform: rotate(-45deg);
+            transform-origin: center center;
+            -webkit-transform-origin: center center;
+            -moz-transform-origin: center center;
+            -o-transform-origin: center center;
+            transition: transform 400ms 220ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+            -webkit-transition: transform 400ms 220ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+            -moz-transition: transform 400ms 220ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+            -o-transition: transform 400ms 220ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+        }
+
+        .si-rotate {
+            transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+        }
+
+        .go-icon {
+            right: 0;
+            pointer-events: none;
+            font-size: 1.38em;
+            will-change: opacity;
+            cursor: default;
+            opacity: 0;
+            transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            -o-transform: rotate(45deg);
+            transition: opacity 190ms ease-out, transform 260ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+            -webkit-transition: opacity 190ms ease-out, transform 260ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+            -moz-transition: opacity 190ms ease-out, transform 260ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+            -o-transition: opacity 190ms ease-out, transform 260ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+        }
+
+        .go-in {
+            opacity: 1;
+            pointer-events: all;
+            cursor: pointer;
+            transform: rotate(0);
+            -webkit-transform: rotate(0);
+            -moz-transform: rotate(0);
+            -o-transform: rotate(0);
+            transition: opacity 190ms ease-out, transform 260ms 20ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+            -webkit-transition: opacity 190ms ease-out, transform 260ms 20ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+            -moz-transition: opacity 190ms ease-out, transform 260ms 20ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+            -o-transition: opacity 190ms ease-out, transform 260ms 20ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+        }
+
+        .search-border {
+            display: block;
+            width: 100%;
+            max-width: 360px;
+            height: 60px;
+            margin-bottom: 1rem;
+            padding: 3px;
+            /* padding-bottom: 1rem; */
+        }
+
+        .border {
+            fill: none;
+            stroke: #FFFFFF;
+            stroke-width: 5;
+            stroke-miterlimit: 10;
+            width: 100%;
+        }
+
+        .border {
+            stroke-dasharray: 740;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 400ms cubic-bezier(0.600, 0.040, 0.735, 0.990);
+            -webkit-transition: stroke-dashoffset 400ms cubic-bezier(0.600, 0.040, 0.735, 0.990);
+            -moz-transition: stroke-dashoffset 400ms cubic-bezier(0.600, 0.040, 0.735, 0.990);
+            -o-transition: stroke-dashoffset 400ms cubic-bezier(0.600, 0.040, 0.735, 0.990);
+        }
+
+        .border-searching .border {
+            stroke-dasharray: 740;
+            stroke-dashoffset: 459;
+            transition: stroke-dashoffset 650ms cubic-bezier(0.755, 0.150, 0.205, 1.000);
+            -webkit-transition: stroke-dashoffset 650ms cubic-bezier(0.755, 0.150, 0.205, 1.000);
+            -moz-transition: stroke-dashoffset 650ms cubic-bezier(0.755, 0.150, 0.205, 1.000);
+            -o-transition: stroke-dashoffset 650ms cubic-bezier(0.755, 0.150, 0.205, 1.000);
+        }
+
+        #search {
+            font-family: 'Montserrat Alternates', sans-serif;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 120px;
+            border: none;
+            background: rgba(255, 255, 255, 0);
+            padding: 0 68px 0 68px;
+            color: #FFFFFF;
+            font-size: 1.32em;
+            font-weight: 400;
+            letter-spacing: -0.015em;
+            outline: none;
+        }
+
+        #search::-webkit-input-placeholder {
+            color: #FFFFFF;
+        }
+
+        #search::-moz-placeholder {
+            color: #FFFFFF;
+        }
+
+        #search:-ms-input-placeholder {
+            color: #FFFFFF;
+        }
+
+        #search:-moz-placeholder {
+            color: #FFFFFF;
+        }
+
+        #search::-moz-selection {
+            color: #FFFFFF;
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        #search::selection {
+            color: #FFFFFF;
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        .sbox {
+            padding: 0px;
+            margin: 0px;
+            margin-bottom: 15px;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var searchInput = document.getElementById('search');
+            var searchBox = document.querySelector('.search-box');
+            var searchIcon = document.querySelector('.search-icon');
+            var goIcon = document.querySelector('.go-icon');
+            var searchForm = document.querySelector('.search-form');
+
+            searchInput.addEventListener('focus', function () {
+                searchBox.classList.add('border-searching');
+                searchIcon.classList.add('si-rotate');
+            });
+
+            searchInput.addEventListener('blur', function () {
+                searchBox.classList.remove('border-searching');
+                searchIcon.classList.remove('si-rotate');
+            });
+
+            searchInput.addEventListener('keyup', function () {
+                if (this.value.length > 0) {
+                    goIcon.classList.add('go-in');
+                } else {
+                    goIcon.classList.remove('go-in');
+                }
+            });
+
+            // goIcon.addEventListener('click', function () {
+            //     searchForm.submit();
+            // });
+        });
+        function makenoteseditable(e) {
+            console.log(e);
+            let textarea = document.querySelector('#notes-content')
+            textarea.attributes.removeNamedItem('readonly')
+            textarea.style.borderColor = '#005FCC';
+            textarea.style.color = '#005FCC';
+
+        }
+
+    </script>
 </head>
+
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="column" id="profile">
-                <div class="col-md-3 sidebar">
-                    <div class="profile">
-                        <!-- Admin dropdown area -->
-                        <div class="account-type">
-                            <div class="dropdown">
-                                <button class="dropbtn">STAFF PORTAL</button>
-                                <div class="dropdown-content">
-                                    <a href="/logout">Logout</a>
-                                    <!-- changed /logout -->
+    <div class="Wrapper1">
+        <section> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            <span></span>
+            <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+            < span></span>
+                <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span>
+    </div>
+    <div class="Wrapper2">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="column" id="profile">
+                    <div class="col-md-3 sidebar">
+                        <div class="profile">
+                            <!-- Admin dropdown area -->
+                            <div class="account-type">
+                                <div class="dropdown">
+                                    <button class="dropbtn">STAFF PORTAL</button>
+                                    <div class="dropdown-content">
+                                        <a href="/logout">Logout</a>
+                                        <!-- changed /logout -->
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <!-- <br><br> -->
 
-                        <!-- Placeholder for image, you might want to add an img tag here -->
-                        <div id="profile-container" th:fragment="profile-fragment">
-                            <div th:if="${profileUser}" class="user-info">
-                                <h4>PROFILE</h4>
-                                <!-- <br> -->
-                                <div id="image">
-                                    <img th:src="@{'/uploads/' + ${profileUser.imagePath}}" alt="User Profile Image" class="profile-image">
-                                </div>
+                            <!-- <br><br> -->
 
-                                <div id="info">
-                                    <p th:text="'Name: ' + ${profileUser.name}">Name:</p>
-                                    <p th:text="${profileUser.membershipStatus} ? 'Membership Status: Active' : 'Membership Status: Inactive'">Membership Status:</p>
-                                    <div class="notes">
-                                        <h4>Notes</h4>
-                                        <!-- Placeholder for notes content -->
-                                        <div id="notes-content">
-                                            <!-- Add your notes content here -->
+                            <!-- Placeholder for image, you might want to add an img tag here -->
+                            <div id="profile-container" th:fragment="profile-fragment">
+                                <div th:if="${profileUser}" class="user-info">
+                                    <h4>PROFILE</h4>
+                                    <!-- <br> -->
+                                    <div id="image">
+                                        <img th:src="@{'/uploads/' + ${profileUser.imagePath}}" alt="User Profile Image"
+                                            class="profile-image">
+                                    </div>
+
+                                    <div id="info">
+                                        <p th:text="'Name: ' + ${profileUser.name}">Name:</p>
+                                        <p
+                                            th:text="${profileUser.membershipStatus} ? 'Membership Status: Active' : 'Membership Status: Inactive'">
+                                            Membership Status:</p>
+                                        <p
+                                            th:text="${profileUser.role} ? 'Check-in Status: Checked-in' : 'Check-in Status: Checked-out'">
+                                            Checkin Status:</p>
+
+                                        <div class="notes">
+                                            <!-- <b>Notes</b> -->
+                                            <p><b>Notes:</b>
+
+
+                                                <button onclick="makenoteseditable(this)"
+                                                    class="fa-solid fa-pen-to-square"></button>
+                                            </p>
+                                            <textarea name="notes" id="notes-content" cols="30" rows="10"
+                                                readonly>hello</textarea>
                                         </div>
-                                        <!-- Buttons for add, edit, and delete -->
-                                        <button class="noteedit" id="add-note-btn">Add Note</button>
-                                        <button class="noteedit" id="edit-note-btn">Edit Note</button>
-                                        <button class="noteedit" id="delete-note-btn">Delete Note</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                    
-                        <!-- <div class="notes">
-                            <p>NOTES</p>
-                        </div> -->
+                        <br>
                     </div>
-                    <!-- Search bar area -->
-                    <!-- <br><br><br><br><br><br><br><br><br> -->
-                    <!-- <div class="search-bar">
-                    </div> -->
-                    <br>      
                 </div>
-            </div>
-            <div class="column" id="table">
-                <div class="nav-container">
-                    <nav>
-                        
-                        <!-- navbar -->
-                        <ul>
-                            <li class="navigation" id="home"><a href="/staff/staff_dashboard">MEMBERS</a></li>
-                            <li class="navigation" id="equipment"><a href="/staff/staff_equipment">EQUIPMENT</a></li>
-                            <li class="navigation" id="schedule"><a href="#">SCHEDULE</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-md-9 main-content">
-                    <div class="sbox">
-                        <input type="text" class="form-control search-input" placeholder="Search for names" onkeyup="filterNameStaff()" id="searchbar" >   
-                    </div>
-                    <!-- Dynamic table from the second code snippet -->
-                    <div class="table-responsive scrollable-table-container">
-                        <!-- <br> -->
-                        <table class="table table-bordered table-hover table-striped table-sm red-border">
-                            <thead class="thead-darkred">
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>User Type</th>
-                                    <th>Membership Status</th>
-                                    <th>Actions</th> 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Loop through all students and display them -->
-                                <tr th:each="user : ${users}" th:fragment="user-table">
-                                    <td th:text="${user.name}">Name</td>
-                                    <td th:text="${user.username}">Username</td>
-                                    <!-- <td th:text="${user.password}">Password</td> -->
-                                    <td th:text="${user.email}">Email</td>
-                                    <td th:text="${user.userType}">userType</td>
-                                    <td th:text="${user.membershipStatus} ? 'Active' : 'Inactive'"></td>
-                                    <!-- <p th:text="${profileUser.membershipStatus} ? 'Membership Status: Active' : 'Membership Status: Inactive'">Membership Status:</p> -->
-                                    <!-- <td> functionality to be added later
-                                        <button id="membershipStatusButton" th:data-status="${user.membershipStatus}" onclick="toggleMembershipStatus()"></button>
-                                    </td> -->
-                                    <td class="actiony">
-                                        <!-- <form th:action="@{'/users/edit/' + ${user.id}}" method="get" class="d-inline-block me-1">
-                                           
-                                            <input class="btnEdit" type="submit" value="Edit"/>  
-                                            
-                                        </form> -->
-                                        <!-- <form th:action="@{'/users/delete/' + ${user.id}}" method="post" class="d-inline-block me-1">
-                                            <input class="btnDelete" type="submit" value="Delete"/>
-                                        </form>   -->
-                                        <!-- Add ml-2 or ms-2 (for Bootstrap 5) to add spacing -->
-                                        <!-- Use btn-success for the green color -->
-                                        <!-- <form th:action="@{'/users/checkIn/' + ${user.id}}" method="post" class="d-inline-block m1-2">
-                                            <input class="btnCheckIn" type="submit" value="CHECK-IN"/>
-                                            
-                                        </form> -->
+                <div class="column" id="table">
+                    <div class="nav-container">
+                        <nav>
 
-                                        <!-- check in switch -->
-                                        <div class="checker">
-                                            <label class="switch">
-                                                <input type="checkbox">
-                                                <span class="slider"></span>
-                                            </label>
-                                        </div> 
-                                
-                                        <div class = "actionbuttons"> 
-                                            <!-- <button th:onclick="'loadUserProfileEdit(' + ${user.id} + ')'" class="fa-solid fa-pen-to-square" ></button>  -->
-                                            <!-- <button th:onclick="'loadUserProfileDelete(' + ${user.id} + ')'" class="fa-solid fa-trash" ></button>  -->
-                                            <button th:onclick="'loadUserProfile(' + ${user.id} + ')'" class="fa-solid fa-user" > </button> 
-                                        </div>
-                                        
- 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                            <!-- navbar -->
+                            <ul>
+                                <li class="navigation" id="home"><a
+                                        href="/admin/admin_dashboard_protected">DASHBOARD</a>
+                                </li>
+                                <li class="navigation" id="equipment"><a href="/admin/admin_equipment">EQUIPMENT</a>
+                                </li>
+                                <li class="navigation" id="schedule"><a href="#">SCHEDULE</a></li>
+                            </ul>
+                        </nav>
                     </div>
-                    <!-- End of dynamic table -->
-    
-                 
-                </div>
-            </div>
+                    <div class="col-md-9 main-content">
+                        <div class="sbox">
+                            <!-- <input type="text" class="form-control search-input" placeholder="Search for names"
+                                onkeyup="filterNames()" id="searchbar"> -->
+                                <!-- This is the new search bar -->
+                            <div class="search-box">
+                                <form action="" class="search-form">
+                                    <input type="text" placeholder="Search" id="search" autocomplete="off"
+                                        class="searchword" onkeyup="filterNames()" style="padding-top: 10px;">
+                                    <div class="search-icon"><i class="fa fa-search search-icon"
+                                            style="transform: none;"></i></div>
+                                    <div class="go-icon"><i class="fa fa-arrow-right"></i></div>
+                                </form>
+                                <svg class="search-border" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px"
+                                    viewBox="0 0 671 111" style="enable-background:new 0 0 671 111;"
+                                    xml:space="preserve">
+                                    <path class="border"
+                                        d="M335.5,108.5h-280c-29.3,0-53-23.7-53-53v0c0-29.3,23.7-53,53-53h280"></path>
+                                    <path class="border"
+                                        d="M335.5,108.5h280c29.3,0,53-23.7,53-53v0c0-29.3-23.7-53-53-53h-280"></path>
+                                </svg>
+                            </div>
 
-            <!-- <div class="column" id="nav-bar">
-               <div class="nav_container">
-                    <div class="navigation" id="home">
-                        <a href="#">MEMBERS</a>
-                    </div>
-                    
-                    <div class="navigation" id="equipment">
-                            <a href="/admin/admin_equipment">EQUIPMENT</a>
                         </div>
+                        <!-- Dynamic table from the second code snippet -->
+                        <div class="table-responsive scrollable-table-container">
+                            <!-- <br> -->
+                            <table class="table table-bordered table-hover table-striped table-sm red-border">
+                                <thead class="thead-darkred">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>User Type</th>
+                                        <th>Membership Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Loop through all students and display them -->
+                                    <tr th:each="user : ${users}" th:fragment="user-table">
+                                        <td th:text="${user.name}">Name</td>
+                                        <td th:text="${user.username}">Username</td>
+                                        <td th:text="${user.email}">Email</td>
+                                        <td th:text="${user.userType}">userType</td>
+                                        <td th:text="${user.membershipStatus} ? 'Active' : 'Inactive'"></td>
+                                        <td class="actiony">
+                                            <!-- check in switch -->
+                                            <div class="checker">
+                                                <label class="switch">
+                                                    <input type="checkbox" th:checked="${user.role}"
+                                                        th:attr="data-user-id=${user.id}" class="role-switch">
+                                                    <span class="slider"></span>
+                                                </label>
+                                            </div>
 
-                    <div class="navigation" id="schedule">
-                        <a href="#">Schedule</a>
+                                            <div class="actionbuttons">
+                                                <!-- <button th:onclick="'loadUserProfileEdit(' + ${user.id} + ')'"
+                                                    class="fa-solid fa-pen-to-square"></button>
+                                                <button th:onclick="'loadUserProfileDelete(' + ${user.id} + ')'"
+                                                    class="fa-solid fa-trash"></button> -->
+                                                <button th:onclick="'loadUserProfile(' + ${user.id} + ')'"
+                                                    class="fa-solid fa-user"> </button>
+                                            </div>
+
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- End of dynamic table -->
+
+
                     </div>
                 </div>
-            </div> -->
-            
-           
-               
+            </div>
         </div>
-    </div>
 
-    <!-- Include your scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.7.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        
-    <script>
-        // Function to toggle membership status and update button
-        // Note: This will now purely work on the client side; to reflect changes server-side, you'd need to make an API call or form submission
-        
-        document.addEventListener('DOMContentLoaded', (event) => {
-        // Check if page was reloaded and redirect to logout
-            if (window.performance && performance.getEntriesByType("navigation")[0].type === 'reload') {
-                window.location.href = "/logout";
+
+        <!-- Include your scripts -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.7.0/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            function filterNames() {
+                const searchValue = document.querySelector('.searchword').value;
+                fetch(`/admin/filter?search=${searchValue}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.querySelector('.table-responsive table tbody').innerHTML = html; //document.querySelector('.table-responsive').innerHTML = html;
+                    });
             }
-        // Set the initial button state based on the data-status attribute
-            const membershipStatusButton = document.getElementById('membershipStatusButton');
-            if (membershipStatusButton) {
-                const isActive = membershipStatusButton.dataset.status === 'true';
-                updateButtonAppearance(isActive);
+        </script>
+        <script>
+            // Function to toggle membership status and update button
+            // Note: This will now purely work on the client side; to reflect changes server-side, you'd need to make an API call or form submission
+            function toggleMembershipStatus() {
+                const button = document.getElementById('membershipStatusButton');
+                const isActive = button.dataset.status === 'true';
+
+                // Toggle the data-status attribute
+                button.dataset.status = isActive ? 'false' : 'true';
+
+                // Update button based on the new status
+                updateButtonAppearance(isActive ? false : true);
             }
-        });
 
-        // window.onload = function() {
-        //     if (window.performance) {
-        //         if (performance.navigation.type === 1) { // 1 means the page is reloaded
-        //             window.location.href = "/logout"; // Redirect to the logout endpoint
-        //         }
-        //     }
-        // };
-
-        function filterNameStaff() {
-            const searchValue = document.querySelector('.search-input').value;
-            fetch(`/staff/filter?search=${searchValue}`)
-            .then(response => response.text())
-            .then(html => {
-                document.querySelector('.table-responsive table tbody').innerHTML = html;
-            });
-        }
-
-        function toggleMembershipStatus() {
-            const button = document.getElementById('membershipStatusButton');
-            const isActive = button.dataset.status === 'true';
-
-            // Toggle the data-status attribute
-            button.dataset.status = isActive ? 'false' : 'true';
-            
-            // Update button based on the new status
-            updateButtonAppearance(isActive ? false : true);
-        }
-
-        // Function to update button appearance
-        function updateButtonAppearance(isActive) {
-            const button = document.getElementById('membershipStatusButton');
-            if (isActive) {
-                button.style.backgroundColor = 'green';
-                button.innerText = 'Active Membership';
-            } else {
-                button.style.backgroundColor = 'red';
-                button.innerText = 'Inactive Membership';
-            }
-        }
-
-        // Run this function when the window loads to set the initial button state based on the data-status attribute
-        // window.onload = function() {
-        //     const isActive = document.getElementById('membershipStatusButton').dataset.status === 'true';
-        //     updateButtonAppearance(isActive);
-        // };
-        
-        function loadUserProfile(userId) {
-        fetch(`/users/fragment/profile/${userId}`)
-            .then(response => response.text())
-            .then(html => {
-                // Update only the profile-container div
-                document.getElementById('profile-container').innerHTML = html;
-            });
-        }
-
-        function loadUserProfileEdit(userId){
-            fetch(`/users/edit/${userId}`)
-            window.location.href = '/users/edit/' + userId;
-        }
-
-        function loadUserProfileDelete(userId) {
-        if (confirm('Are you sure you want to delete the user?')) {
-            fetch(`/users/delete/${userId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // Add CSRF token header if needed for security
-                },
-                // Include credentials if your endpoint requires authentication
-                credentials: 'same-origin',
-            })
-            .then(response => {
-                if (response.ok) {
-                    window.location.href = '/admin/admin_dashboard_protected';
+            // Function to update button appearance
+            function updateButtonAppearance(isActive) {
+                const button = document.getElementById('membershipStatusButton');
+                if (isActive) {
+                    button.style.backgroundColor = 'green';
+                    button.innerText = 'Active Membership';
                 } else {
-                    console.error('Deletion failed', response.statusText);
-                    // Optionally, alert the user that the deletion failed
-                    alert('Failed to delete the user. Please try again.');
+                    button.style.backgroundColor = 'red';
+                    button.innerText = 'Inactive Membership';
                 }
-            })
-            .catch(error => {
-                console.error('Network error:', error);
-                // Optionally, alert the user that there was a network error
-                alert('Network error. Please try again.');
-            });
-        }
-    }
-    
-    </script>
-</body>
-</html>
+            }
 
+            // Run this function when the window loads to set the initial button state based on the data-status attribute
+            window.onload = function () {
+                const isActive = document.getElementById('membershipStatusButton').dataset.status === 'true';
+                updateButtonAppearance(isActive);
+            };
+
+            function loadUserProfile(userId) {
+                fetch(`/users/fragment/profile/${userId}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        // Update only the profile-container div
+                        document.getElementById('profile-container').innerHTML = html;
+                    });
+            }
+
+            function loadUserProfileEdit(userId) {
+                fetch(`/users/edit/${userId}`)
+                window.location.href = '/users/edit/' + userId;
+            }
+
+            function loadUserProfileDelete(userId) {
+                if (confirm('Are you sure you want to delete the user?')) {
+                    fetch(`/users/delete/${userId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            // Add CSRF token header if needed for security
+                        },
+                        // Include credentials if your endpoint requires authentication
+                        credentials: 'same-origin',
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                window.location.href = '/admin/admin_dashboard_protected';
+                            } else {
+                                console.error('Deletion failed', response.statusText);
+                                // Optionally, alert the user that the deletion failed
+                                alert('Failed to delete the user. Please try again.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Network error:', error);
+                            // Optionally, alert the user that there was a network error
+                            alert('Network error. Please try again.');
+                        });
+                }
+            }
+
+        </script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelectorAll(".role-switch").forEach(item => {
+                    item.addEventListener('change', function () {
+                        const userId = this.getAttribute("data-user-id");
+                        const isCheckedIn = this.checked;
+                        // Construct the URL for updating the user's role/check-in status
+                        const url = `/users/updateRole?userId=${userId}&role=${isCheckedIn}`;
+
+                        fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            credentials: 'same-origin' // Necessary for including session cookies with the request
+                        })
+                            .then(response => {
+                                if (response.ok) {
+                                    alert('Check-in status updated successfully');
+                                } else {
+                                    alert('Failed to update check-in status');
+                                    console.error('Failed to update', response);
+                                }
+                            })
+                            .catch(error => console.error('Error:', error));
+                    });
+                });
+            });
+        </script>
+    </div>
+</body>
+
+</html>
