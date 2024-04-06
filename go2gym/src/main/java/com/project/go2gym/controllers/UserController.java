@@ -17,7 +17,6 @@ import org.springframework.stereotype.Controller;
 
 import com.project.go2gym.models.User;
 import com.project.go2gym.models.UserRepository;
-import com.project.go2gym.service.GoogleAnalyticsTracker;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -41,6 +40,9 @@ import java.nio.file.Path;
 
 //import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.StringUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 public class UserController {
@@ -466,9 +468,6 @@ public class UserController {
     // }
 
     
-    @Autowired
-    private GoogleAnalyticsTracker tracker;
-
     @PostMapping("/users/updateRole")
     public ResponseEntity<String> updateRole(@RequestParam("userId") Integer userId, @RequestParam("role") Boolean role) {
         Optional<User> userOptional = usersRepository.findById(userId);
@@ -476,16 +475,12 @@ public class UserController {
             User user = userOptional.get();
             user.setRole(role);
             usersRepository.save(user);
-
-            // Track check-in/check-out event using the tracker service.
-            String action = role ? "Check-In" : "Check-Out";
-            tracker.trackEvent("Gym Check-In", action, user.getName(), user.getId());
-
             return ResponseEntity.ok("Role updated successfully");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
     }
+
 
     @GetMapping("/users/checkedInCount")
     @ResponseBody
