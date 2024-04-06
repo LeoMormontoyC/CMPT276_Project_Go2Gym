@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,14 +10,53 @@
     <!-- Include any other CSS files needed -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- Google tag (gtag.js) --> <!--GOOGLE ANALYTICS API-->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRNG3F5JC2"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    <!--API API API API API MIXPANEL-->
+    <!-- Paste this right before your closing </head> tag -->
+    <script type="text/javascript">
+        (function (f, b) { if (!b.__SV) { var e, g, i, h; window.mixpanel = b; b._i = []; b.init = function (e, f, c) { function g(a, d) { var b = d.split("."); 2 == b.length && ((a = a[b[0]]), (d = b[1])); a[d] = function () { a.push([d].concat(Array.prototype.slice.call(arguments, 0))); }; } var a = b; "undefined" !== typeof c ? (a = b[c] = []) : (c = "mixpanel"); a.people = a.people || []; a.toString = function (a) { var d = "mixpanel"; "mixpanel" !== c && (d += "." + c); a || (d += " (stub)"); return d; }; a.people.toString = function () { return a.toString(1) + ".people (stub)"; }; i = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split( " "); for (h = 0; h < i.length; h++) g(a, i[h]); var j = "set set_once union unset remove delete".split(" "); a.get_group = function () { function b(c) { d[c] = function () { call2_args = arguments; call2 = [c].concat(Array.prototype.slice.call(call2_args, 0)); a.push([e, call2]); }; } for ( var d = {}, e = ["get_group"].concat( Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++) b(j[c]); return d; }; b._i.push([e, f, c]); }; b.__SV = 1.2; e = f.createElement("script"); e.type = "text/javascript"; e.async = !0; e.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "file:" === f.location.protocol && "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; g = f.getElementsByTagName("script")[0]; g.parentNode.insertBefore(e, g); } })(document, window.mixpanel || []);
+    </script>
 
-    gtag('config', 'G-KRNG3F5JC2');
+    <script type="text/javascript">
+        // Initialize Mixpanel
+        mixpanel.init('2348bedec25deadd5f193df97cef31d6', {debug: true, track_pageview: true, persistence: 'localStorage'});
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('change', function(event) {
+                if (event.target.matches('.role-switch')) {
+                    const userId = event.target.getAttribute('data-user-id');
+                    const isCheckedIn = event.target.checked;
+                    const url = `/users/updateRole?userId=${userId}&role=${isCheckedIn}`;
+            
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        credentials: 'same-origin'
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Check-in status updated successfully');
+
+                            // Identify the user for Mixpanel
+                            mixpanel.identify(userId);
+                            
+                            // Track the event
+                            const eventAction = isCheckedIn ? 'Check-In' : 'Check-Out';
+                            mixpanel.track(eventAction, {
+                                'User ID': userId,
+                                'Event': `Gym ${eventAction}`
+                            });
+
+                        } else {
+                            alert('Failed to update check-in status');
+                            console.error('Failed to update', response);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+            });
+        });
     </script>
     
     <style>
@@ -30,10 +69,6 @@
             margin: 0 auto;
             margin-bottom: 1rem;
         }
-
-        /* .searchword {
-            padding-top: 10px;
-        } */
 
         .search-icon,
         .go-icon {
@@ -109,7 +144,6 @@
             height: 60px;
             margin-bottom: 1rem;
             padding: 3px;
-
             /* padding-bottom: 1rem; */
         }
 
@@ -189,6 +223,45 @@
             margin-bottom: 15px;
         }
     </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var searchInput = document.getElementById('search');
+            var searchBox = document.querySelector('.search-box');
+            var searchIcon = document.querySelector('.search-icon');
+            var goIcon = document.querySelector('.go-icon');
+            var searchForm = document.querySelector('.search-form');
+
+            searchInput.addEventListener('focus', function () {
+                searchBox.classList.add('border-searching');
+                searchIcon.classList.add('si-rotate');
+            });
+
+            searchInput.addEventListener('blur', function () {
+                searchBox.classList.remove('border-searching');
+                searchIcon.classList.remove('si-rotate');
+            });
+
+            searchInput.addEventListener('keyup', function () {
+                if (this.value.length > 0) {
+                    goIcon.classList.add('go-in');
+                } else {
+                    goIcon.classList.remove('go-in');
+                }
+            });
+
+        });
+        
+        function makenoteseditable(e) {
+            console.log(e);
+            let textarea = document.querySelector('#notes-content')
+            textarea.attributes.removeNamedItem('readonly')
+            textarea.style.borderColor = '#005FCC';
+            textarea.style.color = '#005FCC';
+
+        }
+
+    </script>
 </head>
 
 <body>
@@ -264,7 +337,7 @@
 
             <div class="row">
                 <div class="column" id="profile">
-                    <div class="col-md-3 sidebar">
+                    <div class="sidebar">
                         <div class="profile">
                             <!-- Admin dropdown area -->
                             <div class="account-type">
@@ -381,7 +454,7 @@
                                 </thead>
                                 <tbody>
                                     <!-- Loop through all students and display them -->
-                                    <tr th:each="user : ${users}" th:fragment="user-table" >
+                                    <tr th:each="user : ${users}" th:fragment="user-table">
                                         <td th:text="${user.name}">Name</td>
                                         <td th:text="${user.username}">Username</td>
                                         <td th:text="${user.email}">Email</td>
@@ -507,77 +580,6 @@
                         alert('Network error. Please try again.');
                     });
             }
-        }
-
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Attach the event listener to a parent element, for example, the `table` or `document`.
-            document.addEventListener('change', function(event) {
-                // Check if the changed element has the class 'role-switch'
-                if (event.target.matches('.role-switch')) {
-                    const userId = event.target.getAttribute('data-user-id');
-                    const isCheckedIn = event.target.checked;
-                    // Construct the URL for updating the user's role/check-in status
-                    const url = `/users/updateRole?userId=${userId}&role=${isCheckedIn}`;
-            
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        credentials: 'same-origin' // Necessary for including session cookies with the request
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            alert('Check-in status updated successfully');
-                        } else {
-                            alert('Failed to update check-in status');
-                            console.error('Failed to update', response);
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-                }
-            });
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var searchInput = document.getElementById('search');
-            var searchBox = document.querySelector('.search-box');
-            var searchIcon = document.querySelector('.search-icon');
-            var goIcon = document.querySelector('.go-icon');
-            var searchForm = document.querySelector('.search-form');
-
-            searchInput.addEventListener('focus', function () {
-                searchBox.classList.add('border-searching');
-                searchIcon.classList.add('si-rotate');
-            });
-
-            searchInput.addEventListener('blur', function () {
-                searchBox.classList.remove('border-searching');
-                searchIcon.classList.remove('si-rotate');
-            });
-
-            searchInput.addEventListener('keyup', function () {
-                if (this.value.length > 0) {
-                    goIcon.classList.add('go-in');
-                } else {
-                    goIcon.classList.remove('go-in');
-                }
-            });
-
-        });
-        
-        function makenoteseditable(e) {
-            console.log(e);
-            let textarea = document.querySelector('#notes-content')
-            textarea.attributes.removeNamedItem('readonly')
-            textarea.style.borderColor = '#005FCC';
-            textarea.style.color = '#005FCC';
-
         }
 
     </script>
