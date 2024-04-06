@@ -15,7 +15,7 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String userType; // userType whether the user is an admin, staff or a student
+    private String userType; // userType whether the user is an admin, staff or a student 
     private boolean membershipStatus; // if the status is "yes", then green color strip
     private String imagePath; // New field for image path
     private boolean role; //basically check in status
