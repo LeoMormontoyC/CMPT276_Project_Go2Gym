@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>GoGym - Signup</title>
+    <title>Edit Member</title>
     <link rel="stylesheet" href="/css/go2gym.css">
 
     <style>
@@ -81,6 +81,7 @@
                     <div class="inputBox">
                         <input type="submit" value="Back" onclick="window.location.href='/admin/admin_dashboard_protected'">
                     </div>
+                    <input type="hidden" name="role" th:value="${user.role}"/>
                 </div>                
             </form>
         </div>
