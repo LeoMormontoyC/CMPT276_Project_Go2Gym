@@ -1,46 +1,32 @@
-// package com.project.go2gym.controllers;
+package com.project.go2gym.controllers;
 
-// import org.springframework.web.bind.annotation.RestController;
-// import java.util.List; // Example import statement
-// import org.springframework.beans.factory.annotation.Value;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.web.client.RestTemplate;
-// import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.http.HttpHeaders;
-// import org.springframework.http.MediaType;
-// import org.springframework.http.HttpEntity;
-// import org.springframework.http.HttpMethod;
+import com.project.go2gym.service.MixpanelService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+@RestController
+@RequestMapping("/api/analytics") // Adjust the mapping based on your API design
+public class AnalyticsController {
 
-// @RestController
-// public class AnalyticsController {
+    private final MixpanelService mixpanelService;
 
-//     @Value("${mixpanel.api.secret}")
-//     private String apiSecret;
+    @Autowired
+    public AnalyticsController(MixpanelService mixpanelService) {
+        this.mixpanelService = mixpanelService;
+    }
 
-//     @Autowired
-//     private RestTemplate restTemplate;
+    @GetMapping("/check-in-events")
+    public ResponseEntity<?> getCheckInEvents(@RequestParam String from, @RequestParam String to) {
+        try {
+            String data = mixpanelService.getCheckInEventData(from, to);
+            return ResponseEntity.ok(data);
+        } catch (Exception e) {
+            // Log and handle the exception properly
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("Error fetching event data: " + e.getMessage());
+        }
+    }
+}
 
-//     @GetMapping("/api/analytics/checkins")
-//     public ResponseEntity<?> getCheckInData() {
-//         String apiUrl = "https://mixpanel.com/api/2.0/..."; // Replace with the actual endpoint
-
-//         HttpHeaders headers = new HttpHeaders();
-//         headers.setBasicAuth(apiSecret, "");
-//         headers.setContentType(MediaType.APPLICATION_JSON);
-
-//         HttpEntity<String> entity = new HttpEntity<>(headers);
-
-//         ResponseEntity<String> response = restTemplate.exchange(
-//                 apiUrl,
-//                 HttpMethod.GET,
-//                 entity,
-//                 String.class
-//         );
-
-//         // Process the response as needed and return
-
-//         return ResponseEntity.ok(response.getBody());
-//     }
-// }
