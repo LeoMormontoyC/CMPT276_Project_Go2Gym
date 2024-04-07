@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crowd History</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- <link rel="stylesheet" href="/css/dashboard.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Add any other head elements here -->
+    <style>
+        /* Add your styles here */
+        #checkInChart {
+            max-width: 100vh; 
+            max-height: 100vh; 
+            margin: auto;
+            height: auto; 
+        }
+    </style>
+</head>
+<body>
+        <h1>Crowd History</h1>
+
+        <!-- Your Chart.js canvas element -->
+        <div>
+            <canvas id="checkInChart"></canvas>
+        </div>
+
+        <script>
+            function fetchCheckInData() {
+                const apiSecret = '2e846e3d638eb076e857f4446190c79d'; 
+                const fromDate = new Date();
+                fromDate.setDate(fromDate.getDate() - 6); // Last 7 days including today
+                const toDate = new Date();
+                const encodedEvent = encodeURIComponent(JSON.stringify(['Check-In']));
+                
+                // This is a CORS proxy URL
+                const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
+                const mixpanelApiUrl = `https://data.mixpanel.com/api/2.0/export?from_date=${fromDate.toISOString().split('T')[0]}&to_date=${toDate.toISOString().split('T')[0]}&event=${encodedEvent}`;
+                
+                // Fetch using the proxy
+                fetch(`${corsProxyUrl}${mixpanelApiUrl}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Basic ${btoa(apiSecret + ':')}`
+                    }
+                })
+                .then(response => response.text())
+                .then(text => {
+                    const events = text.trim().split('\n').map(line => JSON.parse(line));
+                    updateChart(events);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+            }
+            
+            function updateChart(events) {
+                // Initialize an array to hold the counts for each day of the last week
+                let countsPerDay = Array(7).fill(0);
+                const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                
+                events.forEach(event => {
+                    // Check the length of the timestamp to determine if it's in seconds or milliseconds
+                    const timestamp = event.properties.time.toString().length === 10 ? event.properties.time * 1000 : event.properties.time;
+                    const eventDate = new Date(timestamp);
+                    const dayOfWeek = eventDate.getDay();
+                    countsPerDay[dayOfWeek]++;
+                });
+        
+                // Rotate the data to start from today and go backwards
+                const todayIndex = new Date().getDay();
+                const rotatedLabels = daysOfWeek.slice(todayIndex).concat(daysOfWeek.slice(0, todayIndex));
+                const rotatedCounts = countsPerDay.slice(todayIndex).concat(countsPerDay.slice(0, todayIndex)).reverse();
+                
+                const ctx = document.getElementById('checkInChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: daysOfWeek,
+                        datasets: [{
+                            label: 'Check-Ins',
+                            data: countsPerDay,
+                            backgroundColor: 'rgba(153, 102, 255, 0.5)'
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            fetchCheckInData();
+        
+        </script>
+</body>
+</html>

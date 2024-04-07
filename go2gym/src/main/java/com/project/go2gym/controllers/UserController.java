@@ -487,5 +487,10 @@ public class UserController {
     public Long getCheckedInCount() {
         return usersRepository.countByRoleAsBoolean();
     }
+
+    @GetMapping("/users/crowdhistory")
+    public String crowdHistory() {
+        return "users/crowdhistory";
+    }
     
 }
