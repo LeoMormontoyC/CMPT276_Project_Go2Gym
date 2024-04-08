@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 // import java.util.Arrays;
 
+import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ import com.project.go2gym.models.UserRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import  jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -40,9 +42,12 @@ import java.nio.file.Path;
 
 //import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.StringUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 @Controller
 public class UserController {
@@ -64,15 +69,16 @@ public class UserController {
     }
 
     @GetMapping("/signup")
-    public String showSignupForm(Model model) {
+    public ModelAndView showSignupForm(Model model) {
+        ModelAndView mav = new ModelAndView("users/signup");
         // Any necessary model attributes
-        return "users/signup"; // This is the path to the Thymeleaf template inside
-                               // `src/main/resources/templates/users/`
+        return mav; // This is the path to the Thymeleaf template inside
+                    // `src/main/resources/templates/users/`
     }
 
     @GetMapping("/forgotpassword")
-    public String showForgotPasswordForm(Model model) {
-        return "users/forgotPassword";
+    public ModelAndView showForgotPasswordForm() {
+        return new ModelAndView("users/forgotPassword");
     }
 
     @PostMapping("/users/add")
@@ -112,7 +118,8 @@ public class UserController {
         // boolean newCheckInStatus = false; // Assuming default check-in status is
         // false
 
-        User newUser = new User(newName, username, password, newEmail, newUserType, newMembershipStatus, imageUrl, newRole);
+        User newUser = new User(newName, username, password, newEmail, newUserType, newMembershipStatus, imageUrl,
+                newRole);
         // newUser.setImagePath(imageUrl); // Set the image path for the new user
         usersRepository.save(newUser);
 
@@ -122,15 +129,24 @@ public class UserController {
     }
 
     @GetMapping("/admin/admin_dashboard_protected")
-    public String adminDashboardProtected(Model model, HttpSession session) {
-        User sessionUser = (User) session.getAttribute("session_user");
-        if (sessionUser != null && "ADMIN".equals(sessionUser.getUserType())) {
-            List<User> allUsers = usersRepository.findAll(); // Assuming userRepository is injected and has a findAll()
-                                                             // method
-            model.addAttribute("users", allUsers); // Add the list of users to the model
-            model.addAttribute("admin", sessionUser); // Optionally keep this if you need to display admin-specific info
+    public String adminDashboardProtected(Model model, Authentication authentication) {
+        // Check if the authenticated user has ROLE_ADMIN authority
+        if (authentication != null
+                && authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+            List<User> allUsers = usersRepository.findAll();
+            model.addAttribute("users", allUsers);
+
+            // Optionally, if you still need to add admin user details to the model
+            String username = authentication.getName(); // Get the username from the Authentication object
+            User adminUser = usersRepository.findByUsername(username)
+                    .stream().findFirst()
+                    .orElse(null); // Handle null appropriately
+
+            model.addAttribute("admin", adminUser);
             return "admin/admin_dashboard_protected";
         } else {
+            // Redirect to login if the user is not authenticated or does not have
+            // ROLE_ADMIN
             return "redirect:/login";
         }
     }
@@ -141,36 +157,79 @@ public class UserController {
                                                   // resources/templates (if using Thymeleaf) or your JSP file location.
     }
 
+    // @GetMapping("/staff/staff_dashboard")
+    // public String staffDashboard(Model model, HttpSession session) {
+    // // Similar check for staff members
+    // User sessionUser = (User) session.getAttribute("session_user");
+    // if (sessionUser != null && "STAFF".equals(sessionUser.getUserType())) {
+    // List<User> allUsers = usersRepository.findByUserTypeNot("ADMIN"); // Assuming
+    // userRepository is injected and
+    // // method
+    // model.addAttribute("users", allUsers); // Add the list of users to the model
+    // model.addAttribute("staff", sessionUser);
+    // return "staff/staff_dashboard";
+    // } else {
+    // // Redirect to login if the user is not staff or not logged in
+    // return "redirect:/login";
+    // }
+    // }
+
     @GetMapping("/staff/staff_dashboard")
-    public String staffDashboard(Model model, HttpSession session) {
-        // Similar check for staff members
-        User sessionUser = (User) session.getAttribute("session_user");
-        if (sessionUser != null && "STAFF".equals(sessionUser.getUserType())) {
-            List<User> allUsers = usersRepository.findByUserTypeNot("ADMIN"); // Assuming userRepository is injected and
-            // method
-            model.addAttribute("users", allUsers); // Add the list of users to the model
-            model.addAttribute("staff", sessionUser);
+    public String staffDashboard(Model model, Authentication authentication) {
+        // Check if the authenticated user has ROLE_STAFF authority
+        if (authentication != null
+                && authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_STAFF"))) {
+            List<User> allUsers = usersRepository.findByUserTypeNot("ADMIN");
+            model.addAttribute("users", allUsers);
+
+            // Optionally, if you still need to add staff user details to the model
+            String username = authentication.getName(); // Get the username from the Authentication object
+            User staffUser = usersRepository.findByUsername(username)
+                    .stream().findFirst()
+                    .orElse(null); // Handle null appropriately
+
+            model.addAttribute("staff", staffUser);
             return "staff/staff_dashboard";
         } else {
-            // Redirect to login if the user is not staff or not logged in
+            // Redirect to login if the user is not authenticated or does not have
+            // ROLE_STAFF
             return "redirect:/login";
         }
     }
 
+    // @GetMapping("/users/showAll")
+    // public String memberCheckIn(Model model, HttpSession session) {
+    // User sessionUser = (User) session.getAttribute("session_user");
+    // if (sessionUser != null) {
+    // // No need to find all users, just add the logged-in user to the model
+    // model.addAttribute("user", sessionUser);
+    // return "users/showAll"; // This should be the path to your Thymeleaf template
+    // } else {
+    // // Redirect to login if the user is not logged in
+    // return "redirect:/login";
+    // }
+    // }
 
     @GetMapping("/users/showAll")
-    public String memberCheckIn(Model model, HttpSession session) {
-        User sessionUser = (User) session.getAttribute("session_user");
-        if (sessionUser != null) {
-            // No need to find all users, just add the logged-in user to the model
-            model.addAttribute("user", sessionUser);
-            return "users/showAll"; // This should be the path to your Thymeleaf template
-        } else {
-            // Redirect to login if the user is not logged in
-            return "redirect:/login";
-        }
-    }
+    public String memberCheckIn(Model model, Authentication authentication) {
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
+            // Fetch the current user's username from the Authentication object
+            String username = authentication.getName();
 
+            // Use userRepository to fetch the user details based on the username
+            User currentUser = usersRepository.findByUsername(username)
+                    .stream().findFirst()
+                    .orElse(null); // Adjust this part based on your actual method's return type
+
+            if (currentUser != null) {
+                // Add the current user to the model
+                model.addAttribute("user", currentUser);
+                return "users/showAll"; // Path to the template
+            }
+        }
+        // Redirect to login page if not authenticated or user is not found
+        return "redirect:/login";
+    }
 
     @PostMapping("/login")
     public String login(@RequestParam("username") String username,
@@ -218,20 +277,18 @@ public class UserController {
     }
 
     // public String destroySession(HttpServletRequest request) {
-    //     request.getSession().invalidate();
-    //     return "redirect:/login";
+    // request.getSession().invalidate();
+    // return "redirect:/login";
     // }
 
     // @GetMapping("/logout")
     // public String logout(HttpSession session) {
-    //     // Invalidating the session
-    //     session.invalidate();
-        
-    //     // Redirect to login page or home page after logout
-    //     return "redirect:/login";
+    // // Invalidating the session
+    // session.invalidate();
+
+    // // Redirect to login page or home page after logout
+    // return "redirect:/login";
     // }
-
-
 
     @GetMapping("/login")
     public String showLoginForm(Model model, HttpSession session) {
@@ -319,7 +376,7 @@ public class UserController {
             @RequestParam("newEmail") String newEmail,
             @RequestParam("newMembershipStatus") String newMembershipStatus,
             @RequestParam("image") MultipartFile image, // To handle image file
-            @RequestParam("role") String newRole, 
+            @RequestParam("role") String newRole,
             RedirectAttributes redirectAttributes) {
         try {
             User user = usersRepository.findById(uid).orElseThrow(() -> new Exception("User not found"));
@@ -331,7 +388,6 @@ public class UserController {
             user.setEmail(newEmail);
             user.setMembershipStatus(Boolean.parseBoolean(newMembershipStatus));
             user.setRole(Boolean.parseBoolean(newRole));
-
 
             // Handle image upload
             if (!image.isEmpty()) {
@@ -467,9 +523,9 @@ public class UserController {
     // }
     // }
 
-    
     @PostMapping("/users/updateRole")
-    public ResponseEntity<String> updateRole(@RequestParam("userId") Integer userId, @RequestParam("role") Boolean role) {
+    public ResponseEntity<String> updateRole(@RequestParam("userId") Integer userId,
+            @RequestParam("role") Boolean role) {
         Optional<User> userOptional = usersRepository.findById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -481,16 +537,18 @@ public class UserController {
         }
     }
 
-
     @GetMapping("/users/checkedInCount")
     @ResponseBody
     public Long getCheckedInCount() {
         return usersRepository.countByRoleAsBoolean();
     }
 
+
+
     @GetMapping("/users/crowdhistory")
     public String crowdHistory() {
         return "users/crowdhistory";
     }
     
+
 }

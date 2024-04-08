@@ -465,7 +465,7 @@
     <script>
         function filterNames() {
             const searchValue = document.querySelector('.searchword').value;
-            fetch(`/admin/filter?search=${searchValue}`)
+            fetch(`/staff/filter?search=${searchValue}`)
                 .then(response => response.text())
                 .then(html => {
                     document.querySelector('.table-responsive table tbody').innerHTML = html; //document.querySelector('.table-responsive').innerHTML = html;
