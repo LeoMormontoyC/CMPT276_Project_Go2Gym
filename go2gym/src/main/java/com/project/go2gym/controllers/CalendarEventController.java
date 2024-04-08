@@ -26,6 +26,14 @@ public class CalendarEventController {
         
     }
 
+    @GetMapping("/staff/staff_schedule")
+    public String staffCalendar(Model model) {
+        List<CalendarEvent> calendarList = calendarEventsRepository.findAll(); 
+        model.addAttribute("calendarEvents", calendarList);
+        return "staff/staff_schedule";
+    }
+    
+
   
     
     
