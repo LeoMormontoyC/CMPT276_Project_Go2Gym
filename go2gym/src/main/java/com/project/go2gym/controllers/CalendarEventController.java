@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.project.go2gym.models.CalendarEvent;
 import com.project.go2gym.models.CalendarEventRepository;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class CalendarEventController {
@@ -23,6 +25,9 @@ public class CalendarEventController {
         return "admin/admin_schedule";
         
     }
+
+  
+    
     
   
 
