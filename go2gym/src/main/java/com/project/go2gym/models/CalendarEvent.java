@@ -28,13 +28,22 @@ public class CalendarEvent {
     // @DateTimeFormat(pattern = "yyyy-MM-dd")
     // private Date dateStart;
 
-    //time should be format HH:MM:SS
-    private Time timeStart;
-    //for end date
-    // @DateTimeFormat(pattern = "yyyy-MM-dd")
-    // private Date dateEnd;
+    // //time should be format HH:MM:SS
+    // private Time timeStart;
+    // //for end date
+    // // @DateTimeFormat(pattern = "yyyy-MM-dd")
+    // // private Date dateEnd;
 
-    private Time timeEnd;
+    // private Time timeEnd;
+
+    // private Time startTime;
+
+    // private Time endTime;
+    // private String timeStart;
+    // private String timeEnd;
+
+    private String startingTime;
+    private String endingTime;
 
     private String instructor;
 
@@ -45,12 +54,13 @@ public class CalendarEvent {
 
     }
 
-    public CalendarEvent(String name, Time timeStart, Time timeEnd, String insturctor, String description, String daysofClass){
+    public CalendarEvent(String name, String startingTime, String endingTime, String instructor, String description, String daysofClass){
         this.name = name;
         // this.dateStart = dateStart;
-        this.timeStart = timeStart;
+        this.startingTime = startingTime;
         // this.dateEnd = dateEnd;
-        this.timeEnd = timeEnd;
+        this.instructor = instructor;
+        this.endingTime = endingTime;
         this.description = description;
         this.daysofclass = daysofClass;
         
@@ -74,22 +84,22 @@ public class CalendarEvent {
     }
 
 
-    public Time getTimeStart() {
-        return timeStart;
-    }
+    // public Time getTimeStart() {
+    //     return timeStart;
+    // }
 
-    public void setTimeStart(Time timeStart) {
-        this.timeStart = timeStart;
-    }
+    // public void setTimeStart(Time timeStart) {
+    //     this.timeStart = timeStart;
+    // }
 
 
-    public Time getTimeEnd() {
-        return timeEnd;
-    }
+    // public Time getTimeEnd() {
+    //     return timeEnd;
+    // }
 
-    public void setTimeEnd(Time timeEnd) {
-        this.timeEnd = timeEnd;
-    }
+    // public void setTimeEnd(Time timeEnd) {
+    //     this.timeEnd = timeEnd;
+    // }
 
     public String getInstructor() {
         return instructor;
@@ -113,6 +123,40 @@ public class CalendarEvent {
 
     public void setDaysofclass(String daysofclass) {
         this.daysofclass = daysofclass;
-    } 
+    }
+
+    public String getStartingTime() {
+        return startingTime;
+    }
+
+    public void setStartingTime(String startingTime) {
+        this.startingTime = startingTime;
+    }
+
+    public String getEndingTime() {
+        return endingTime;
+    }
+
+    public void setEndingTime(String endingTime) {
+        this.endingTime = endingTime;
+    }
+
+    // public Time getStartTime() {
+    //     return startTime;
+    // }
+
+    // public void setStartTime(Time startTime) {
+    //     this.startTime = startTime;
+    // }
+
+    // public Time getEndTime() {
+    //     return endTime;
+    // }
+
+    // public void setEndTime(Time endTime) {
+    //     this.endTime = endTime;
+    // } 
+
+    
        
 }
