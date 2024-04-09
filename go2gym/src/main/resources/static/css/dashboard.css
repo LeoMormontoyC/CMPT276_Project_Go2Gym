@@ -621,7 +621,7 @@ section span:hover {
 /* add equipment */
 #AddE {
     border-radius: 10px;
-    background-color: #c00;
+    background-color: rgb(0, 47, 255);
     color: #ffffff;
     padding: 10px;
     text-align: center;
