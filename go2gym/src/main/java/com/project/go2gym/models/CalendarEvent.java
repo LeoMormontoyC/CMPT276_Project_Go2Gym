@@ -73,35 +73,21 @@ public class CalendarEvent {
         this.uid = uid;
     }
 
-    public Date getDateStart() {
-        return dateStart;
-    }
 
-    public void setDateStart(Date dateStart) {
-        this.dateStart = dateStart;
-    }
-
-    public String getTimeStart() {
+    public Time getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(String timeStart) {
+    public void setTimeStart(Time timeStart) {
         this.timeStart = timeStart;
     }
 
-    public Date getDateEnd() {
-        return dateEnd;
-    }
 
-    public void setDateEnd(Date dateEnd) {
-        this.dateEnd = dateEnd;
-    }
-
-    public String getTimeEnd() {
+    public Time getTimeEnd() {
         return timeEnd;
     }
 
-    public void setTimeEnd(String timeEnd) {
+    public void setTimeEnd(Time timeEnd) {
         this.timeEnd = timeEnd;
     }
 
