@@ -1,10 +1,15 @@
 package com.project.go2gym.models;
 
+import java.sql.Time;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 //Calender event database
@@ -17,30 +22,47 @@ public class CalendarEvent {
     //attributes
 
     // for startdate
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date dateStart;
+    private String name;
 
-    private String timeStart;
+
+    // @DateTimeFormat(pattern = "yyyy-MM-dd")
+    // private Date dateStart;
+
+    //time should be format HH:MM:SS
+    private Time timeStart;
     //for end date
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date dateEnd;
+    // @DateTimeFormat(pattern = "yyyy-MM-dd")
+    // private Date dateEnd;
 
-    private String timeEnd;
+    private Time timeEnd;
 
     private String instructor;
 
     private String description;
+    private String daysofclass;
 
     public CalendarEvent(){
 
     }
 
-    public CalendarEvent(Date dateStart, String timeStart, Date dateEnd, String timeEnd, String insturctor, String description){
-        this.dateStart = dateStart;
+    public CalendarEvent(String name, Time timeStart, Time timeEnd, String insturctor, String description, String daysofClass){
+        this.name = name;
+        // this.dateStart = dateStart;
         this.timeStart = timeStart;
-        this.dateEnd = dateEnd;
+        // this.dateEnd = dateEnd;
         this.timeEnd = timeEnd;
+        this.description = description;
+        this.daysofclass = daysofClass;
+        
 
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getUid() {
@@ -51,35 +73,21 @@ public class CalendarEvent {
         this.uid = uid;
     }
 
-    public Date getDateStart() {
-        return dateStart;
-    }
 
-    public void setDateStart(Date dateStart) {
-        this.dateStart = dateStart;
-    }
-
-    public String getTimeStart() {
+    public Time getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(String timeStart) {
+    public void setTimeStart(Time timeStart) {
         this.timeStart = timeStart;
     }
 
-    public Date getDateEnd() {
-        return dateEnd;
-    }
 
-    public void setDateEnd(Date dateEnd) {
-        this.dateEnd = dateEnd;
-    }
-
-    public String getTimeEnd() {
+    public Time getTimeEnd() {
         return timeEnd;
     }
 
-    public void setTimeEnd(String timeEnd) {
+    public void setTimeEnd(Time timeEnd) {
         this.timeEnd = timeEnd;
     }
 
@@ -97,5 +105,14 @@ public class CalendarEvent {
 
     public void setDescription(String description) {
         this.description = description;
-    }    
+    }
+
+    public String getDaysofclass() {
+        return daysofclass;
+    }
+
+    public void setDaysofclass(String daysofclass) {
+        this.daysofclass = daysofclass;
+    } 
+       
 }
