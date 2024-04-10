@@ -112,14 +112,14 @@ public class UserController {
         String newUserType = "STUDENT"; // Assuming default user type is STUDENT
         boolean newMembershipStatus = false; // Assuming default membership status
         boolean newRole = false;
+        String newNotes = newuser.get("notes");
 
         String imageUrl = saveImage(image); // Call the image saving method here
 
         // boolean newCheckInStatus = false; // Assuming default check-in status is
         // false
 
-        User newUser = new User(newName, username, password, newEmail, newUserType, newMembershipStatus, imageUrl,
-                newRole);
+        User newUser = new User(newName, username, password, newEmail, newUserType, newMembershipStatus, imageUrl, newRole, newNotes);
         // newUser.setImagePath(imageUrl); // Set the image path for the new user
         usersRepository.save(newUser);
 
@@ -377,6 +377,7 @@ public class UserController {
             @RequestParam("newMembershipStatus") String newMembershipStatus,
             @RequestParam("image") MultipartFile image, // To handle image file
             @RequestParam("role") String newRole,
+            @RequestParam("newNotes") String newNotes,
             RedirectAttributes redirectAttributes) {
         try {
             User user = usersRepository.findById(uid).orElseThrow(() -> new Exception("User not found"));
@@ -388,6 +389,7 @@ public class UserController {
             user.setEmail(newEmail);
             user.setMembershipStatus(Boolean.parseBoolean(newMembershipStatus));
             user.setRole(Boolean.parseBoolean(newRole));
+            user.setNotes(newNotes);
 
             // Handle image upload
             if (!image.isEmpty()) {

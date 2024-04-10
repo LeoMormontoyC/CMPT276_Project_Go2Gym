@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Schedule Class</title>
+    <link rel="stylesheet" href="/css/go2gym.css">
+
+    <style>
+        .signup-error {
+            color: red;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span>
+
+        <div class="signin">
+            <div class="content">
+                <h2>Add Schedule Class</h2>
+                <form action="/staffschedule/add" method="post" id="scheduleForm" enctype="multipart/form-data">
+                    <div th:if="${scheduleError}" th:text="${scheduleError}" class="schedule-error"></div>
+        
+                    <div class="form">
+                        <div class="inputBox">
+                            <input type="text" name="name" required> <i>Class Name</i>
+                        </div>
+                        <div class="inputBox">
+                            <input type="text" name="startingTime" required pattern="(0[1-9]|1[0-2]):([0-5]\d) (AM|PM)" placeholder="HH:MM AM/PM" title="Time in HH:MM AM/PM format">
+                        </div>
+                        <div class="inputBox">
+                            <input type="text" name="endingTime" required pattern="(0[1-9]|1[0-2]):([0-5]\d) (AM|PM)" placeholder="HH:MM AM/PM" title="Time in HH:MM AM/PM format">
+                        </div>
+                        <div class="inputBox">
+                            <input type="text" name="instructor" required> <i>Instructor Name</i>
+                        </div>
+                        <div class="inputBox">
+                            <input type="text" name="description" required> <i>Description</i>
+                        </div>
+                        <div class="inputBox">
+                            <input type="text" name="daysofClass" required> <i>Days of Class</i>
+                        </div>
+                        <div class="inputBox">
+                            <input type="submit" value="Add Schedule">
+                        </div>
+                        <div class="inputBox">
+                            <input type="submit" value="Back" onclick="window.location.href='/staff/staff_schedule'">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+</section>
+
+<script>
+    document.getElementById('signupForm').onsubmit = function(e) {
+        var password = document.getElementsByName('password')[0];
+        var pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}$/;
+        if (!pattern.test(password.value)) {
+            alert('Password must contain at least 8 characters, including UPPER/lowercase letters, numbers, and symbols.');
+            e.preventDefault(); // Prevent form submission
+        }
+    };
+</script>
+
+<script>
+    function validateImage() {
+        const fileInput = document.querySelector('input[type="file"]');
+        const file = fileInput.files[0];
+    
+        // Check if any file is selected.
+        if (file) {
+            // Check the file size (500 KB)
+            if (file.size > 500 * 1024) {
+                alert('The file size must be under 500 KB.');
+                fileInput.value = ''; // Clear the file input
+                return false;
+            }
+    
+            // Check the file type
+            if (!['image/jpeg', 'image/png'].includes(file.type)) {
+                alert('Only JPG and PNG formats are allowed.');
+                fileInput.value = ''; // Clear the file input
+                return false;
+            }
+    
+            // Check the image dimensions
+            // const img = new Image();
+            // img.src = URL.createObjectURL(file);
+            // img.onload = function() {
+            //     const width = img.naturalWidth;
+            //     const height = img.naturalHeight;
+    
+            //     URL.revokeObjectURL(img.src);
+    
+            //     if (width > 500 || height > 500) {
+            //         alert('The image dimensions must be within 500 x 500 pixels.');
+            //         fileInput.value = ''; // Clear the file input
+            //     }
+            // };
+        }
+    }
+    
+    // Attach the validation function to the file input 'change' event js work 
+    document.querySelector('input[type="file"]').addEventListener('change', validateImage);
+</script>
+    
+    
+
+
+</body>
+</html>

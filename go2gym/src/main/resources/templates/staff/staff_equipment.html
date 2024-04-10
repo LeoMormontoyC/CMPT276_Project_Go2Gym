@@ -418,9 +418,9 @@
 
                                         <td class="actiony">
                                             <div class = "actionbuttons"> 
-                                                <button th:onclick="'loadEquipmentProfileEdit(' + ${equipment.uid} + ')'" class="fa-solid fa-pen-to-square" ></button> 
+                                                <button th:onclick="'loadEquipmentStaffProfileEdit(' + ${equipment.uid} + ')'" class="fa-solid fa-pen-to-square" ></button> 
                                                 <!-- <button th:onclick="'loadEquipmentProfileDelete(' + ${equipment.uid} + ')'" class="fa-solid fa-trash" ></button>  -->
-                                                <button th:onclick="'loadEquipmentProfile(' + ${equipment.uid} + ')'" class="fa-solid fa-user" > </button> 
+                                                <button th:onclick="'loadEquipmentStaffProfile(' + ${equipment.uid} + ')'" class="fa-solid fa-user" > </button> 
                                             </div>
                                         </td>
                                     </tr>
@@ -510,12 +510,12 @@
         }
 
 
-        function loadEquipmentProfileEdit(userId){
+        function loadEquipmentStaffProfileEdit(userId){
             fetch(`/equipments/edit/${userId}`)
             window.location.href = '/equipments/edit/' + userId;
         }
 
-        function loadEquipmentProfile(userId) {
+        function loadEquipmentStaffProfile(userId) {
         fetch(`/equipments/fragment/profile/${userId}`)
             .then(response => response.text())
             .then(html => {

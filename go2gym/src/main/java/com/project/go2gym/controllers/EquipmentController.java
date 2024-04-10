@@ -274,4 +274,104 @@ public class EquipmentController {
         return "admin/admin_equipment :: profile-fragment"; // Replace 'profile-fragment' with the actual
                                                                       // fragment identifier
     }
+
+    //STAFFFFFF
+    // GETMAPPING FOR EDITING AN EQUIPMENT
+    // this get request redirects to edit.html page
+    @GetMapping("/staffequipments/edit/{uid}")
+    public String gotoEditStaffEquipment(
+            @PathVariable(value = "uid") int uid,
+            Model model,
+            HttpServletResponse response) {
+        // get all students from db
+        Equipment equipment;
+        try {
+            equipment = equipmentsRepository.findById(uid).orElseThrow(() -> (new Exception("null")));
+            // end of db call
+            model.addAttribute("equipment", equipment);
+            model.addAttribute("uid", uid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // end of db call
+        return "users/editstaff_equipment"; // Return the view name
+    }
+
+    // this endpoint is for submitting an edit and redirects to showAll pagenmnm
+    @PostMapping("/staffequipments/edit/{uid}")
+    public String editStaffEquipment(
+            @PathVariable(value = "uid") int uid,
+            @RequestParam("newequimentType") String newequimentType,
+            @RequestParam("newdescription") String newdescription,
+            @RequestParam("newtotalAmount") double newtotalAmount,
+            @RequestParam("newborrowed") double newborrowed,
+            @RequestParam("newinStock") double newinStock,
+            @RequestParam("image") MultipartFile image, // To handle image file
+            RedirectAttributes redirectAttributes) {
+        try {
+            Equipment equipment = equipmentsRepository.findById(uid).orElseThrow(() -> new Exception("User not found"));
+
+            // Update user details
+            equipment.setEquipmentType(newequimentType);
+            equipment.setDescription(newdescription);
+            equipment.setTotalAmount(newtotalAmount); 
+            equipment.setBorrowed(newborrowed);
+            equipment.setInStock(newinStock);
+
+            // Handle image upload
+            if (!image.isEmpty()) {
+                String imagePath = saveImage(image); // Call your image saving method
+                if (imagePath != null && !imagePath.isEmpty()) {
+                    equipment.setImagePath(imagePath); // Set the new image path
+                }
+            }
+
+            // Save the updated user
+            equipmentsRepository.save(equipment);
+            redirectAttributes.addFlashAttribute("successMessage", "Profile updated successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("errorMessage", "Error updating profile: " + e.getMessage());
+        }
+        return "redirect:/staff/staff_equipment";
+    }
+
+    //SEARCH FEATURE ENTIRELY FOR STAFF IS HERE
+    //SEARCH BAR FEATURE HERE
+    // @GetMapping("/equipment/filter")
+    // public String filterNamesEquipment(@RequestParam("search") String search, Model model) {
+    //     // Assuming you have a service method to find users by name that starts with the
+    //     // search string
+    //     List<Equipment> filterEquipments = equipmentsRepository.findByEquipmentTypeStartingWith(search);
+    //     model.addAttribute("equipments", filterEquipments);
+    //     // Return the path to the fragment that generates the <tbody> part of your table
+    //     return "admin/admin_equipment :: user-table";
+    // }
+
+    // //PROFILE FRAGMENT
+    // @GetMapping("/equipments/profile/{uid}")
+    // public String viewUserProfile(@PathVariable("uid") int uid, Model model) {
+    //     Optional<Equipment> equipmentOptional = equipmentsRepository.findById(uid);
+    //     if (equipmentOptional.isPresent()) {
+    //         Equipment equipment = equipmentOptional.get();
+    //         model.addAttribute("profileUser", equipment);
+    //     } else {
+    //         // Handle the case where user is not found
+    //     }
+    //     return "admin/admin_equipment"; // Return the dashboard view so the profile info can be updated on the
+    //                                               // sidebar
+    // }
+
+    // @GetMapping("/equipments/fragment/profile/{uid}")
+    // public String getUserProfileFragment(@PathVariable("uid") Integer userId, Model model) {
+    //     Optional<Equipment> equipmentOpt = equipmentsRepository.findById(userId);
+    //     if (equipmentOpt.isPresent()) {
+    //         model.addAttribute("profileUser", equipmentOpt.get());
+    //     } else {
+    //         // handle user not found situation
+    //     }
+    //     return "admin/admin_equipment :: profile-fragment"; // Replace 'profile-fragment' with the actual
+    //                                                                   // fragment identifier
+    // }
+
 }
