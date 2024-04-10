@@ -9,5 +9,7 @@ import java.util.List;
 public interface CalendarEventRepository extends JpaRepository<CalendarEvent, Integer> {
     List<CalendarEvent> findByUid(int uid);
     List<CalendarEvent> findByinstructor(String instructor);
+    List<CalendarEvent> findByname(String name);
+
     
 }

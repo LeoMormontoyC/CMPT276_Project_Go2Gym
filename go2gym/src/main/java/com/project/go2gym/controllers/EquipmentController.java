@@ -336,42 +336,40 @@ public class EquipmentController {
         return "redirect:/staff/staff_equipment";
     }
 
-    //SEARCH FEATURE ENTIRELY FOR STAFF IS HERE
-    //SEARCH BAR FEATURE HERE
-    // @GetMapping("/equipment/filter")
-    // public String filterNamesEquipment(@RequestParam("search") String search, Model model) {
-    //     // Assuming you have a service method to find users by name that starts with the
-    //     // search string
-    //     List<Equipment> filterEquipments = equipmentsRepository.findByEquipmentTypeStartingWith(search);
-    //     model.addAttribute("equipments", filterEquipments);
-    //     // Return the path to the fragment that generates the <tbody> part of your table
-    //     return "admin/admin_equipment :: user-table";
-    // }
+    // SEARCH FEATURE ENTIRELY FOR STAFF IS HERE
+    @GetMapping("/staffequipments/filter")
+    public String filterNamesStaffEquipment(@RequestParam("search") String search, Model model) {
+        // Assuming you have a service method to find users by name that starts with the
+        // search string
+        List<Equipment> filterEquipments = equipmentsRepository.findByEquipmentTypeStartingWith(search);
+        model.addAttribute("equipments", filterEquipments);
+        // Return the path to the fragment that generates the <tbody> part of your table
+        return "staff/staff_equipment :: user-table";
+    }
 
-    // //PROFILE FRAGMENT
-    // @GetMapping("/equipments/profile/{uid}")
-    // public String viewUserProfile(@PathVariable("uid") int uid, Model model) {
-    //     Optional<Equipment> equipmentOptional = equipmentsRepository.findById(uid);
-    //     if (equipmentOptional.isPresent()) {
-    //         Equipment equipment = equipmentOptional.get();
-    //         model.addAttribute("profileUser", equipment);
-    //     } else {
-    //         // Handle the case where user is not found
-    //     }
-    //     return "admin/admin_equipment"; // Return the dashboard view so the profile info can be updated on the
-    //                                               // sidebar
-    // }
+    //PROFILE FRAGMENT
+    @GetMapping("/staffequipments/profile/{uid}")
+    public String viewStaffUserProfile(@PathVariable("uid") int uid, Model model) {
+        Optional<Equipment> equipmentOptional = equipmentsRepository.findById(uid);
+        if (equipmentOptional.isPresent()) {
+            Equipment equipment = equipmentOptional.get();
+            model.addAttribute("profileUser", equipment);
+        } else {
+            // Handle the case where user is not found
+        }
+        return "staff/staff_equipment"; // Return the dashboard view so the profile info can be updated on the
+                                                  // sidebar
+    }
 
-    // @GetMapping("/equipments/fragment/profile/{uid}")
-    // public String getUserProfileFragment(@PathVariable("uid") Integer userId, Model model) {
-    //     Optional<Equipment> equipmentOpt = equipmentsRepository.findById(userId);
-    //     if (equipmentOpt.isPresent()) {
-    //         model.addAttribute("profileUser", equipmentOpt.get());
-    //     } else {
-    //         // handle user not found situation
-    //     }
-    //     return "admin/admin_equipment :: profile-fragment"; // Replace 'profile-fragment' with the actual
-    //                                                                   // fragment identifier
-    // }
+    @GetMapping("/staffequipments/fragment/profile/{uid}")
+    public String getStaffUserProfileFragment(@PathVariable("uid") Integer userId, Model model) {
+        Optional<Equipment> equipmentOpt = equipmentsRepository.findById(userId);
+        if (equipmentOpt.isPresent()) {
+            model.addAttribute("profileUser", equipmentOpt.get());
+        } else {
+            // handle user not found situation
+        }
+        return "staff/staff_equipment :: profile-fragment"; // Replace 'profile-fragment' with the actual // fragment identifier
+    }
 
 }

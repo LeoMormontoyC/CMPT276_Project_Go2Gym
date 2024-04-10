@@ -587,9 +587,21 @@
         }
 
         function loadScheduleProfileEdit(scheduleId){
+            fetch(`/schedule/edit/${userId}`)
             window.location.href = '/schedule/edit/' + scheduleId;
         }
 
+    </script>
+
+    <script>
+        function filterNames() {
+            const searchValue = document.querySelector('.searchword').value;
+            fetch(`/schedule/filter?search=${searchValue}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.querySelector('.table-responsive li').innerHTML = html; //document.querySelector('.table-responsive').innerHTML = html;
+                });
+        }
     </script>
 </body>
 
