@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GO GYM - Admin Dashboard</title>
+    <title>GO GYM - STAFF Dashboard</title>
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="/css/dashboard.css">
     <!-- Include any other CSS files needed -->
@@ -383,7 +383,7 @@
             <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
             <span></span>
             <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
-            < span></span>
+            <span></span>
                 <span></span>
                 <span></span> <span></span> <span></span> <span></span> <span></span>
     </div>
@@ -492,41 +492,56 @@
                                         d="M335.5,108.5h280c29.3,0,53-23.7,53-53v0c0-29.3-23.7-53-53-53h-280"></path>
                                 </svg>
                             </div>
-                            <div class="addequp">
-
-                                <button onclick="loadEquipmentProfileEdit(4)" class="add-button">
-                                    <i class="fas fa-plus"></i>
-                                </button>
+                            <div class="d-flex justify-content-center">
+                                <!-- Anchor tag to redirect to add.html when the + button is clicked -->
+                                <a href="/addStaffSchedule.html" class="btn btn-success btn-lg">
+                                    <button id="AddE" ><i class="fa fa-plus"></i></button>
+                                </a>
                             </div>
                         </div>
                         <!--  -->
-                        <div class="container">
-                            <div class="title">
-                                <h1>Group Fitness Class Schedule</h1>
-                            </div>
-                            <div class="class-box" id="class1">
-                                <div class="class-header">
-                                    <h2>Introduction to Muscles</h2>
-                                    <i class="fas fa-chevron-down"></i>
+                        <div class="table-responsive scrollable-table-container">
+                            <div class="container">
+                                <div class="title" >
+                                    <h1 >Group Fitness Class Schedule</h1>
                                 </div>
-                                <div class="class-details">
-                                    <p><strong>Timings:</strong> Monday, Wednesday, Friday 9:00 AM - 10:00 AM</p>
-                                    <p><strong>Instructor:</strong> Daiwik Marrott</p>
-                                    <p><strong>Description:</strong> An introduction to the ways of working out in the Gym with Strength or Endurance training </p>
-                                </div>
-                            </div>
-                            <div class="class-box" id="class2">
-                                <div class="class-header">
-                                    <h2>Meditation 101</h2>
-                                    <i class="fas fa-chevron-down"></i>
-                                </div>
-                                <div class="class-details">
-                                    <p><strong>Timing:</strong> Tuesday, Thursday 6:00 PM - 7:00 PM</p>
-                                    <p><strong>Instructor:</strong> Bliss </p>
-                                    <p><strong>Description:</strong> Learning the art of connecting the mind to the nature</p>
-                                </div>
-                            </div>
-                            <!-- I can add classes here by hardcoding the classes here manually if neeeded, or we can make a database and bank end for this with a add buton -->
+                                <ul>
+                                    <li th:each="calendarEvents : ${calendarEvents}" th:fragment="user-table">
+                                        <div class="class-box" id="classdata">
+                                            <div class="class-header">
+                                                <h2 th:text="${calendarEvents.name}">name</h2>
+                                                <i class="fas fa-chevron-down"></i>
+                                                
+                                            </div>
+                                            <div class="class-details">
+                            
+                                                <p>
+                                                    <strong>Timings:</strong> 
+                                                    <span th:text="${calendarEvents.daysofclass}">daysofclass</span>
+                                                    <span th:text="${calendarEvents.startingTime}">startingTime</span> <span> - </span>
+                                                    <span th:text="${calendarEvents.endingTime}">endingTime</span>
+                                                </p>
+                                                <p>
+                                                    <strong>Instructor:</strong> 
+                                                    <span th:text="${calendarEvents.instructor}">instructor</span>
+                                                </p>
+                                                <p>
+                                                    <strong>Description:</strong> 
+                                                    <span th:text="${calendarEvents.description}">description</span>  
+                                                    
+                                                </p>
+                                                
+                                                <div class="actionbuttons">
+                                                    <button th:onclick="'loadScheduleProfileEditStaff(' + ${calendarEvents.uid} + ')'" class="fa-solid fa-pen-to-square"></button>
+                                                    <button th:onclick="'loadScheduleStaffDelete(' + ${calendarEvents.uid} + ')'" class="fa-solid fa-trash"></button>
+                                                </div>
+                                            </div>
+    
+                                        </div>
+                                    </li>
+                                
+                                </ul>
+                            </div>  
                         </div>
 
                         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -543,5 +558,36 @@
         </div>
     </div>
 </body>
+<script>
+    function loadScheduleStaffDelete(scheduleId) {
+        if (confirm('Are you sure you want to delete this schedule?')) {
+            fetch(`/schedulestaff/delete/${scheduleId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Add CSRF token header if needed for security
+                },
+                credentials: 'same-origin',
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/staff/staff_schedule';
+                } else {
+                    console.error('Deletion failed', response.statusText);
+                    alert('Failed to delete the schedule. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Network error:', error);
+                alert('Network error. Please try again.');
+            });
+        }
+    }
+
+    function loadScheduleProfileEditStaff(scheduleId){
+        window.location.href = '/schedulestaff/edit/' + scheduleId;
+    }
+
+</script>
 
 </html>

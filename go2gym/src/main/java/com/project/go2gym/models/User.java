@@ -20,12 +20,14 @@ public class User {
     private String imagePath; // New field for image path
     private boolean role; //basically check in status
 
+    private String notes;
+
 
     public User() {
         // empty default constructor
     }
 
-    public User(String name, String username, String password, String email, String userType, boolean membershipStatus, String imagePath, boolean role) {
+    public User(String name, String username, String password, String email, String userType, boolean membershipStatus, String imagePath, boolean role, String notes) {
         this.name = name;
         this.username = username;
         this.password = password;
@@ -34,6 +36,7 @@ public class User {
         this.membershipStatus = membershipStatus;
         this.imagePath = imagePath; // Include this new field        
         this.role = role; //remember this is the check in status ok :)
+        this.notes = notes;
     }
 
     public int getId() {
@@ -107,4 +110,13 @@ public class User {
     public void setRole(boolean role) {
         this.role = role;
     }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+    
 }

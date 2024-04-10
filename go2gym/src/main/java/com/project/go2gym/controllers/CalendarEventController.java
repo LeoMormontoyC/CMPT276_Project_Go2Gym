@@ -103,7 +103,167 @@ public class CalendarEventController {
             return "redirect:/addSchedule.html"; // Use the actual path to your static form
         }
     }
-    
+
+    @PostMapping("/schedule/delete/{uid}")
+    public String deleteSchedule(
+            @PathVariable(value = "uid") int uid,
+            HttpServletResponse response) {
+        System.out.println("DELETE schedule uid:");
+        System.out.println(uid);
+        try {
+            Optional<CalendarEvent> scheduleRecord = calendarEventsRepository.findById(uid);
+            if (scheduleRecord.isPresent()) {
+                System.out.println("[DELETE] Success");
+                calendarEventsRepository.deleteById(uid);
+                response.setStatus(HttpServletResponse.SC_RESET_CONTENT); // 205 status code
+            } else {
+                System.out.println("[DELETE] Record not found");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/admin/admin_schedule";
+    }
+
+    //GETMAPPING FOR EDIT 
+    @GetMapping("/schedule/edit/{uid}")
+    public String gotoEditSchedule(
+            @PathVariable(value = "uid") int uid,
+            Model model) {
+        try {
+            CalendarEvent schedule = calendarEventsRepository.findById(uid).orElseThrow(() -> new Exception("Schedule not found"));
+            model.addAttribute("calendarEvents", schedule);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "users/edit_schedule"; // Adjust the view name as necessary
+    }
+
+    @PostMapping("/schedule/edit/{uid}")
+    public String editSchedule(
+            @PathVariable(value = "uid") int uid,
+            @RequestParam("newName") String name,
+            @RequestParam("newStartingTime") String startingTime,
+            @RequestParam("newEndingTime") String endingTime,
+            @RequestParam("newInstructor") String instructor,
+            @RequestParam("newDescription") String description,
+            @RequestParam("newDaysofclass") String daysofclass,
+            RedirectAttributes redirectAttributes) {
+        try {
+            CalendarEvent schedule = calendarEventsRepository.findById(uid).orElseThrow(() -> new Exception("Schedule not found"));
+
+            // Update schedule details
+            schedule.setName(name);
+            schedule.setStartingTime(startingTime);
+            schedule.setEndingTime(endingTime);
+            schedule.setInstructor(instructor);
+            schedule.setDescription(description);
+            schedule.setDaysofclass(daysofclass);
+
+            // Save the updated schedule
+            calendarEventsRepository.save(schedule);
+            redirectAttributes.addFlashAttribute("successMessage", "Schedule updated successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("errorMessage", "Error updating schedule: " + e.getMessage());
+        }
+        return "redirect:/admin/admin_schedule"; // Adjust the redirect as necessary
+    }
+
+    //STAFFFFF
+    @PostMapping("/staffschedule/add")
+    public String addStaffSchedule(@RequestParam Map<String, String> formData,
+                            RedirectAttributes redirectAttributes) {
+        try {
+            String name = formData.get("name");
+            String startingTime = String.valueOf(formData.get("startingTime")); // This assumes the time is in the format "HH:mm:ss"
+            String endingTime = String.valueOf(formData.get("endingTime")); // Same assumption as above
+            String instructor = formData.get("instructor"); // Typo corrected from 'insturctor' to 'instructor'
+            String description = formData.get("description");
+            String daysOfClass = formData.get("daysofClass");
+
+            // Instantiate a new CalendarEvent object
+            CalendarEvent newEvent = new CalendarEvent(name, startingTime, endingTime, instructor, description, daysOfClass);
+            
+            // Save the new event to the repository
+            calendarEventsRepository.save(newEvent); // Assuming your repository is named 'scheduleRepository'
+
+            // Add a success message and redirect to the admin schedule page
+            redirectAttributes.addFlashAttribute("successMessage", "Schedule added successfully!");
+            return "redirect:/staff/staff_schedule"; // Make sure this endpoint exists and is a GET mapping in your controller
+
+        } catch (Exception e) {
+            // If there is an error, add the error message and redirect back to the static form
+            redirectAttributes.addFlashAttribute("errorMessage", "Error adding schedule: " + e.getMessage());
+            return "redirect:/addStaffSchedule.html"; // Use the actual path to your static form
+        }
+    }
+
+    //GETMAPPING FOR EDIT 
+    @GetMapping("/schedulestaff/edit/{uid}")
+    public String gotoEditStaffSchedule(
+            @PathVariable(value = "uid") int uid,
+            Model model) {
+        try {
+            CalendarEvent schedule = calendarEventsRepository.findById(uid).orElseThrow(() -> new Exception("Schedule not found"));
+            model.addAttribute("calendarEvents", schedule);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "users/editstaff_schedule"; // Adjust the view name as necessary
+    }
+
+    @PostMapping("/schedulestaff/edit/{uid}")
+    public String editStaffSchedule(
+            @PathVariable(value = "uid") int uid,
+            @RequestParam("newName") String name,
+            @RequestParam("newStartingTime") String startingTime,
+            @RequestParam("newEndingTime") String endingTime,
+            @RequestParam("newInstructor") String instructor,
+            @RequestParam("newDescription") String description,
+            @RequestParam("newDaysofclass") String daysofclass,
+            RedirectAttributes redirectAttributes) {
+        try {
+            CalendarEvent schedule = calendarEventsRepository.findById(uid).orElseThrow(() -> new Exception("Schedule not found"));
+
+            // Update schedule details
+            schedule.setName(name);
+            schedule.setStartingTime(startingTime);
+            schedule.setEndingTime(endingTime);
+            schedule.setInstructor(instructor);
+            schedule.setDescription(description);
+            schedule.setDaysofclass(daysofclass);
+
+            // Save the updated schedule
+            calendarEventsRepository.save(schedule);
+            redirectAttributes.addFlashAttribute("successMessage", "Schedule updated successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("errorMessage", "Error updating schedule: " + e.getMessage());
+        }
+        return "redirect:/staff/staff_schedule"; // Adjust the redirect as necessary
+    }
+
+    @PostMapping("/schedulestaff/delete/{uid}")
+    public String deleteStaffSchedule(
+            @PathVariable(value = "uid") int uid,
+            HttpServletResponse response) {
+        System.out.println("DELETE schedule uid:");
+        System.out.println(uid);
+        try {
+            Optional<CalendarEvent> scheduleRecord = calendarEventsRepository.findById(uid);
+            if (scheduleRecord.isPresent()) {
+                System.out.println("[DELETE] Success");
+                calendarEventsRepository.deleteById(uid);
+                response.setStatus(HttpServletResponse.SC_RESET_CONTENT); // 205 status code
+            } else {
+                System.out.println("[DELETE] Record not found");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/staff/staff_schedule";
+    }
     
   
 

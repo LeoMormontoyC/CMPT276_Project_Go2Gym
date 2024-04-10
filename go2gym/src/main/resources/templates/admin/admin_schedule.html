@@ -383,13 +383,12 @@
             <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
             <span></span>
             <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
-            < span></span>
+            <span></span>
                 <span></span>
                 <span></span> <span></span> <span></span> <span></span> <span></span>
     </div>
     <div class="Wrapper2">
         <div class="container-fluid">
-
             <div class="row">
                 <div class="column" id="profile">
                     <div class="col-md-3 sidebar">
@@ -532,8 +531,8 @@
                                                 </p>
                                                 
                                                 <div class="actionbuttons">
-                                                    <button class="fa-solid fa-pen-to-square"></button>
-                                                    <button  class="fa-solid fa-trash"></button>
+                                                    <button th:onclick="'loadScheduleProfileEdit(' + ${calendarEvents.uid} + ')'" class="fa-solid fa-pen-to-square"></button>
+                                                    <button th:onclick="'loadScheduleDelete(' + ${calendarEvents.uid} + ')'" class="fa-solid fa-trash"></button>
                                                 </div>
                                             </div>
     
@@ -560,6 +559,38 @@
             </div>
         </div>
     </div> 
+
+    <script>
+        function loadScheduleDelete(scheduleId) {
+            if (confirm('Are you sure you want to delete this schedule?')) {
+                fetch(`/schedule/delete/${scheduleId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Add CSRF token header if needed for security
+                    },
+                    credentials: 'same-origin',
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/admin/admin_schedule';
+                    } else {
+                        console.error('Deletion failed', response.statusText);
+                        alert('Failed to delete the schedule. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Network error:', error);
+                    alert('Network error. Please try again.');
+                });
+            }
+        }
+
+        function loadScheduleProfileEdit(scheduleId){
+            window.location.href = '/schedule/edit/' + scheduleId;
+        }
+
+    </script>
 </body>
 
 </html>

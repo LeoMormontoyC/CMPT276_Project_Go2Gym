@@ -372,17 +372,24 @@
                                         <p
                                             th:text="${profileUser.role} ? 'Check-in Status: Checked-in' : 'Check-in Status: Checked-out'">
                                             Checkin Status:</p>
+                                        <br> <br>
+                                        <div class="notes" id="notes-content">
+                                            <p>Notes:</p>
+                                            <br>
+                                            <p th:text="${profileUser.notes}">Notes:</p>
 
-                                        <div class="notes">
+                                            
+                                            
+                                            
                                             <!-- <b>Notes</b> -->
-                                            <p><b>Notes:</b>
+                                            <!-- <p><b>Notes:</b>
 
 
                                                 <button onclick="makenoteseditable(this)"
                                                     class="fa-solid fa-pen-to-square"></button>
                                             </p>
                                             <textarea name="notes" id="notes-content" cols="30" rows="10"
-                                                readonly>hello</textarea>
+                                                readonly>hello</textarea> -->
 
                                             <!-- Buttons for add, edit, and delete -->
                                             <!-- <button class="noteedit" id="add-note-btn">Add Note</button>

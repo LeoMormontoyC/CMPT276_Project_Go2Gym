@@ -1035,3 +1035,10 @@ input[type="submit"]:active {
     /* margin-bottom: 2%; */
     padding-bottom: 100vh;
 }
+
+#notes-content {
+    color: #333;
+    background-color: #ddd;
+    border-radius: 15px;
+    padding: 10px;
+}
