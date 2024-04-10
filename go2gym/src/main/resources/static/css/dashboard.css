@@ -60,8 +60,8 @@
 .sidebar {
     background-color: #c00;
     color: white;
-    min-height: 92vh;
-    max-height: 120vh;
+    /* min-height: 92vh;
+    max-height: 120vh; */
     /* max-height: 120vh; */
     border-radius: 10px;
     text-align: center;
@@ -1035,3 +1035,110 @@ input[type="submit"]:active {
     /* margin-bottom: 2%; */
     padding-bottom: 100vh;
 }
+
+@media only screen and (min-width: 1280px) {
+    .container-fluid {
+        max-width: 1200px;
+    }
+
+    .sidebar, .main-content {
+        padding: 2em 4em;
+    }
+
+    .navigation, .dropdown-content, .profile-image {
+        font-size: larger;
+    }
+
+    .table, .thead-darkred {
+        font-size: larger;
+    }
+}
+
+
+@media only screen and (min-width: 1024px) {
+    .container-fluid {
+        max-width: 960px;
+        margin: auto;
+    }
+
+    .column {
+        float: left;
+    }
+
+    #profile {
+        width: 20%;
+    }
+
+    #table {
+        width: 75%;
+    }
+
+    #nav-bar {
+        width: 5%;
+    }
+
+    .nav-container, .sidebar, .main-content {
+        padding: 2em;
+    }
+
+    .navigation, .dropdown-content, .profile-image {
+        font-size: large;
+    }
+
+    .table, .thead-darkred {
+        font-size: large;
+    }
+    .scrollable-table-container{
+        height: 50vh;
+    }
+    .main-content{
+        height: 69vh;
+    }
+    .sidebar{
+        height: 84vh;
+    }
+}
+
+
+@media only screen and (min-width: 768px) {
+    .column {
+        /* Adjust column layout for tablet */
+        float: left;
+        width: 50%;
+    }
+
+    #profile {
+        padding: 1em;
+    }
+
+    .navigation, .dropdown-content, .profile-image {
+        font-size: medium;
+    }
+
+    .table, .thead-darkred {
+        font-size: medium;
+    }
+}
+
+
+@media only screen and (max-width: 600px) {
+    .container-fluid, .sidebar, .nav-container, .main-content {
+        padding: 1em;
+    }
+
+    .column, #profile, #table, #nav-bar {
+        width: 100%;
+        padding: 0;
+        margin-bottom: 1rem;
+    }
+
+    .navigation, .dropdown-content, .profile-image, .actionbuttons button {
+        font-size: smaller;
+    }
+
+    .table, .thead-darkred {
+        font-size: smaller;
+    }
+}
+
+
