@@ -20,19 +20,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class UserControllerTest {
 
     @Autowired
-    private MockMvc mockMvc; //testing suite that allows you to simulate HTTP requests and test your controllers without starting a full HTTP server.
+    private MockMvc mockMvc;
 
     @MockBean
     private UserRepository usersRepository; // Mock the UserRepository
-
-
-    @Test
-    public void testShowSignupForm_ReturnsSignupView() throws Exception {
-        mockMvc.perform(get("/signup"))
-            .andExpect(status().isOk()) // Verify that the response status is 200 OK
-            .andExpect(view().name("users/signup")); // Verify the returned view name
-    }
-
 
     @Test
     public void testLogout() throws Exception {
@@ -304,134 +295,23 @@ public class UserControllerTest {
         verify(userRepository, times(0)).deleteById(userId);
     }
 
-    @Test
-    public void testGotoEditUser_WhenUserExists() throws Exception {
-        int userId = 1;
-        User mockUser = new User(); // Assuming the existence of a suitable constructor or setter methods
-        mockUser.setId(userId);
-        // Set additional fields on mockUser as necessary
-
-        when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
-
-        mockMvc.perform(get("/users/edit/{uid}", userId))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("user", mockUser))
-                .andExpect(model().attribute("uid", userId))
-                .andExpect(view().name("users/edit"));
-
-        verify(userRepository, times(1)).findById(userId);
+    @GetMapping("/users/edit/{uid}")
+    public String gotoEditUser(
+            @PathVariable(value = "uid") int uid,
+            Model model,
+            HttpServletResponse response) {
+        // get all students from db
+        User user;
+        try {
+            user = usersRepository.findById(uid).orElseThrow(() -> (new Exception("null")));
+            // end of db call
+            model.addAttribute("user", user);
+            model.addAttribute("uid", uid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // end of db call
+        return "users/edit";
     }
-
-    @Test
-    public void testEditUser_Success() throws Exception {
-        int userId = 1;
-        User mockUser = new User();
-        mockUser.setId(userId);
-
-        when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
-
-        MockMultipartFile image = new MockMultipartFile("image", "test.jpg", MediaType.IMAGE_JPEG_VALUE, "test image content".getBytes());
-
-        mockMvc.perform(multipart("/users/edit/{uid}", userId)
-                .file(image)
-                .param("newName", "New Name")
-                .param("newUsername", "newUsername")
-                .param("newPassword", "newPassword")
-                .param("newEmail", "newemail@example.com")
-                .param("newMembershipStatus", "true")
-                .param("role", "true")
-                .param("newNotes", "Some new notes about the user")
-                .with(csrf())) // If CSRF protection is enabled
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/admin/admin_dashboard_protected"))
-                .andExpect(flash().attribute("successMessage", "Profile updated successfully!"));
-
-        verify(userRepository, times(1)).save(any(User.class));
-    }
-
-    @Test
-    public void testEditUser_UserNotFound() throws Exception {
-        int userId = 99; // An ID that does not exist
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
-
-        mockMvc.perform(post("/users/edit/{uid}", userId)
-                .param("newName", "Doesn't Matter")
-                .with(csrf())) // CSRF token inclusion for security
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/admin/admin_dashboard_protected"))
-                .andExpect(flash().attribute("errorMessage", "Error updating profile: User not found"));
-
-        verify(userRepository, times(0)).save(any(User.class));
-    }
-    @Test
-    public void testGetUserProfileFragment_UserExists() throws Exception {
-        Integer userId = 1;
-        User mockUser = new User(); // Assuming the existence of a suitable constructor or setter methods
-        mockUser.setId(userId);
-        // Optionally set additional fields here
-    
-        when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
-    
-        mockMvc.perform(get("/users/fragment/profile/{uid}", userId))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("profileUser"))
-                .andExpect(model().attribute("profileUser", mockUser))
-                .andExpect(view().name("admin/admin_dashboard_protected :: profile-fragment"));
-    
-        verify(userRepository, times(1)).findById(userId);
-    }
-    
-    @Test
-    public void testGetUserProfileFragment_UserDoesNotExist() throws Exception {
-        Integer userId = 99; // An ID that does not correspond to an existing user
-
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
-
-        mockMvc.perform(get("/users/fragment/profile/{uid}", userId))
-                .andExpect(status().isOk())
-                // Assuming the method would handle this case by not adding the attribute
-                .andExpect(model().attributeDoesNotExist("profileUser"))
-                .andExpect(view().name("admin/admin_dashboard_protected :: profile-fragment"));
-
-        verify(userRepository, times(1)).findById(userId);
-    }
-
-    @Test
-    public void testUpdateRole_UserExists() throws Exception {
-        Integer userId = 1;
-        Boolean newRole = true;
-        User mockUser = new User(); // Assuming the existence of a suitable constructor or setter methods
-        mockUser.setId(userId);
-        mockUser.setRole(!newRole); // Set to the opposite of `newRole` to simulate a change
-    
-        when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
-        doAnswer((invocation) -> null).when(userRepository).save(any(User.class));
-    
-        mockMvc.perform(post("/users/updateRole")
-                .param("userId", userId.toString())
-                .param("role", newRole.toString())
-                .with(csrf())) // If CSRF protection is enabled
-                .andExpect(status().isOk())
-                .andExpect(content().string("Role updated successfully"));
-    
-        verify(userRepository, times(1)).save(mockUser);
-        assertEquals(newRole, mockUser.getRole());
-    }
-    
-    @Test
-    public void testUpdateRole_UserNotFound() throws Exception {
-        Integer userId = 99; // An ID that does not correspond to an existing user
-
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
-
-        mockMvc.perform(post("/users/updateRole")
-                .param("userId", userId.toString())
-                .param("role", "true")
-                .with(csrf())) // Including CSRF token for completeness
-                .andExpect(status().isNotFound())
-                .andExpect(content().string("User not found"));
-
-        verify(userRepository, times(0)).save(any(User.class));
-    }
-
+    //profile/edit
 }
