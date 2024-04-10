@@ -377,7 +377,7 @@
                             <div class="search-box">
                                 <form action="" class="search-form">
                                     <input type="text" placeholder="Search" id="search" autocomplete="off"
-                                        class="search-input" onkeyup="filterNamesEquipment()" style="padding-top: 10px;">
+                                        class="search-input" onkeyup="filterNamesStaffEquipment()" style="padding-top: 10px;">
                                     <div class="search-icon"><i class="fa fa-search search-icon"
                                             style="transform: none;"></i></div>
                                     <div class="go-icon"><i class="fa fa-arrow-right"></i></div>
@@ -439,9 +439,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.7.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        function filterNamesEquipment() {
+        function filterNamesStaffEquipment() {
             const searchValue = document.querySelector('.search-input').value;
-            fetch(`/equipment/filter?search=${searchValue}`)
+            fetch(`/staffequipments/filter?search=${searchValue}`)
             .then(response => response.text())
             .then(html => {
                 document.querySelector('.table-responsive table tbody').innerHTML = html; //document.querySelector('.table-responsive').innerHTML = html;
@@ -509,14 +509,14 @@
             }
         }
 
-
+        //EDITING FEATURE
         function loadEquipmentStaffProfileEdit(userId){
-            fetch(`/equipments/edit/${userId}`)
-            window.location.href = '/equipments/edit/' + userId;
+            fetch(`/staffequipments/edit/${userId}`)
+            window.location.href = '/staffequipments/edit/' + userId;
         }
 
         function loadEquipmentStaffProfile(userId) {
-        fetch(`/equipments/fragment/profile/${userId}`)
+        fetch(`/staffequipments/fragment/profile/${userId}`)
             .then(response => response.text())
             .then(html => {
                 // Update only the profile-container div

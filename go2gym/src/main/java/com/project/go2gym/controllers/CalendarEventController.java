@@ -170,7 +170,44 @@ public class CalendarEventController {
         return "redirect:/admin/admin_schedule"; // Adjust the redirect as necessary
     }
 
-    //STAFFFFF
+    //SEARCH BAR FEATURE HERE
+    @GetMapping("/schedule/filter")
+    public String filterNamesSchedule(@RequestParam("search") String search, Model model) {
+        // Assuming you have a service method to find users by name that starts with the
+        // search string
+        List<CalendarEvent> filterSchedule = calendarEventsRepository.findByname(search);
+        model.addAttribute("calendarEvents", filterSchedule);
+        // Return the path to the fragment that generates the <tbody> part of your table
+        return "admin/admin_schedule :: user-table";
+    }
+
+    // //PROFILE FRAGMENT
+    // @GetMapping("/schedule/profile/{uid}")
+    // public String viewUserProfile(@PathVariable("uid") int uid, Model model) {
+    //     Optional<CalendarEvent> scheduleOptional = calendarEventsRepository.findById(uid);
+    //     if (scheduleOptional.isPresent()) {
+    //         CalendarEvent schedule = scheduleOptional.get();
+    //         model.addAttribute("profileUser", schedule);
+    //     } else {
+    //         // Handle the case where user is not found
+    //     }
+    //     return "admin/admin_schedule"; // Return the dashboard view so the profile info can be updated on the
+    //                                               // sidebar
+    // }
+
+    // @GetMapping("/schedule/fragment/profile/{uid}")
+    // public String getUserProfileFragment(@PathVariable("uid") Integer userId, Model model) {
+    //     Optional<CalendarEvent> scheduleOpt = calendarEventsRepository.findById(userId);
+    //     if (scheduleOpt.isPresent()) {
+    //         model.addAttribute("profileUser", scheduleOpt.get());
+    //     } else {
+    //         // handle user not found situation
+    //     }
+    //     return "admin/admin_schedule :: profile-fragment"; // Replace 'profile-fragment' with the actual
+    //                                                                   // fragment identifier
+    // }
+
+    //STAFFFFFFFFF
     @PostMapping("/staffschedule/add")
     public String addStaffSchedule(@RequestParam Map<String, String> formData,
                             RedirectAttributes redirectAttributes) {
