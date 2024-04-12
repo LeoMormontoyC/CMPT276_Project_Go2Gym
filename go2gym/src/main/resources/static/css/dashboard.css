@@ -1042,3 +1042,41 @@ input[type="submit"]:active {
     border-radius: 15px;
     padding: 10px;
 }
+
+#info {
+    color: #333;
+    background-color: #ddd;
+    border-radius: 15px;
+    padding: 10px; 
+    font-size: small;
+}
+
+.profileinfo {
+    color: #333;
+    background-color: #ddd;
+    border-radius: 15px;
+    padding: 10px; 
+    font-size: small;
+    height: 10px;
+    
+
+}
+
+.aligner{
+    height: 20px;
+    text-align: left;
+}
+
+.checky {
+    text-align: center;
+    padding: 2px;
+    font: 100%;
+    
+}
+
+
+
+
+
+
+
