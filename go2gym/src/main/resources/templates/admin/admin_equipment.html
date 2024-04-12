@@ -318,62 +318,14 @@
                                             class="profile-image">
                                     </div>
 
-                                     <div id="info">
-                                        <table>
-                                            <thead>
-                                              <tr>
-                                                <th class="aligner"><b>Name</b></th>
-                                                <th class="aligner"><p th:text="${profileUser.equipmentType}">Equipment Type:</p></th>
-                                                
-                                              </tr>
-                                            </thead>
-                                            <tbody>
-                                              <tr>
-                                                <td class="aligner"><b>Total Stock:</b></td>
-                                                <td class="aligner"><p th:text=" ${profileUser.totalAmount}">Total Amount:</p></td>
-                                               
-                                              </tr>
-                                              <tr>
-                                                <td class="aligner"><b>Borrowed:</b></td>
-                                                <td class="aligner"><p th:text="${profileUser.borrowed}">Borrowed:</p></td>
-                                               
-                                              </tr>
-                                              <tr>
-                                                <td class="aligner"><b>Current Stock:</b> </td>
-                                                <td class="aligner"> <p th:text="${profileUser.inStock}">In Stock:</p></td>
-                                                
-                                              </tr>
-                                            </tbody>
-                                          </table>
-                                        
-                                        
-                                        
-                                       
-
-                                        <div class="notes">
-                                             <b>Notes</b> 
-                                            <p><b>Notes:</b>
-
-
-                                                <button onclick="makenoteseditable(this)"
-                                                    class="fa-solid fa-pen-to-square"></button>
-                                            </p>
-                                            <textarea name="notes" id="notes-content" cols="30" rows="10"
-                                                readonly>hello</textarea>
-                                        </div>
-                                    </div> 
-
-                                    
-
-
-
+                                    <div id="info">
+                                        <p th:text="'Name: ' + ${profileUser.equipmentType}">Equipment Type:</p>
+                                        <p th:text="'Total Stock: ' + ${profileUser.totalAmount}">Total Amount:</p>
+                                        <p th:text="'Borrowed: ' + ${profileUser.borrowed}">Borrowed:</p>
+                                        <p th:text="'Current Stock: ' + ${profileUser.inStock}">In Stock:</p>
+                                    </div>
                                 </div>
                             </div>
-
-
-                            <!-- <div class="notes">
-                                <p>NOTES</p>
-                            </div> -->
                         </div>
                         <br>
                     </div>
