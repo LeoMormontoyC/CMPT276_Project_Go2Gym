@@ -1,0 +1,44 @@
+    //GETMAPPING FOR EDIT 
+    @GetMapping("/schedulestaff/edit/{uid}")
+    public String gotoEditStaffSchedule(
+            @PathVariable(value = "uid") int uid,
+            Model model) {
+        try {
+            CalendarEvent schedule = calendarEventsRepository.findById(uid).orElseThrow(() -> new Exception("Schedule not found"));
+            model.addAttribute("calendarEvents", schedule);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "users/editstaff_schedule"; // Adjust the view name as necessary
+    }
+
+    @PostMapping("/schedulestaff/edit/{uid}")
+    public String editStaffSchedule(
+            @PathVariable(value = "uid") int uid,
+            @RequestParam("newName") String name,
+            @RequestParam("newStartingTime") String startingTime,
+            @RequestParam("newEndingTime") String endingTime,
+            @RequestParam("newInstructor") String instructor,
+            @RequestParam("newDescription") String description,
+            @RequestParam("newDaysofclass") String daysofclass,
+            RedirectAttributes redirectAttributes) {
+        try {
+            CalendarEvent schedule = calendarEventsRepository.findById(uid).orElseThrow(() -> new Exception("Schedule not found"));
+
+            // Update schedule details
+            schedule.setName(name);
+            schedule.setStartingTime(startingTime);
+            schedule.setEndingTime(endingTime);
+            schedule.setInstructor(instructor);
+            schedule.setDescription(description);
+            schedule.setDaysofclass(daysofclass);
+
+            // Save the updated schedule
+            calendarEventsRepository.save(schedule);
+            redirectAttributes.addFlashAttribute("successMessage", "Schedule updated successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("errorMessage", "Error updating schedule: " + e.getMessage());
+        }
+        return "redirect:/staff/staff_schedule"; // Adjust the redirect as necessary
+    }
