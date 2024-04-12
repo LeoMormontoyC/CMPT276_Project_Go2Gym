@@ -224,8 +224,6 @@
             margin: 0px;
             margin-bottom: 15px;
         }
-
-
     </style>
 
     <script>
@@ -367,39 +365,14 @@
                                     </div>
 
                                     <div id="info">
-                                        <table class="profileinfo">
-                                            <thead>
-                                              <tr>
-                                                <th>INFO</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody >
-                                              <tr>
-                                                <td class="aligner"> <b>Name:</b></td>
-                                                <td class="aligner" th:text="${profileUser.name}">30</td>
-                                                
-                                              </tr>
-                                              <tr>
-                                                <td class="aligner"><b>Membership:</b></td>
-                                                <td class="aligner" th:text="${profileUser.membershipStatus} ? 'Active' : 'Inactive'" th:style="${profileUser.membershipStatus} ? 'color: green;' : 'color: red;'">text</td>
-                                                
-                                              </tr>
-                                        
-                                            </tbody>
-                                          </table>
-                                        <!-- <p th:text="'Name: ' + ${profileUser.name}">Name:</p>
+                                        <p th:text="'Name: ' + ${profileUser.name}">Name:</p>
                                         <p
                                             th:text="${profileUser.membershipStatus} ? 'Membership Status: Active' : 'Membership Status: Inactive'">
                                             Membership Status:</p>
                                         <p
                                             th:text="${profileUser.role} ? 'Check-in Status: Checked-in' : 'Check-in Status: Checked-out'">
                                             Checkin Status:</p>
-                                        <br> <br> -->
-                                        
-                                        <p class="checky" th:text="${profileUser.role} ? 'Checked-in' : 'Checked-out'" th:style="${profileUser.role} ? 'color: green;' : 'color: red;'">text</p>
-                                        
-
-
+                                        <br> <br>
                                         <div class="notes" id="notes-content">
                                             <p>Notes:</p>
                                             <br>
